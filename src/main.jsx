@@ -1,9 +1,9 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
-import './index.css'
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom'
 import Profile from './Pages/profile.jsx'
+import Header from './Components/Header.jsx'
 
 
 
@@ -13,6 +13,7 @@ const Layout = () => {
       {//This is where you will add layout features to the whole app. This can include a header or footer, maybe more. }
       //These features will need to be made in the components folder and imported here.
       }
+      <Header/>
       <Outlet/>
     </div>
   )

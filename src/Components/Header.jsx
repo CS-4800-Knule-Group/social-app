@@ -15,9 +15,14 @@ const Header = () => {
         <header className='header'>
             <div className='header-container'>
                 <nav>
-                    <Link to={'/profile'}>
-                        <a>Profiles</a>
-                    </Link>
+                    <ul>
+                        <Link to={'/'}>
+                            <li><a>Home</a></li>
+                        </Link>
+                        <Link to={'/profile'}>
+                            <li><a>Profiles</a></li>
+                        </Link>
+                    </ul>
                 </nav>
             </div>
         </header>

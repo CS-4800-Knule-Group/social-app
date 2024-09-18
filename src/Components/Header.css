@@ -1,7 +1,6 @@
 .header {
     background-color: #930707;
     padding: 10px 20px;
-    color: #e1e1e1;
     width: 100%;
     box-sizing: border-box;
 }
@@ -10,7 +9,7 @@
     justify-content: space-between;
     align-items: center;
     max-width: 1200px;
-    margin: 1 auto;
+    margin: 0 auto;
     width: 100%;
     box-sizing: border-box;
 }
@@ -21,4 +20,24 @@
     margin-right: auto;
     display: block;
 
+}
+
+ul{
+    list-style-type: none;
+    margin: 0px;
+    padding: 0px;
+    
+}
+
+li{
+    display: block;
+    float: left;
+    color: white;
+    margin: 10px;
+    align-items:baseline;
+}
+
+li a:hover{
+    display:inline;
+    color: rgb(95, 95, 241);
 }

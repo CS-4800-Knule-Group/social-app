@@ -14,16 +14,16 @@ const Header = () => {
         <div>
         <header className='header'>
             <div className='header-container'>
-                <nav>
-                    <ul>
-                        <Link to={'/'}>
-                            <li><a>Home</a></li>
-                        </Link>
-                        <Link to={'/profile'}>
-                            <li><a>Profiles</a></li>
-                        </Link>
-                    </ul>
-                </nav>
+                <div className='head-left'>
+                    <Link to={'/'}>
+                        <a className='head-text'>Home</a>
+                    </Link>
+                </div>
+                <div className='head-right'>
+                    <Link to={'/profile'}>
+                        <a className='head-text'>Profiles</a>
+                    </Link>
+                </div>
             </div>
         </header>
     </div>

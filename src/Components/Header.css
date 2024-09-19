@@ -8,7 +8,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    max-width: 1200px;
     margin: 0 auto;
     width: 100%;
     box-sizing: border-box;
@@ -22,22 +21,11 @@
 
 }
 
-ul{
-    list-style-type: none;
-    margin: 0px;
-    padding: 0px;
-    
-}
-
-li{
-    display: block;
-    float: left;
+a.head-text{
+    display: inline-block;
+    text-decoration:none;
     color: white;
-    margin: 10px;
-    align-items:baseline;
 }
-
-li a:hover{
-    display:inline;
-    color: rgb(95, 95, 241);
+a.head-text:hover{
+    background-color: black;
 }

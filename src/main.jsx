@@ -2,6 +2,7 @@ import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
 import App from './App.jsx'
 import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom'
+import Data from './Pages/Data.jsx'
 import Profile from './Pages/profile.jsx'
 import Header from './Components/Header.jsx'
 
@@ -26,6 +27,10 @@ const router = createBrowserRouter([{
     {
       path: '/',
       element: <App/>
+    },
+    {
+      path:'/data',
+      element: <Data/>
     },
     {
       path:'/profile',

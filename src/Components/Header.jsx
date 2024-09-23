@@ -20,8 +20,12 @@ const Header = () => {
                     </Link>
                 </div>
                 <div className='head-right'>
+                    <Link to={'/data'}>
+                        <a className='head-text'>Data</a>
+                    </Link>
+                    
                     <Link to={'/profile'}>
-                        <a className='head-text'>Profiles</a>
+                        <a className='head-text'>Profile</a>
                     </Link>
                 </div>
             </div>

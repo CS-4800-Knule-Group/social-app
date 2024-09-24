@@ -5,6 +5,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom'
 import Data from './Pages/Data.jsx'
 import Profile from './Pages/profile.jsx'
 import Header from './Components/Header.jsx'
+import Login from './Pages/Login.jsx'
 
 
 
@@ -35,6 +36,10 @@ const router = createBrowserRouter([{
     {
       path:'/profile',
       element: <Profile/>
+    },
+    {
+      path:'/login',
+      element:<Login/>
     }
   ]
 }])

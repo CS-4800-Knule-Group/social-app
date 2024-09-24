@@ -27,6 +27,9 @@ const Header = () => {
                     <Link to={'/profile'}>
                         <a className='head-text'>Profile</a>
                     </Link>
+                    <Link to={'/login'}>
+                        <a className='head-text'>Login</a>
+                    </Link>
                 </div>
             </div>
         </header>

@@ -1,6 +1,4 @@
 import React from 'react'
-import ad from '/RocketLeagueAd.jpg';
-import logo from '/Knulle-Logo.png';
 import './register.css';
 
 const Login = () => {
@@ -8,7 +6,7 @@ return (
 <div>
 	<div class="columns">
 		<div class="registerInfo">
-			<img src="Knulle-Logo.png" alt="Logo" class="logo"/>
+			<img className= 'logo' src='/Knulle-Logo.png'/>  
 			<h4 class="title">Create an Account</h4>
 			<p class="subtitle">To get started, we need some information about you.</p>
 			<br/>
@@ -28,7 +26,7 @@ return (
 		</div>
 
 		<div class="image">
-			<img src="RocketLeagueAd.jpg" alt="Image"/>
+			<img src='/RocketLeagueAd.jpg'/>
 		</div>
 	</div>
 </div>

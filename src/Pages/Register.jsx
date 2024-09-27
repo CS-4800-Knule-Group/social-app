@@ -1,7 +1,7 @@
 import React from 'react'
-import './register.css';
+import './Register.css';
 
-const Login = () => {
+const Register = () => {
 return (
 <div>
 	<div class="columns">
@@ -33,4 +33,4 @@ return (
 )
 }
 
-export default Login
+export default Register

@@ -5,7 +5,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom'
 import Data from './Pages/Data.jsx'
 import Profile from './Pages/profile.jsx'
 import Header from './Components/Header.jsx'
-import Login from './Pages/Login.jsx'
+import Register from './Pages/Register.jsx'
 
 
 
@@ -38,8 +38,8 @@ const router = createBrowserRouter([{
       element: <Profile/>
     },
     {
-      path:'/login',
-      element:<Login/>
+      path:'/register',
+      element:<Register/>
     }
   ]
 }])

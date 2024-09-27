@@ -14,8 +14,8 @@ const Profile = () => {
         <p className='bio'>
           This is your bio <br/>
           I am just gonna keep making <br/>
-          Lines. I have no fuckin idea how to make this auto align <br/>
-          so... lmao. Lets try a really long string 12345 123135426 1234151 12341512 123412341 12341234 12341234 1234124 fuck we gotta make this string really long aaah aaaha aaaaha aaahha aaaaha aaaah aaaah<br/>
+          Lines. I have no idea how to make this auto align <br/>
+          so... lmao. Lets try a really long string 12345 123135426 1234151 12341512 123412341 12341234 12341234 1234124 we gotta make this string really long aaah aaaha aaaaha aaahha aaaaha aaaah aaaah<br/>
           Lets go it already auto aligns I've just been wasting my time lmao
         </p>
       </div>

@@ -6,6 +6,7 @@ import Data from './Pages/Data.jsx'
 import Profile from './Pages/profile.jsx'
 import Header from './Components/Header.jsx'
 import Login from './Pages/Login.jsx'
+import Logintwo from './Pages/Logintwo.jsx'
 
 
 
@@ -40,7 +41,12 @@ const router = createBrowserRouter([{
     {
       path:'/login',
       element:<Login/>
+    },
+    {
+      path:'/logintwo',
+      element:<Logintwo/>
     }
+
   ]
 }])
 

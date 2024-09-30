@@ -1,16 +1,8 @@
-import React, {useState} from 'react'
+import React from 'react'
 import './Profile.css'
-import LoginPop from '../Components/LoginPop';
-import NavBar from '../Components/NavBar';
 import LoginModal from '../Components/LoginModal';
 
 const Profile = () => {
-  const [isShowLogin, setIsShowLogin] = useState(false);
-
-  const handleLoginClick = () => {
-    setIsShowLogin((isShowLogin) => !isShowLogin);
-  };
-
   return (
     <div>
       <LoginModal/>

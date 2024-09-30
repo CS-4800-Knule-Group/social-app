@@ -1,11 +1,37 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import './loginForm.css'
+
+
+useEffect(() => {
+  const fetchLogin = async({username, password}) => {
+    try{
+      const response = await fetch('https://knule.duckdns.org/auth/login', {
+        method: 'POST',
+        body: JSON.stringify({
+          username: {username},
+          password: {password},
+          
+        })
+      });
+
+      if(!response.ok){
+        throw new Error('Could not reach authentication service');
+      }
+      const loginResult = await response.json();
+      console.log(loginResult);
+    } catch (error) {
+      console.error('Error authenticating login', error);
+    }
+  }
+})
+
+
 
 const LoginForm = ({onClose}) => {
   return (
     <div className="login-form">
         <div className="form-box solid">
-            <form>
+            <form onSubmit={fetchLogin(username, password)}>
             <h1 className="login-text">Sign In</h1>
             <label>Username</label>
             <br></br>
@@ -18,6 +44,7 @@ const LoginForm = ({onClose}) => {
             <input type="submit" value="LOGIN" className="login-btn" />
             </form>
         </div>
+
 
         <button onClick={onClose}>Close</button>
     </div>

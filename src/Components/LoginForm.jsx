@@ -5,26 +5,26 @@ import './loginForm.css'
 
 const fetchLogin = async(e) => {
   e.preventDefault();
-  console.log("Wow");
 
   const username = e.target.username.value;
   const password = e.target.password.value;
 
-  console.log(`${username} is the username`)
   try{
-    
-    console.log("test2")
     const response = await fetch('https://knule.duckdns.org/auth/login', {
       method: 'POST',
+      headers: {
+        'Content-Type' : 'application/json'
+      },
       body: JSON.stringify({
-        "username": {username},
-        "password": {password},
+        "username": username,
+        "password": password,
         
       })
   });
 
     const loginResult = await response.json();
     console.log("Success");
+    
   } catch (error) {
     console.error('Error authenticating login', error);
   }
@@ -35,6 +35,7 @@ const fetchLogin = async(e) => {
 
 
 const LoginForm = ({onClose}) => {
+  
   return (
     <div className="login-form">
         <div className="form-box solid">

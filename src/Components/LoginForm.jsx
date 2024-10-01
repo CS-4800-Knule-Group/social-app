@@ -1,5 +1,6 @@
 import React, {useEffect} from 'react'
 import './loginForm.css'
+import Cookies from 'js-cookie';
 
 
 
@@ -23,7 +24,9 @@ const fetchLogin = async(e) => {
   });
 
     const loginResult = await response.json();
-    console.log("Success");
+    console.log(loginResult.acessToken);
+    Cookies.set('loginAuth', loginResult.acessToken);
+    console.log(Cookies.get('loginAuth'));
     
   } catch (error) {
     console.error('Error authenticating login', error);

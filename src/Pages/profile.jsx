@@ -1,8 +1,28 @@
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import './Profile.css'
 import LoginModal from '../Components/LoginModal';
+import Cookies from 'js-cookie';
+
 
 const Profile = () => {
+
+  
+const [validCookie, setValidCookie] = useState(false);
+
+useEffect(() => {
+  const login = Cookies.get('loginAuth');
+  if(login){
+    setValidCookie(true);
+    console.log({validCookie})
+  } else{
+    setValidCookie(false);
+    console.log({validCookie})
+  }
+
+})
+
+
+
   return (
     <div>
       <LoginModal/>

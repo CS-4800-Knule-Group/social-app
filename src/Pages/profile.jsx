@@ -1,32 +1,68 @@
 import React, {useEffect, useState} from 'react'
 import './Profile.css'
 import LoginModal from '../Components/LoginModal';
+import { createPortal } from 'react-dom';
+import LoginForm from '../Components/LoginForm';
 import Cookies from 'js-cookie';
 
 
 const Profile = () => {
 
   
-const [validCookie, setValidCookie] = useState(false);
+  const [validCookie, setValidCookie] = useState(Cookies.get('loginAuth'));
+  const [openModal, setOpenModal] = useState(validCookie ? true : false)
 
-useEffect(() => {
-  const login = Cookies.get('loginAuth');
-  if(login){
-    setValidCookie(true);
-    console.log({validCookie})
-  } else{
-    setValidCookie(false);
-    console.log({validCookie})
+  const fetchLogin = async(e) => {
+    e.preventDefault();
+  
+    const username = e.target.username.value;
+    const password = e.target.password.value;
+  
+    try{
+      const response = await fetch('https://knule.duckdns.org/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type' : 'application/json'
+        },
+        body: JSON.stringify({
+          "username": username,
+          "password": password,
+          
+        })
+    });
+  
+      const loginResult = await response.json();
+      console.log(loginResult.acessToken);
+      Cookies.set('loginAuth', loginResult.acessToken);
+      setValidCookie(Cookies.get('loginAuth'))
+      
+    } catch (error) {
+      console.error('Error authenticating login', error);
+    }
   }
+    
 
-})
+  useEffect(() => {
+    const login = Cookies.get('loginAuth');
+      
+    setValidCookie(login ? login : undefined);
+    setOpenModal(login ? true : false)
+    console.log({validCookie})
+    console.log({openModal})
+
+  }, [validCookie])
 
 
 
   return (
     <div>
-      <LoginModal/>
-
+      {//<LoginModal/>
+}
+      {!openModal && createPortal(
+          <LoginForm onSubmit={fetchLogin} />,
+          document.body
+      )}
+      <a> {validCookie ? validCookie : "Whoops"} </a>
       <div className='profile'>
         <img className= 'profilePic' src='/kirb.jpg' height={100} width={100} />  
         <div className='profile-text'>

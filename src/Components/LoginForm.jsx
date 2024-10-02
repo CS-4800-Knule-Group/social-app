@@ -4,45 +4,13 @@ import Cookies from 'js-cookie';
 
 
 
-const fetchLogin = async(e) => {
-  e.preventDefault();
 
-  const username = e.target.username.value;
-  const password = e.target.password.value;
-
-  try{
-    const response = await fetch('https://knule.duckdns.org/auth/login', {
-      method: 'POST',
-      headers: {
-        'Content-Type' : 'application/json'
-      },
-      body: JSON.stringify({
-        "username": username,
-        "password": password,
-        
-      })
-  });
-
-    const loginResult = await response.json();
-    console.log(loginResult.acessToken);
-    Cookies.set('loginAuth', loginResult.acessToken);
-    console.log(Cookies.get('loginAuth'));
-    
-  } catch (error) {
-    console.error('Error authenticating login', error);
-  }
-
-  console.log("test3")
-
-}
-
-
-const LoginForm = ({onClose}) => {
+const LoginForm = ({onSubmit}) => {
   
   return (
     <div className="login-form">
         <div className="form-box solid">
-            <form onSubmit={fetchLogin}>
+            <form onSubmit={onSubmit}>
             <h1 className="login-text">Sign In</h1>
             <label>Username</label>
             <br></br>
@@ -55,9 +23,6 @@ const LoginForm = ({onClose}) => {
             <input type="submit" value="LOGIN" className="login-btn" />
             </form>
         </div>
-
-
-        <button onClick={onClose}>Close</button>
     </div>
   )
 }

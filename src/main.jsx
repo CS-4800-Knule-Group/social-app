@@ -6,6 +6,7 @@ import Data from './Pages/Data.jsx'
 import Profile from './Pages/profile.jsx'
 import Header from './Components/Header.jsx'
 import Register from './Pages/Register.jsx'
+import Feed from './Pages/feed.jsx'
 
 
 
@@ -40,7 +41,11 @@ const router = createBrowserRouter([{
     {
       path:'/register',
       element:<Register/>
-    }
+    },
+	{
+		path:'/feed',
+		element:<Feed/>
+	  }
   ]
 }])
 

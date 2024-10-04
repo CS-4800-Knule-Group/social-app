@@ -116,7 +116,6 @@ return (
           <LoginForm onSubmit={fetchLogin} />,
           document.body
       )}
-      <a>{apiPosts+"/"+decryptToken.userId}</a>
         <div className='feed'>
             <div className='post-input'>
                 <input type='text' placeholder=" Post text" className="post-textBox" onChange={handleChange}/>

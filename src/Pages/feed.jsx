@@ -18,14 +18,17 @@ const Feed = () => {
 				throw new Error('Could not reach /posts');
 				}
 				const postsData = await response.json();
-				setPosts(postsData); // Update the state with the fetched users
+				const sortPosts = [...postsData].sort((x, y) => {
+					x.timestamp - y.timestamp
+				})
+				setPosts(sortPosts); // Update the state with the fetched users
 				console.log(posts)
 			} catch (error) {
 				console.error('Error fetching posts', error);
 			}
 			};
 			fetchPosts();
-	})
+	}, [])
 return (
 	<div>
 		<div className='feed'>

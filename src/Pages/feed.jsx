@@ -10,8 +10,8 @@ const Feed = () => {
     const[posts, setPosts] = useState([])
     const apiPosts = 'https://knule.duckdns.org/posts'
 
-    const [validCookie, setValidCookie] = useState(Cookies.get('loginAuth'));
-    const [decryptToken, setDecryptToken] = useState(Cookies.get('loginAuth') ? jwtDecode(Cookies.get('loginAuth')) : undefined);
+    const [validCookie, setValidCookie] = useState(Cookies.get('loginAuth') ? Cookies.get('loginAuth') : false);
+    const [decryptToken, setDecryptToken] = useState(Cookies.get('loginAuth') ? jwtDecode(Cookies.get('loginAuth')) : false);
     const [openModal, setOpenModal] = useState(Cookies.get('loginAuth') ? false : true)
 
     const fetchLogin = async(e) => {
@@ -89,10 +89,10 @@ const Feed = () => {
                 headers: {
                     'Content-Type':'application/json'
                 },
-                body: {
+                body: JSON.stringify({
                     "content":"Test From App"
                 }
-            })
+            )})
             const postResult = await response;
             console.log(postResult);
         } catch (err){

@@ -1,10 +1,65 @@
 import React, { useEffect, useState } from 'react'
+import Cookies from 'js-cookie'
+import { jwtDecode } from 'jwt-decode'
+import LoginForm from '../Components/LoginForm'
+import { createPortal } from 'react-dom'
 import './Feed.css'
 
 const Feed = () => {
     
     const[posts, setPosts] = useState([])
     const apiPosts = 'https://knule.duckdns.org/posts'
+
+    const [validCookie, setValidCookie] = useState(Cookies.get('loginAuth'));
+    const [decryptToken, setDecryptToken] = useState(Cookies.get('loginAuth') ? jwtDecode(Cookies.get('loginAuth')) : undefined);
+    const [openModal, setOpenModal] = useState(Cookies.get('loginAuth') ? false : true)
+
+    const fetchLogin = async(e) => {
+        e.preventDefault();
+    
+        const username = e.target.username.value;
+        const password = e.target.password.value;
+    
+        try{
+        const response = await fetch('https://knule.duckdns.org/auth/login', {
+            method: 'POST',
+            headers: {
+            'Content-Type' : 'application/json'
+            },
+            body: JSON.stringify({
+            "username": username,
+            "password": password,
+            
+            })
+        });
+    
+        const loginResult = await response.json();
+        const inFifteen = new Date(new Date().getTime() + 0.25 * 60 * 1000)
+        Cookies.set('loginAuth', loginResult.acessToken,
+            {
+            expires: inFifteen
+            }
+        );
+        setValidCookie(Cookies.get('loginAuth'))
+        
+        } catch (error) {
+        setValidCookie(undefined);
+        console.error('Error authenticating login', error);
+        }
+    }
+        
+
+    useEffect(() => {
+        const login = Cookies.get('loginAuth');
+        
+        setValidCookie(login ? login : undefined);
+        setDecryptToken(login ? jwtDecode(validCookie) : "Yeah this fucked up")
+        setOpenModal(login ? false : true)
+        console.log({validCookie})
+        //console.log({decryptToken})
+        //console.log({openModal})
+
+    }, [validCookie])
 
     useEffect(() => {
         
@@ -25,12 +80,16 @@ const Feed = () => {
             }
             };
             fetchPosts();
-    })
+    }, [])
 return (
     <div>
+        {openModal && createPortal(
+          <LoginForm onSubmit={fetchLogin} />,
+          document.body
+      )}
         <div className='feed'>
             <div className='post-input'>
-                <input type='text' placeholder=" Post text" class="post-textBox"/>
+                <input type='text' placeholder=" Post text" className="post-textBox"/>
                     <br/>
                 <div className='post-button'>
                     <p>Post</p>

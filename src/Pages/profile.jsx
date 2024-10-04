@@ -30,7 +30,7 @@ const Profile = () => {
     });
   
       const loginResult = await response.json();
-      const inFifteen = new Date(new Date().getTime() + 0.25 * 60 * 1000)
+      const inFifteen = new Date(new Date().getTime() + 2 * 60 * 1000)
       Cookies.set('loginAuth', loginResult.acessToken,
         {
           expires: inFifteen
@@ -54,10 +54,12 @@ const Profile = () => {
     setDecryptToken(login ? jwtDecode(validCookie) : "Yeah this fucked up")
     setOpenModal(login ? false : true)
     console.log({validCookie})
-    //console.log({decryptToken})
+    console.log({decryptToken})
     //console.log({openModal})
 
   }, [validCookie])
+
+
 return (
 	<div>
     {openModal && createPortal(

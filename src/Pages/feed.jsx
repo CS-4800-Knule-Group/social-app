@@ -34,7 +34,7 @@ const Feed = () => {
         });
     
         const loginResult = await response.json();
-        const inFifteen = new Date(new Date().getTime() + 0.25 * 60 * 1000)
+        const inFifteen = new Date(new Date().getTime() + 2 * 60 * 1000)
         Cookies.set('loginAuth', loginResult.acessToken,
             {
             expires: inFifteen
@@ -81,19 +81,44 @@ const Feed = () => {
             };
             fetchPosts();
     }, [])
+
+    const sendPost = async() => {
+        try{
+            const response = await fetch(apiPosts + "/" + decryptToken.userId, {
+                method: 'POST',
+                headers: {
+                    'Content-Type':'application/json'
+                },
+                body: {
+                    "content":"Test From App"
+                }
+            })
+            const postResult = await response;
+            console.log(postResult);
+        } catch (err){
+            console.error("Post failed. " + err);
+        }
+    }
+
+
+
+
+
+
 return (
     <div>
         {openModal && createPortal(
           <LoginForm onSubmit={fetchLogin} />,
           document.body
       )}
+      <a>{apiPosts+"/"+decryptToken.userId}</a>
         <div className='feed'>
             <div className='post-input'>
                 <input type='text' placeholder=" Post text" className="post-textBox"/>
                     <br/>
-                <div className='post-button'>
-                    <p>Post</p>
-                </div>
+                <button className='post-button' onClick={sendPost}>
+                    Post
+                </button>
             </div>
             
             {posts.map(post =>(

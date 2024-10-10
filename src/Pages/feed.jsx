@@ -9,6 +9,7 @@ const Feed = () => {
     
     const[posts, setPosts] = useState([])
     const apiPosts = 'https://knule.duckdns.org/posts'
+    const apiUsers = 'https://knule.duckdns.org/users'
 
     const [validCookie, setValidCookie] = useState(Cookies.get('loginAuth') ? Cookies.get('loginAuth') : false);
     const [decryptToken, setDecryptToken] = useState(Cookies.get('loginAuth') ? jwtDecode(Cookies.get('loginAuth')) : false);

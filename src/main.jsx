@@ -7,6 +7,8 @@ import Profile from './Pages/profile.jsx'
 import Header from './Components/Header.jsx'
 import Register from './Pages/Register.jsx'
 import Feed from './Pages/feed.jsx'
+import Messages from './Pages/Messages.jsx'
+import Private from './Pages/Private.jsx'
 
 
 
@@ -42,10 +44,20 @@ const router = createBrowserRouter([{
       path:'/register',
       element:<Register/>
     },
+    {
+      path:'/messages',
+      element:<Messages/>
+    },
+    {
+      path:'/private',
+      element:<Private/>
+    },
 	{
 		path:'/feed',
 		element:<Feed/>
 	  }
+    
+    
   ]
 }])
 

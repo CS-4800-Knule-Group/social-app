@@ -65,7 +65,7 @@ const MsgTemp = () => {
 
         if( validCookie && recipientId!== ''){
             console.log("Server starting")
-            ws = new WebSocket('ws://localhost:3000/' + decryptToken.userId)
+            ws = new WebSocket('wss://knule.duckdns.org/' + decryptToken.userId)
             ws.onopen = () =>{
                 console.log('Connected to ws server');
             }
@@ -81,7 +81,7 @@ const MsgTemp = () => {
                 chatDiv.scrollTop = chatDiv.scrollHeight;
             }
             
-            console.log('ws://localhost:3000/' + decryptToken.userId);
+            console.log('wss://knule.duckdns.org/' + decryptToken.userId);
         }
     }, [recipientId])
 

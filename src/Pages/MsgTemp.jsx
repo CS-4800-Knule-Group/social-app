@@ -65,7 +65,7 @@ const MsgTemp = () => {
 
         if( validCookie && recipientId!== ''){
             console.log("Server starting")
-            ws = new WebSocket('wss://knule.duckdns.org/' + decryptToken.userId)
+            ws = new WebSocket('ws://knule.duckdns.org/' + decryptToken.userId)
             ws.onopen = () =>{
                 console.log('Connected to ws server');
             }

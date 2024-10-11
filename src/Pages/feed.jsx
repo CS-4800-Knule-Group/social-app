@@ -8,6 +8,7 @@ import './Feed.css'
 const Feed = () => {
     
     const[posts, setPosts] = useState([])
+    const[users, setUsers] = useState([])
     const apiPosts = 'https://knule.duckdns.org/posts'
     const apiUsers = 'https://knule.duckdns.org/users'
 
@@ -155,8 +156,7 @@ return (
                 <div className='poster'>
                     <img className='profilePicture' src='/kirb.jpg' height={100} width={100} />
                     <div className='textInfo'>
-                            try{<h1 className='username'>{usersData[usersData.indexOf(post.userId)].username}</h1>
-                            } catch(e){<h1 className='username'>{"Undefined"}</h1>}
+                            <h1 className='username'>{users[users.indexOf(post.userId)].username}</h1>
                         <p className='postTime'>{post.timestamp}</p>
                     </div>
                 </div>

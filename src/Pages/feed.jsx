@@ -113,8 +113,28 @@ const Feed = () => {
     }
 
 
+    useEffect(() => { //copied over the fetchusers command
+        const fetchUsers = async () => {
+            try {
+                const response = await fetch(apiUsers, {
+                    method: 'GET', // should be lowercase 'method'
+                });
+
+                if (!response.ok) {
+                    throw new Error('Could not reach /users');
+                }
+                const usersData = await response.json();
+                setUsers(usersData); // Update the state with the fetched users
+                console.log(users)
+            } catch (error) {
+                console.error('Error fetching users', error);
+            }
+        };
+        fetchUsers();
+    }, []);
 
 
+ 
 return (
     <div>
         {openModal && createPortal(
@@ -135,7 +155,7 @@ return (
                 <div className='poster'>
                     <img className='profilePicture' src='/kirb.jpg' height={100} width={100} />
                     <div className='textInfo'>
-                        <h1 className='username'>{post.userId}</h1>
+                            <h1 className='username'>{usersData[usersData.indexOf(post.userId)].username}</h1>
                         <p className='postTime'>{post.timestamp}</p>
                     </div>
                 </div>

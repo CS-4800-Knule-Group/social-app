@@ -8,9 +8,6 @@ import { useParams } from 'react-router-dom';
 const MsgTemp = () => {
 
     const params = useParams();
-    const apiUsers = 'https://knule.duckdns.org/users'
-
-    const [users, setUsers] = useState([]);
     const [validCookie, setValidCookie] = useState(Cookies.get('loginAuth'));
     const [decryptToken, setDecryptToken] = useState(Cookies.get('loginAuth') ? jwtDecode(Cookies.get('loginAuth')) : undefined);
     const [openModal, setOpenModal] = useState(Cookies.get('loginAuth') ? false : true)
@@ -18,27 +15,6 @@ const MsgTemp = () => {
 
     let ws;
 
-    useEffect(() => {
-        const fetchUsers = async () => {
-          try {
-            const response = await fetch(apiUsers, {
-              method: 'GET', // should be lowercase 'method'
-            });
-    
-            if (!response.ok) {
-              throw new Error('Could not reach /users');
-            }
-            const usersData = await response.json();
-            setUsers(usersData); // Update the state with the fetched users
-            console.log(users)
-          } catch (error) {
-            console.error('Error fetching users', error);
-          }
-        };
-        fetchUsers();
-      }, []);  // only re-run the effect if apiEndpoint changes
-
-      
     const fetchLogin = async(e) => {
         e.preventDefault();
     

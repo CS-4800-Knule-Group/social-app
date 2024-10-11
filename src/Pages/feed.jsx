@@ -155,7 +155,8 @@ return (
                 <div className='poster'>
                     <img className='profilePicture' src='/kirb.jpg' height={100} width={100} />
                     <div className='textInfo'>
-                            <h1 className='username'>{usersData[usersData.indexOf(post.userId)].username}</h1>
+                            try{<h1 className='username'>{usersData[usersData.indexOf(post.userId)].username}</h1>
+                            } catch(e){<h1 className='username'>{"Undefined"}</h1>}
                         <p className='postTime'>{post.timestamp}</p>
                     </div>
                 </div>

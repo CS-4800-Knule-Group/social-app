@@ -91,21 +91,23 @@ const Feed = () => {
     }, [])
 
     const sendPost = async() => {
-        try{
-            const response = await fetch(apiPosts + "/" + decryptToken.userId, {
-                method: 'POST',
-                headers: {
-                    'Content-Type':'application/json'
-                },
-                body: JSON.stringify({
-                    "content": postContent
-                }
-            )})
-            const postResult = await response;
-            console.log(postResult);
-            window.location.reload();
-        } catch (err){
-            console.error("Post failed. " + err);
+        if(validCookie){
+            try{
+                const response = await fetch(apiPosts + "/" + decryptToken.userId, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type':'application/json'
+                    },
+                    body: JSON.stringify({
+                        "content": postContent
+                    }
+                )})
+                const postResult = await response;
+                console.log(postResult);
+                window.location.reload();
+            } catch (err){
+                console.error("Post failed. " + err);
+            }
         }
     }
 
@@ -126,7 +128,7 @@ const Feed = () => {
                 }
                 const usersData = await response.json();
                 setUsers(usersData); // Update the state with the fetched users
-                console.log(users)
+                console.log(usersData)
             } catch (error) {
                 console.error('Error fetching users', error);
             }
@@ -156,7 +158,8 @@ return (
                 <div className='poster'>
                     <img className='profilePicture' src='/kirb.jpg' height={100} width={100} />
                     <div className='textInfo'>
-                            <h1 className='username'>{users[users.indexOf(post.userId)].username}</h1>
+                            <h1 className='username'>{users.findIndex(i => i.userId ===(post.userId)) == -1 ? 'bad user' : users[users.findIndex(i => i.userId ===(post.userId))].username}</h1>
+
                         <p className='postTime'>{post.timestamp}</p>
                     </div>
                 </div>

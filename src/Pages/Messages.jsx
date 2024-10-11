@@ -7,9 +7,12 @@ import Cookies from 'js-cookie'
 import { jwtDecode } from 'jwt-decode'
 
 const Messages = () => {
+
+  const apiUsers = 'https://knule.duckdns.org/users'
   const [validCookie, setValidCookie] = useState(Cookies.get('loginAuth'));
   const [decryptToken, setDecryptToken] = useState(Cookies.get('loginAuth') ? jwtDecode(Cookies.get('loginAuth')) : undefined);
   const [openModal, setOpenModal] = useState(Cookies.get('loginAuth') ? false : true)
+  const [users, setUsers] = useState([])
 
   const fetchLogin = async(e) => {
     e.preventDefault();
@@ -37,8 +40,6 @@ const Messages = () => {
           expires: inFifteen
         }
       );
-      const decoded = jwtDecode(loginResult.acessToken);
-      //console.log(decoded); 
       setValidCookie(Cookies.get('loginAuth'))
       
     } catch (error) {
@@ -60,6 +61,25 @@ const Messages = () => {
 
   }, [validCookie])
 
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch(apiUsers, {
+          method: 'GET', // should be lowercase 'method'
+        });
+
+        if (!response.ok) {
+          throw new Error('Could not reach /users');
+        }
+        const usersData = await response.json();
+        setUsers(usersData); // Update the state with the fetched users
+        console.log(users)
+      } catch (error) {
+        console.error('Error fetching users', error);
+      }
+    };
+    fetchUsers();
+  }, []);  // only re-run the effect if apiEndpoint changes
   
   return (
     <div>
@@ -67,19 +87,22 @@ const Messages = () => {
           <LoginForm onSubmit={fetchLogin} />,
           document.body
       )}
-        <button>Start a new chat</button>
-    
         
-        <br/>
-      <h1>Messages</h1>
-      <Link to={'/private'}>=
-          <button>Chat with 'follower'</button>
-        </Link>
-        <p></p>
-        <button> Chat with 'follower'</button>
-        <p></p>
-        <button> Chat with 'follower'</button>
-    
+        <h1>Choose a user to message!</h1>
+        
+        {users.map(user => (
+          <div className='userCard'>
+          <div className='user'>
+              <img className='profilePicture' src='/kirb.jpg' height={100} width={100} />
+              <div className='textInfo'>
+                  <h1 className='username'>{user.username}</h1>
+                  <Link to={'/tempmsg/' + user.userId}>
+                  <button>Send Message?</button>
+                  </Link>
+              </div>
+          </div>
+          </div>
+        ))}
     </div>
   );
 }

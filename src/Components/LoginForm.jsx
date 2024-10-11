@@ -21,7 +21,7 @@ const validate = () => {
 const handleSubmit = (e) => {
     e.preventDefault();
     if (validate()) {
-    onSubmit({ username, password });
+    onSubmit(e);
     }
 };
 

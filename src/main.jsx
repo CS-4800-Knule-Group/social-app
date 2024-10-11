@@ -9,6 +9,7 @@ import Register from './Pages/Register.jsx'
 import Feed from './Pages/feed.jsx'
 import Messages from './Pages/Messages.jsx'
 import Private from './Pages/Private.jsx'
+import MsgTemp from './Pages/MsgTemp.jsx'
 
 
 
@@ -52,10 +53,14 @@ const router = createBrowserRouter([{
       path:'/private',
       element:<Private/>
     },
-	{
+	  {
 		path:'/feed',
 		element:<Feed/>
-	  }
+	  },
+    {
+      path:'/tempmsg/:id',
+      element: <MsgTemp/>
+    }
     
     
   ]

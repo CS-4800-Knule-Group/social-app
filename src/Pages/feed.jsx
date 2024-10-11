@@ -10,6 +10,7 @@ const Feed = () => {
     const[posts, setPosts] = useState([])
     const apiPosts = 'https://knule.duckdns.org/posts'
     const apiUsers = 'https://knule.duckdns.org/users'
+    const usersData
 
     const [validCookie, setValidCookie] = useState(Cookies.get('loginAuth') ? Cookies.get('loginAuth') : false);
     const [decryptToken, setDecryptToken] = useState(Cookies.get('loginAuth') ? jwtDecode(Cookies.get('loginAuth')) : false);
@@ -113,7 +114,7 @@ const Feed = () => {
     }
 
 
-    useEffect(() => { //copied over the fetchusers command
+    useEffect(() => {
         const fetchUsers = async () => {
             try {
                 const response = await fetch(apiUsers, {
@@ -123,7 +124,7 @@ const Feed = () => {
                 if (!response.ok) {
                     throw new Error('Could not reach /users');
                 }
-                const usersData = await response.json();
+                usersData = await response.json();
                 setUsers(usersData); // Update the state with the fetched users
                 console.log(users)
             } catch (error) {

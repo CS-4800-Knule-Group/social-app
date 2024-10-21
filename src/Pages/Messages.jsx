@@ -88,19 +88,18 @@ const Messages = () => {
           document.body
       )}
         
-        <h1>Choose a user to message!</h1>
+        <h1>Choose a user to view!</h1>
         
         {users.map(user => (
           <div className='userCard'>
+          <Link to={'/profile/'+ user.userId}>
           <div className='user'>
               <img className='profilePicture' src='/kirb.jpg' height={100} width={100} />
               <div className='textInfo'>
                   <h1 className='username'>{user.username}</h1>
-                  <Link to={'/tempmsg/' + user.userId}>
-                  <button>Send Message?</button>
-                  </Link>
               </div>
           </div>
+          </Link>
           </div>
         ))}
     </div>

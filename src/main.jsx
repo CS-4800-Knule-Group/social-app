@@ -10,6 +10,7 @@ import Feed from './Pages/feed.jsx'
 import Messages from './Pages/Messages.jsx'
 import Private from './Pages/Private.jsx'
 import MsgTemp from './Pages/MsgTemp.jsx'
+import ProfileOther from './Pages/ProfileOther.jsx'
 
 
 
@@ -40,6 +41,10 @@ const router = createBrowserRouter([{
     {
       path:'/profile',
       element: <Profile/>
+    },
+    {
+      path:'/profile/:id',
+      element: <ProfileOther/>
     },
     {
       path:'/register',

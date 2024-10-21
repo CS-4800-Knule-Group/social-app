@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react'
-import './Messages.css'
+import './Explore.css'
 import { Link } from 'react-router-dom'
 import { createPortal } from 'react-dom'
 import LoginForm from '../Components/LoginForm'
 import Cookies from 'js-cookie'
 import { jwtDecode } from 'jwt-decode'
 
-const Messages = () => {
+const Explore = () => {
 
   const apiUsers = 'https://knule.duckdns.org/users'
   const [validCookie, setValidCookie] = useState(Cookies.get('loginAuth'));
@@ -108,4 +108,4 @@ const Messages = () => {
 
 
 
-export default Messages;
+export default Explore;

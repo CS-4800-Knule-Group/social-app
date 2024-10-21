@@ -7,10 +7,10 @@ import Profile from './Pages/profile.jsx'
 import Header from './Components/Header.jsx'
 import Register from './Pages/Register.jsx'
 import Feed from './Pages/feed.jsx'
-import Messages from './Pages/Messages.jsx'
 import Private from './Pages/Private.jsx'
 import MsgTemp from './Pages/MsgTemp.jsx'
 import ProfileOther from './Pages/ProfileOther.jsx'
+import Explore from './Pages/Explore.jsx'
 
 
 
@@ -51,8 +51,8 @@ const router = createBrowserRouter([{
       element:<Register/>
     },
     {
-      path:'/messages',
-      element:<Messages/>
+      path:'/Explore',
+      element:<Explore/>
     },
     {
       path:'/private',

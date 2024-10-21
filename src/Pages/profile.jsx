@@ -6,9 +6,12 @@ import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
 
 const Profile = () => {
+  
+  const apiUsers = 'https://knule.duckdns.org/users'
   const [validCookie, setValidCookie] = useState(Cookies.get('loginAuth'));
   const [decryptToken, setDecryptToken] = useState(Cookies.get('loginAuth') ? jwtDecode(Cookies.get('loginAuth')) : undefined);
   const [openModal, setOpenModal] = useState(Cookies.get('loginAuth') ? false : true)
+  const [users, setUsers] = useState([])
 
   const fetchLogin = async(e) => {
     e.preventDefault();
@@ -59,6 +62,39 @@ const Profile = () => {
 
   }, [validCookie])
 
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const response = await fetch(apiUsers, {
+          method: 'GET', // should be lowercase 'method'
+        });
+
+        if (!response.ok) {
+          throw new Error('Could not reach /users');
+        }
+        const usersData = await response.json();
+        setUsers(usersData);
+      } catch (error) {
+        console.error('Error fetching users', error);
+      }
+
+      
+    };
+    fetchUsers();
+  }, []);  // only re-run the effect if apiEndpoint changes
+
+  if(decryptToken){
+    for(let i = 0; i < users.length; i++){
+      if(users[i].userId == decryptToken.userId){
+          setUsers(users[i]);
+          break;
+      }
+    };
+    console.log(users)
+  }
+
+
+
 
 return (
 	<div>
@@ -81,18 +117,16 @@ return (
 		</p>
 		<div className='follow-section'>
 			<div className='follow-text'>
-				<p className='followers-text'>3492</p>
+				<p className='followers-text'>{users.followers? users.followers.length : "unknown"}</p>
 				<p>Followers</p>
 			</div>
 			<div className='vertical-line'></div>
 			<div className='follow-text'>
-				<p className='following-text'>3492</p>
+				<p className='following-text'>{users.following? users.following.length : "unknown"}</p>
 				<p>Following</p>
 			</div>
 			<div className='vertical-line'></div>
-			<div className='follow-button'>
-				<p>Follow</p>
-			</div>
+			
 		</div>
 	</div>
 	</div>

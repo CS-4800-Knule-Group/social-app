@@ -6,11 +6,13 @@ import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
 
 const Profile = () => {
-  
+
+  const apiPosts = 'https://knule.duckdns.org/posts'
   const apiUsers = 'https://knule.duckdns.org/users'
   const [validCookie, setValidCookie] = useState(Cookies.get('loginAuth'));
   const [decryptToken, setDecryptToken] = useState(Cookies.get('loginAuth') ? jwtDecode(Cookies.get('loginAuth')) : undefined);
   const [openModal, setOpenModal] = useState(Cookies.get('loginAuth') ? false : true)
+  const[posts, setPosts] = useState([])
   const [users, setUsers] = useState([])
 
   const fetchLogin = async(e) => {
@@ -93,7 +95,34 @@ const Profile = () => {
     console.log(users)
   }
 
+  useEffect(() => {
+        
+    const fetchPosts = async () => {
+        try {
+            const response = await fetch(apiPosts, {
+            method: 'GET', // should be lowercase 'method'
+            });
+    
+            if (!response.ok) {
+            throw new Error('Could not reach /posts');
+            }
+            const postsData = await response.json();
 
+            const userId = decryptToken.userId;
+
+            const filterPosts = postsData.filter(post => post.userId == userId);
+
+            console.log(postsData[0].timestamp);
+            setPosts(filterPosts.sort((x, y) => {
+                return new Date(y.timestamp) - new Date(x.timestamp);    
+            })); // Update the state with the fetched users
+            console.log(posts)
+        } catch (error) {
+            console.error('Error fetching posts', error);
+        }
+        };
+        fetchPosts();
+}, [])
 
 
 return (
@@ -126,6 +155,17 @@ return (
 				<p>Following</p>
 			</div>
 			<div className='vertical-line'></div>
+
+      {posts.map(post =>(
+            <div className='post'>
+                <div className='poster'>
+                    <div className='textInfo'>
+                        <p className='postTime'>{post.timestamp}</p>
+                    </div>
+                </div>
+                <p>{post.content}</p>
+            </div>
+      ))}
 			
 		</div>
 	</div>

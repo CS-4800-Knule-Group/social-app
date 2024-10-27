@@ -12,7 +12,7 @@ import MsgTemp from './Pages/MsgTemp.jsx'
 import ProfileOther from './Pages/ProfileOther.jsx'
 import Explore from './Pages/Explore.jsx'
 import { Amplify } from 'aws-amplify';
-import awsConfig from "./aws-exports";
+import awsConfig from "./aws-exports.js";
 Amplify.configure(awsConfig);
 
 

@@ -13,7 +13,7 @@ import ProfileOther from './Pages/ProfileOther.jsx'
 import Explore from './Pages/Explore.jsx'
 import { Amplify } from 'aws-amplify';
 
-const awsmobile = {
+const awsConfig = {
   "aws_project_region": "us-west-2",
   "aws_appsync_graphqlEndpoint": process.env.appsync_graphqlEndpoint,
   "aws_appsync_region": "us-west-2",

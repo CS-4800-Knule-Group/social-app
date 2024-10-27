@@ -24,16 +24,19 @@ export declare type ValidationFunction<T> = (value: T, validationResponse: Valid
 export declare type MessagesCreateFormInputValues = {
     text?: string;
     userId?: string;
+    targetId?: string;
 };
 export declare type MessagesCreateFormValidationValues = {
     text?: ValidationFunction<string>;
     userId?: ValidationFunction<string>;
+    targetId?: ValidationFunction<string>;
 };
 export declare type PrimitiveOverrideProps<T> = Partial<T> & React.DOMAttributes<HTMLDivElement>;
 export declare type MessagesCreateFormOverridesProps = {
     MessagesCreateFormGrid?: PrimitiveOverrideProps<GridProps>;
     text?: PrimitiveOverrideProps<TextFieldProps>;
     userId?: PrimitiveOverrideProps<TextFieldProps>;
+    targetId?: PrimitiveOverrideProps<TextFieldProps>;
 } & EscapeHatchProps;
 export declare type MessagesCreateFormProps = React.PropsWithChildren<{
     overrides?: MessagesCreateFormOverridesProps | undefined | null;

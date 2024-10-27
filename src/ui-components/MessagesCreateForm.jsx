@@ -25,18 +25,22 @@ export default function MessagesCreateForm(props) {
   const initialValues = {
     text: "",
     userId: "",
+    targetId: "",
   };
   const [text, setText] = React.useState(initialValues.text);
   const [userId, setUserId] = React.useState(initialValues.userId);
+  const [targetId, setTargetId] = React.useState(initialValues.targetId);
   const [errors, setErrors] = React.useState({});
   const resetStateValues = () => {
     setText(initialValues.text);
     setUserId(initialValues.userId);
+    setTargetId(initialValues.targetId);
     setErrors({});
   };
   const validations = {
     text: [{ type: "Required" }],
     userId: [{ type: "Required" }],
+    targetId: [{ type: "Required" }],
   };
   const runValidationTasks = async (
     fieldName,
@@ -66,6 +70,7 @@ export default function MessagesCreateForm(props) {
         let modelFields = {
           text,
           userId,
+          targetId,
         };
         const validationResponses = await Promise.all(
           Object.keys(validations).reduce((promises, fieldName) => {
@@ -130,6 +135,7 @@ export default function MessagesCreateForm(props) {
             const modelFields = {
               text: value,
               userId,
+              targetId,
             };
             const result = onChange(modelFields);
             value = result?.text ?? value;
@@ -155,6 +161,7 @@ export default function MessagesCreateForm(props) {
             const modelFields = {
               text,
               userId: value,
+              targetId,
             };
             const result = onChange(modelFields);
             value = result?.userId ?? value;
@@ -168,6 +175,32 @@ export default function MessagesCreateForm(props) {
         errorMessage={errors.userId?.errorMessage}
         hasError={errors.userId?.hasError}
         {...getOverrideProps(overrides, "userId")}
+      ></TextField>
+      <TextField
+        label="Target id"
+        isRequired={true}
+        isReadOnly={false}
+        value={targetId}
+        onChange={(e) => {
+          let { value } = e.target;
+          if (onChange) {
+            const modelFields = {
+              text,
+              userId,
+              targetId: value,
+            };
+            const result = onChange(modelFields);
+            value = result?.targetId ?? value;
+          }
+          if (errors.targetId?.hasError) {
+            runValidationTasks("targetId", value);
+          }
+          setTargetId(value);
+        }}
+        onBlur={() => runValidationTasks("targetId", targetId)}
+        errorMessage={errors.targetId?.errorMessage}
+        hasError={errors.targetId?.hasError}
+        {...getOverrideProps(overrides, "targetId")}
       ></TextField>
       <Flex
         justifyContent="space-between"

@@ -7,6 +7,7 @@ export const getMessages = /* GraphQL */ `
       id
       text
       userId
+      targetId
       createdAt
       updatedAt
       __typename
@@ -24,6 +25,7 @@ export const listMessages = /* GraphQL */ `
         id
         text
         userId
+        targetId
         createdAt
         updatedAt
         __typename

@@ -7,6 +7,7 @@ export const onCreateMessages = /* GraphQL */ `
       id
       text
       userId
+      targetId
       createdAt
       updatedAt
       __typename
@@ -19,6 +20,7 @@ export const onUpdateMessages = /* GraphQL */ `
       id
       text
       userId
+      targetId
       createdAt
       updatedAt
       __typename
@@ -31,6 +33,7 @@ export const onDeleteMessages = /* GraphQL */ `
       id
       text
       userId
+      targetId
       createdAt
       updatedAt
       __typename

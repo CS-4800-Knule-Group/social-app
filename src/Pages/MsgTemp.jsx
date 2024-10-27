@@ -109,11 +109,12 @@ const MsgTemp = () => {
             chatDiv.scrollTop = chatDiv.scrollHeight;
         }
     }
+        */
 
     const changeRecipient = () =>{
         setRecipientId(document.getElementById('userInput').value);
     }
-        */
+        
 
 
     const sendMessage = async() => {
@@ -123,11 +124,11 @@ const MsgTemp = () => {
                 input: {
                     text: newMessage,
                     userId: decryptToken.userId,
+                    targetId: recipientId
                 }
             }
         })
 
-        console.log("test");
         setNewMessage("");
 
     }
@@ -145,14 +146,43 @@ const MsgTemp = () => {
                 query: queries.listMessages,
             });
             console.log(allChats.data.listMessages.items);
-            setChats(allChats.data.listMessages.items);
+            
+            const filterChats = allChats.data.listMessages.items.filter(chat => 
+                ((chat.userId === decryptToken.userId && chat.targetId === recipientId) || 
+                (chat.userId === recipientId && chat.targetId === decryptToken.userId)))
+            console.log(filterChats);
+            setChats(filterChats);
         }
         fetchChats();
     }, []);
 
     useEffect(() => {
+        let filter
+        if (recipientId) {
+        filter = {
+            or:[{
+                userId: {
+                    eq: recipientId
+                },
+                targetId: {
+                    eq: decryptToken.userId
+                }
+            },{
+                userId: {
+                    eq: decryptToken.userId
+                },
+                targetId: {
+                    eq: recipientId
+                }
+            }]
+        }
+    }
+
         const sub = client.graphql({
-            query: subscriptions.onCreateMessages
+            query: subscriptions.onCreateMessages,
+            variables: {
+                filter
+            }
         }).subscribe({
           next: ({ data }) =>
             setChats((prev) => [...prev, data.onCreateMessages]),

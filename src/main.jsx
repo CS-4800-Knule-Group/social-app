@@ -12,7 +12,15 @@ import MsgTemp from './Pages/MsgTemp.jsx'
 import ProfileOther from './Pages/ProfileOther.jsx'
 import Explore from './Pages/Explore.jsx'
 import { Amplify } from 'aws-amplify';
-import awsConfig from "./aws-exports.js";
+
+const awsmobile = {
+  "aws_project_region": "us-west-2",
+  "aws_appsync_graphqlEndpoint": process.env.appsync_graphqlEndpoint,
+  "aws_appsync_region": "us-west-2",
+  "aws_appsync_authenticationType": "API_KEY",
+  "aws_appsync_apiKey": process.env.appsync_apikey
+};
+
 Amplify.configure(awsConfig);
 
 

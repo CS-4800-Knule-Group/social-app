@@ -15,7 +15,7 @@ import { Amplify } from 'aws-amplify';
 
 const awsConfig = {
   "aws_project_region": "us-west-2",
-  "aws_appsync_graphqlEndpoint": import.meta.env.VITE_APPSYNC_GRAPHQLENPOINT,
+  "aws_appsync_graphqlEndpoint": import.meta.env.VITE_APPSYNC_GRAPHQLENDPOINT,
   "aws_appsync_region": "us-west-2",
   "aws_appsync_authenticationType": "API_KEY",
   "aws_appsync_apiKey": import.meta.env.VITE_APPSYNC_APIKEY

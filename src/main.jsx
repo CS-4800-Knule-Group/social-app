@@ -11,6 +11,9 @@ import Private from './Pages/Private.jsx'
 import MsgTemp from './Pages/MsgTemp.jsx'
 import ProfileOther from './Pages/ProfileOther.jsx'
 import Explore from './Pages/Explore.jsx'
+import { Amplify } from 'aws-amplify';
+import awsConfig from "./aws-exports";
+Amplify.configure(awsConfig);
 
 
 

@@ -4,6 +4,10 @@ import { jwtDecode } from 'jwt-decode';
 import { createPortal } from 'react-dom';
 import LoginForm from '../Components/LoginForm';
 import { useParams } from 'react-router-dom';
+import { generateClient } from 'aws-amplify/api';
+import * as mutations from "../mutations.js"
+import * as queries from "../queries.js"
+import * as subscriptions from "../subscriptions.js"
 
 const MsgTemp = () => {
 
@@ -12,8 +16,10 @@ const MsgTemp = () => {
     const [decryptToken, setDecryptToken] = useState(Cookies.get('loginAuth') ? jwtDecode(Cookies.get('loginAuth')) : undefined);
     const [openModal, setOpenModal] = useState(Cookies.get('loginAuth') ? false : true)
     const [recipientId, setRecipientId] = useState(params ? params.id : '');
+    const [newMessage, setNewMessage] = useState([]);
+    const [chats, setChats] = useState([]);
 
-    let ws;
+    const client = generateClient();
 
     const fetchLogin = async(e) => {
         e.preventDefault();
@@ -59,6 +65,7 @@ const MsgTemp = () => {
 
     }, [validCookie])
 
+    /*
     useEffect(() => {
         
         console.log(recipientId);
@@ -106,16 +113,76 @@ const MsgTemp = () => {
     const changeRecipient = () =>{
         setRecipientId(document.getElementById('userInput').value);
     }
+        */
 
+
+    const sendMessage = async() => {
+        await client.graphql({
+            query: mutations.createMessages,
+            variables: {
+                input: {
+                    text: newMessage,
+                    userId: decryptToken.userId,
+                }
+            }
+        })
+
+        console.log("test");
+        setNewMessage("");
+
+    }
+
+    const sendMessageEnter = async(e) => {
+        if (e.key === "Enter"){
+            sendMessage();
+            e.target.value = "";
+        }
+    }
+
+    useEffect(() => {
+        async function fetchChats() {
+            const allChats = await client.graphql({
+                query: queries.listMessages,
+            });
+            console.log(allChats.data.listMessages.items);
+            setChats(allChats.data.listMessages.items);
+        }
+        fetchChats();
+    }, []);
+
+    useEffect(() => {
+        const sub = client.graphql({
+            query: subscriptions.onCreateMessages
+        }).subscribe({
+          next: ({ data }) =>
+            setChats((prev) => [...prev, data.onCreateMessages]),
+          error: (err) => console.log(err),
+        });
+        return () => sub.unsubscribe();
+      }, []);
 
     
     if(validCookie && recipientId != ''){
         return(
             <div>
                 <h1>Insert Username Here</h1>
-                <div id='chat'></div>
-                <input type='text' id='msgInput' placeholder='Type your msg here...'/>
-                <button onClick={sendMessage}>Send</button>
+                <div id='chat'>
+                {chats
+                .sort((a, b) => a.createdAt.localeCompare(b.createdAt))
+                .map((chat) => (
+                    <div
+                    key={chat.id}
+                    className="chats"
+                    >
+                        <div>
+                            <p className="chat-text">{chat.text}</p>
+                        </div>
+                    </div>
+                ))}
+                </div>
+                <input type='text' id='msgInput' placeholder='Type your msg here...' onChange={e => setNewMessage(e.target.value)}
+                value={newMessage} onKeyUp={sendMessageEnter}/>
+                <button onClick={sendMessage} >Send</button>
             </div>
         )
     }else{

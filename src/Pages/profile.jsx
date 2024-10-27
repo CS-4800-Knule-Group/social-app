@@ -13,6 +13,7 @@ const Profile = () => {
   const [openModal, setOpenModal] = useState(Cookies.get('loginAuth') ? false : true)
   const [users, setUsers] = useState([])
 
+  //Compare user login and update cookies if valid
   const fetchLogin = async(e) => {
     e.preventDefault();
   
@@ -50,6 +51,7 @@ const Profile = () => {
   }
     
 
+  //On validCookie change, update Decrypt Token and OpenModal
   useEffect(() => {
     const login = Cookies.get('loginAuth');
       
@@ -62,6 +64,7 @@ const Profile = () => {
 
   }, [validCookie])
 
+  
   useEffect(() => {
     const fetchUsers = async () => {
       try {

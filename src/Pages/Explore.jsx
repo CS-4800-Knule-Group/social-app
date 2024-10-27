@@ -7,13 +7,17 @@ import Cookies from 'js-cookie'
 import { jwtDecode } from 'jwt-decode'
 
 const Explore = () => {
+ 
+  const apiUsers = 'https://knule.duckdns.org/users' 
 
-  const apiUsers = 'https://knule.duckdns.org/users'
+  
   const [validCookie, setValidCookie] = useState(Cookies.get('loginAuth'));
   const [decryptToken, setDecryptToken] = useState(Cookies.get('loginAuth') ? jwtDecode(Cookies.get('loginAuth')) : undefined);
   const [openModal, setOpenModal] = useState(Cookies.get('loginAuth') ? false : true)
   const [users, setUsers] = useState([])
 
+  //Compare login from a form (username & password)
+  //Grant auth cookie if accepted
   const fetchLogin = async(e) => {
     e.preventDefault();
   
@@ -48,7 +52,7 @@ const Explore = () => {
     }
   }
     
-
+  //Update the valid cookie, openModal, and DecryptToken variables as validCookie is changed
   useEffect(() => {
     const login = Cookies.get('loginAuth');
       
@@ -61,6 +65,7 @@ const Explore = () => {
 
   }, [validCookie])
 
+  //On Page Render, get database of users for display
   useEffect(() => {
     const fetchUsers = async () => {
       try {

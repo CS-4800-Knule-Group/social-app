@@ -207,7 +207,7 @@ const ProfileOther = () => {
                   <div key={post.postId} className='post'>
                     <div className='poster'>
                       <img className= 'post-profilePic' src='/kirb.jpg' height={100} width={100} />
-                      <h1 className='post-username'>{validCookie ? decryptToken.username : "Kirby Watterson"}</h1>
+                      <h1 className='post-username'>{currUser.length != 0 ? currUser[0].username : "Kirby Watterson"}</h1>
                       <h3 className='post-fullName'>@kirbistheword</h3>
                       {post.timestamp && 
                       <div className='textInfo'>

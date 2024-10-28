@@ -11,10 +11,12 @@ const ProfileOther = () => {
     const params = useParams();
     
     const apiUsers = 'https://knule.duckdns.org/users'
+    const apiPosts = 'https://knule.duckdns.org/posts'
     const [validCookie, setValidCookie] = useState(Cookies.get('loginAuth'));
     const [decryptToken, setDecryptToken] = useState(Cookies.get('loginAuth') ? jwtDecode(Cookies.get('loginAuth')) : undefined);
     const [openModal, setOpenModal] = useState(Cookies.get('loginAuth') ? false : true)
     const [users, setUsers] = useState([])
+    const[posts, setPosts] = useState([])
     const [followButton, setFollowButton] = useState(true);
 
     const fetchLogin = async(e) => {
@@ -118,12 +120,35 @@ const ProfileOther = () => {
         }
       }
 
-      const testFun = () => {
-        setFollowButton(false)
-      }
-      testFun
 
-
+      useEffect(() => {
+		
+        const fetchPosts = async () => {
+          try {
+            const response = await fetch(apiPosts, {
+            method: 'GET', // should be lowercase 'method'
+            });
+        
+            if (!response.ok) {
+            throw new Error('Could not reach /posts');
+            }
+            const postsData = await response.json();
+      
+            const userId = params.id;
+      
+            const filterPosts = postsData.filter(post => post.userId == userId);
+      
+            console.log(postsData[0].timestamp);
+            setPosts(filterPosts.sort((x, y) => {
+              return new Date(y.timestamp) - new Date(x.timestamp);    
+            })); // Update the state with the fetched users
+            console.log(posts)
+          } catch (error) {
+            console.error('Error fetching posts', error);
+          }
+          };
+          fetchPosts();
+      }, [])
 
       
     return (
@@ -164,6 +189,21 @@ const ProfileOther = () => {
                     <button>Send Message?</button>
                 </Link>
             </div>
+            {posts.map(post =>(
+                  <div key={post.postId} className='post'>
+                    <div className='poster'>
+                      <img className= 'post-profilePic' src='/kirb.jpg' height={100} width={100} />
+                      <h1 className='post-username'>{validCookie ? decryptToken.username : "Kirby Watterson"}</h1>
+                      <h3 className='post-fullName'>@kirbistheword</h3>
+                      {post.timestamp && 
+                      <div className='textInfo'>
+                        <p className='postTime'>{post.timestamp}</p>
+                      </div>
+                      }
+                    </div>
+                    {post.content && <p>{post.content}</p>}
+                  </div>
+                ))}
         </div>
         </div>
     )

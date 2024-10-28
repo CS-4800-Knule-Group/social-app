@@ -11,9 +11,11 @@ const apiPosts = 'https://knule.duckdns.org/posts'
 const apiUsers = 'https://knule.duckdns.org/users'
 const [validCookie, setValidCookie] = useState(Cookies.get('loginAuth'));
 const [decryptToken, setDecryptToken] = useState(Cookies.get('loginAuth') ? jwtDecode(Cookies.get('loginAuth')) : undefined);
-const [openModal, setOpenModal] = useState(Cookies.get('loginAuth') ? false : true)
-const[posts, setPosts] = useState([])
-const [users, setUsers] = useState([])
+const [openModal, setOpenModal] = useState(Cookies.get('loginAuth') ? false : true);
+const [posts, setPosts] = useState([]);
+const [users, setUsers] = useState([]);
+const [followers, setFollowers] = useState([]);
+const [following, setFollowing] = useState([]);
 
 const fetchLogin = async(e) => {
 	e.preventDefault();
@@ -76,6 +78,10 @@ useEffect(() => {
 		}
 		const usersData = await response.json();
 		setUsers(usersData);
+		const filterFollowers = usersData.filter(followers => followers.followers == userId);
+		const filterFollowing = usersData.filter(following => following.following == userId);
+		setFollowers(filterFollowers);
+		setFollowing(filterFollowers);
 	} catch (error) {
 		console.error('Error fetching users', error);
 	}
@@ -145,14 +151,25 @@ return (
 				I play video games and am the star of my own video game franchise. I'm not as popular as Mario and Sonic but at least I wasn't replaced with a robot like Sackboy.
 			</p>
 			<div className='follow-section'>
+				<div className='vertical-line'></div>
 				<div className='follow-text'>
 					<p className='followers-text'>{users.followers? users.followers.length : "unknown"}</p>
 					<p>Followers</p>
 				</div>
+				{followers.map(followers => (
+					<div key={followers.userId} className='follower'>
+						<img className='follower-profilePic' src='/kirb.jpg' height={100} width={100} />
+						<h1 className='follower-username'>{followers.username}</h1>
+					</div>))}
 				<div className='vertical-line'></div>
 				<div className='follow-text'>
 					<p className='following-text'>{users.following? users.following.length : "unknown"}</p>
 					<p>Following</p>
+					{following.map(following => (
+						<div key={following.userId} className='folloing'>
+							<img className='following-profilePic' src='/kirb.jpg' height={100} width={100} />
+							<h1 className='following-username'>{following.username}</h1>
+						</div>))}
 				</div>
 				<div className='vertical-line'></div>
 			</div>

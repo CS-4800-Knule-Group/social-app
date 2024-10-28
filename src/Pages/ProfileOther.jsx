@@ -16,6 +16,9 @@ const ProfileOther = () => {
     const [openModal, setOpenModal] = useState(Cookies.get('loginAuth') ? false : true)
     const [users, setUsers] = useState([])
     const [followButton, setFollowButton] = useState(true);
+    const [currUser, setCurrUser] = useState([])
+    const [followers, setFollowers] = useState([])
+    const [following, setFollowing] = useState([]);
 
     const fetchLogin = async(e) => {
         e.preventDefault();
@@ -77,6 +80,16 @@ const ProfileOther = () => {
             }
             const usersData = await response.json();
             setUsers(usersData);
+            const filteredUsers = usersData.filter(user => user.userId == params.id)
+
+            setCurrUser(filteredUsers)
+            
+            const filterFollowers = usersData.filter(user => filteredUsers[0].followers.indexOf(user.userId) != -1)
+            const filterFollowing = usersData.filter(user => filteredUsers[0].following.indexOf(user.userId) != -1)
+
+            setFollowers(filterFollowers);
+            setFollowing(filterFollowing); 
+
           } catch (error) {
             console.error('Error fetching users', error);
           }
@@ -85,15 +98,6 @@ const ProfileOther = () => {
         };
         fetchUsers();
       }, []);  // only re-run the effect if apiEndpoint changes
-
-      for(let i = 0; i < users.length; i++){
-        if(users[i].userId == params.id){
-            setUsers(users[i]);
-            break;
-        }
-      };
-      console.log(users)
-      console.log(params.id);
 
 
       const onFollow = async() =>{
@@ -118,13 +122,6 @@ const ProfileOther = () => {
         }
       }
 
-      const testFun = () => {
-        setFollowButton(false)
-      }
-      testFun
-
-
-
       
     return (
         <div>
@@ -139,7 +136,7 @@ const ProfileOther = () => {
             </div>
             
             <div className='profile-text'>
-            <h1 className='username'>{params.id ? users.username : "Kirby Watterson"}</h1>
+            <h1 className='username'>{currUser.length != 0 ? currUser[0].username : "Kirby Watterson"}</h1>
             <h3 className='fullName'>@kirbistheword</h3>
             </div>
             <p className='bio'>
@@ -147,14 +144,24 @@ const ProfileOther = () => {
             </p>
             <div className='follow-section'>
                 <div className='follow-text'>
-                    <p className='followers-text'>{users.followers? users.followers.length : "unknown"}</p>
+                    <p className='followers-text'>{currUser.length != 0? currUser[0].followers.length : "unknown"}</p>
                     <p>Followers</p>
                 </div>
+                {followers.map(followers => (
+                  <div key={followers.userId} className='follower'>
+                    <img className='follower-profilePic' src='/kirb.jpg' height={100} width={100} />
+                    <h1 className='follower-username'>{followers.username}</h1>
+                  </div>)) } 
                 <div className='vertical-line'></div>
                 <div className='follow-text'>
-                    <p className='following-text'>{users.following? users.following.length : "unknown"}</p>
+                    <p className='following-text'>{currUser.length != 0 ? currUser[0].following.length : "unknown"}</p>
                     <p>Following</p>
                 </div>
+                {following.map(following => (
+                  <div key={following.userId} className='folloing'>
+                    <img className='following-profilePic' src='/kirb.jpg' height={100} width={100} />
+                    <h1 className='following-username'>{following.username}</h1>
+                  </div>)) }
                 <div className='vertical-line'></div>
                 <div className='follow-button' onClick={onFollow}>
                     <p>{decryptToken ? (decryptToken.userId && users.followers ? (users.followers.indexOf(decryptToken.userId) != -1 ?

@@ -122,7 +122,7 @@ useEffect(() => {
 		}
 		};
 		fetchPosts();
-}, [])
+}, [decryptToken])
 
 
 return (
@@ -157,16 +157,18 @@ return (
 				<div className='vertical-line'></div>
 			</div>
 			{posts.map(post =>(
-				<div className='post'>
+				<div key={post.postId} className='post'>
 					<div className='poster'>
 						<img className= 'post-profilePic' src='/kirb.jpg' height={100} width={100} />
 						<h1 className='post-username'>{validCookie ? decryptToken.username : "Kirby Watterson"}</h1>
 						<h3 className='post-fullName'>@kirbistheword</h3>
+            {post.timestamp && 
 						<div className='textInfo'>
 							<p className='postTime'>{post.timestamp}</p>
 						</div>
+            }
 					</div>
-					<p>{post.content}</p>
+					{post.content && <p>{post.content}</p>}
 				</div>
 			))}
 		</div>

@@ -14,6 +14,7 @@ const [decryptToken, setDecryptToken] = useState(Cookies.get('loginAuth') ? jwtD
 const [openModal, setOpenModal] = useState(Cookies.get('loginAuth') ? false : true);
 const [posts, setPosts] = useState([]);
 const [users, setUsers] = useState([]);
+const [currUser, setCurrUser] = useState([])
 const [followers, setFollowers] = useState([]);
 const [following, setFollowing] = useState([]);
 
@@ -68,38 +69,38 @@ useEffect(() => {
 
 useEffect(() => {
 	const fetchUsers = async () => {
-	try {
-		const response = await fetch(apiUsers, {
-		method: 'GET', // should be lowercase 'method'
-		});
+		try {
+			const response = await fetch(apiUsers, {
+			method: 'GET', // should be lowercase 'method'
+			});
 
-		if (!response.ok) {
-		throw new Error('Could not reach /users');
+			if (!response.ok) {
+			throw new Error('Could not reach /users');
+			}
+			const usersData = await response.json();
+			setUsers(usersData);
+
+			setCurrUser(users.filter(user => user.userId == decryptToken.userId))
+			console.log(currUser);
+			
+			const filterFollowers = users.filter(user => currUser[0].followers.contains(user.userId))
+			console.log(filterFollowers)
+
+
+			
+			/*const filterFollowers = usersData.filter(followers => followers.followers == userId);
+			const filterFollowing = usersData.filter(following => following.following == userId);
+			setFollowers(filterFollowers);
+			setFollowing(filterFollowers); */
+		} catch (error) {
+			console.error('Error fetching users', error);
 		}
-		const usersData = await response.json();
-		setUsers(usersData);
-		const filterFollowers = usersData.filter(followers => followers.followers == userId);
-		const filterFollowing = usersData.filter(following => following.following == userId);
-		setFollowers(filterFollowers);
-		setFollowing(filterFollowers);
-	} catch (error) {
-		console.error('Error fetching users', error);
-	}
-
-	
 	};
 	fetchUsers();
-}, []);  // only re-run the effect if apiEndpoint changes
+}, [decryptToken]);  // only re-run the effect if apiEndpoint changes
 
-if(decryptToken){
-	for(let i = 0; i < users.length; i++){
-	if(users[i].userId == decryptToken.userId){
-		setUsers(users[i]);
-		break;
-	}
-	};
-	console.log(users)
-}
+
+
 
 useEffect(() => {
 		
@@ -153,23 +154,23 @@ return (
 			<div className='follow-section'>
 				<div className='vertical-line'></div>
 				<div className='follow-text'>
-					<p className='followers-text'>{users.followers? users.followers.length : "unknown"}</p>
+					<p className='followers-text'>{currUser.length != 0? currUser[0].followers.length : "unknown"}</p>
 					<p>Followers</p>
 				</div>
-				{followers.map(followers => (
+				{/*followers.map(followers => (
 					<div key={followers.userId} className='follower'>
 						<img className='follower-profilePic' src='/kirb.jpg' height={100} width={100} />
 						<h1 className='follower-username'>{followers.username}</h1>
-					</div>))}
+					</div>)) */} 
 				<div className='vertical-line'></div>
 				<div className='follow-text'>
-					<p className='following-text'>{users.following? users.following.length : "unknown"}</p>
+					<p className='following-text'>{/*currUser? currUser[0].following.length : */"unknown"}</p>
 					<p>Following</p>
-					{following.map(following => (
+					{/*following.map(following => (
 						<div key={following.userId} className='folloing'>
 							<img className='following-profilePic' src='/kirb.jpg' height={100} width={100} />
 							<h1 className='following-username'>{following.username}</h1>
-						</div>))}
+						</div>)) */}
 				</div>
 				<div className='vertical-line'></div>
 			</div>

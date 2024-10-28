@@ -81,7 +81,7 @@ useEffect(() => {
 		const filterFollowers = usersData.filter(followers => followers.followers == userId);
 		const filterFollowing = usersData.filter(following => following.following == userId);
 		setFollowers(filterFollowers);
-		setFollowing(filterFollowers);
+		setFollowing(filterFollowing);
 	} catch (error) {
 		console.error('Error fetching users', error);
 	}

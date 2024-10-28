@@ -78,7 +78,7 @@ const Explore = () => {
         }
         const usersData = await response.json();
         setUsers(usersData); // Update the state with the fetched users
-        console.log(users)
+        console.log(usersData)
       } catch (error) {
         console.error('Error fetching users', error);
       }
@@ -96,7 +96,7 @@ const Explore = () => {
         <h1>Choose a user to view!</h1>
         
         {users.map(user => (
-          <div className='userCard'>
+          <div key={user.userId} className='userCard'>
           <Link to={'/profile/'+ user.userId}>
           <div className='user'>
               <img className='profilePicture' src='/kirb.jpg' height={100} width={100} />

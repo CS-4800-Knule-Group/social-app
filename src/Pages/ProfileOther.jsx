@@ -199,7 +199,7 @@ const ProfileOther = () => {
                     <p>{decryptToken ? (decryptToken.userId && users.followers ? (users.followers.indexOf(decryptToken.userId) != -1 ?
                     "Unfollow" : "Follow") : "Follow") : "Follow"}</p>
                 </div>
-                <Link to={'/tempmsg/' + users.userId}>
+                <Link to={'/tempmsg/' + params.id}>
                     <button>Send Message?</button>
                 </Link>
             </div>

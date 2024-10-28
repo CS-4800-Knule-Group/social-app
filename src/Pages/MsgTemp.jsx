@@ -11,6 +11,7 @@ import * as subscriptions from "../subscriptions.js"
 
 const MsgTemp = () => {
 
+    const apiUsers = 'https://knule.duckdns.org/users'
     const params = useParams();
     const [validCookie, setValidCookie] = useState(Cookies.get('loginAuth'));
     const [decryptToken, setDecryptToken] = useState(Cookies.get('loginAuth') ? jwtDecode(Cookies.get('loginAuth')) : undefined);
@@ -18,6 +19,7 @@ const MsgTemp = () => {
     const [recipientId, setRecipientId] = useState(params ? params.id : '');
     const [newMessage, setNewMessage] = useState([]);
     const [chats, setChats] = useState([]);
+    const [currUser, setCurrUser] = useState([])
 
     const client = generateClient();
 
@@ -64,6 +66,30 @@ const MsgTemp = () => {
         //console.log({openModal})
 
     }, [validCookie])
+
+    useEffect(() => {
+        const fetchUsers = async () => {
+          try {
+            const response = await fetch(apiUsers, {
+              method: 'GET', // should be lowercase 'method'
+            });
+    
+            if (!response.ok) {
+              throw new Error('Could not reach /users');
+            }
+            const usersData = await response.json();
+            const filteredUsers = usersData.filter(user => user.userId == params.id)
+            
+            setCurrUser(filteredUsers)
+
+          } catch (error) {
+            console.error('Error fetching users', error);
+          }
+
+          
+        };
+        fetchUsers();
+      }, []);  // only re-run the effect if apiEndpoint changes
 
     /*
     useEffect(() => {
@@ -195,7 +221,7 @@ const MsgTemp = () => {
     if(validCookie && recipientId != ''){
         return(
             <div>
-                <h1>Insert Username Here</h1>
+                <h1>Chat with {currUser.length != 0 ? currUser[0].username : "No user found"} </h1>
                 <div id='chat'>
                 {chats
                 .sort((a, b) => a.createdAt.localeCompare(b.createdAt))
@@ -205,7 +231,8 @@ const MsgTemp = () => {
                     className="chats"
                     >
                         <div>
-                            <p className="chat-text">{chat.text}</p>
+                            <p>{chat.userId == decryptToken.userId ? "You: " + chat.text : 
+                            currUser.length != 0 ? currUser[0].username + ": " + chat.text : "User not found"}</p>
                         </div>
                     </div>
                 ))}

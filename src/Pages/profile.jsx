@@ -11,9 +11,12 @@ const apiPosts = 'https://knule.duckdns.org/posts'
 const apiUsers = 'https://knule.duckdns.org/users'
 const [validCookie, setValidCookie] = useState(Cookies.get('loginAuth'));
 const [decryptToken, setDecryptToken] = useState(Cookies.get('loginAuth') ? jwtDecode(Cookies.get('loginAuth')) : undefined);
-const [openModal, setOpenModal] = useState(Cookies.get('loginAuth') ? false : true)
-const[posts, setPosts] = useState([])
-const [users, setUsers] = useState([])
+const [openModal, setOpenModal] = useState(Cookies.get('loginAuth') ? false : true);
+const [posts, setPosts] = useState([]);
+const [users, setUsers] = useState([]);
+const [currUser, setCurrUser] = useState([])
+const [followers, setFollowers] = useState([]);
+const [following, setFollowing] = useState([]);
 
 const fetchLogin = async(e) => {
 	e.preventDefault();
@@ -66,34 +69,34 @@ useEffect(() => {
 
 useEffect(() => {
 	const fetchUsers = async () => {
-	try {
-		const response = await fetch(apiUsers, {
-		method: 'GET', // should be lowercase 'method'
-		});
+		try {
+			const response = await fetch(apiUsers, {
+			method: 'GET', // should be lowercase 'method'
+			});
 
-		if (!response.ok) {
-		throw new Error('Could not reach /users');
+			if (!response.ok) {
+			throw new Error('Could not reach /users');
+			}
+			const usersData = await response.json();
+			setUsers(usersData);
+			const filteredUsers = usersData.filter(user => user.userId == decryptToken.userId)
+
+			setCurrUser(filteredUsers)
+			
+			const filterFollowers = usersData.filter(user => filteredUsers[0].followers.indexOf(user.userId) != -1)
+			const filterFollowing = usersData.filter(user => filteredUsers[0].following.indexOf(user.userId) != -1)
+
+			setFollowers(filterFollowers);
+			setFollowing(filterFollowing); 
+		} catch (error) {
+			console.error('Error fetching users', error);
 		}
-		const usersData = await response.json();
-		setUsers(usersData);
-	} catch (error) {
-		console.error('Error fetching users', error);
-	}
-
-	
 	};
 	fetchUsers();
-}, []);  // only re-run the effect if apiEndpoint changes
+}, [decryptToken]);  // only re-run the effect if apiEndpoint changes
 
-if(decryptToken){
-	for(let i = 0; i < users.length; i++){
-	if(users[i].userId == decryptToken.userId){
-		setUsers(users[i]);
-		break;
-	}
-	};
-	console.log(users)
-}
+
+
 
 useEffect(() => {
 		
@@ -145,14 +148,25 @@ return (
 				I play video games and am the star of my own video game franchise. I'm not as popular as Mario and Sonic but at least I wasn't replaced with a robot like Sackboy.
 			</p>
 			<div className='follow-section'>
-				<div className='follow-text'>
-					<p className='followers-text'>{users.followers? users.followers.length : "unknown"}</p>
-					<p>Followers</p>
-				</div>
 				<div className='vertical-line'></div>
 				<div className='follow-text'>
-					<p className='following-text'>{users.following? users.following.length : "unknown"}</p>
+					<p className='followers-text'>{currUser.length != 0? currUser[0].followers.length : "unknown"}</p>
+					<p>Followers</p>
+				</div>
+				{followers.map(followers => (
+					<div key={followers.userId} className='follower'>
+						<img className='follower-profilePic' src='/kirb.jpg' height={100} width={100} />
+						<h1 className='follower-username'>{followers.username}</h1>
+					</div>)) } 
+				<div className='vertical-line'></div>
+				<div className='follow-text'>
+					<p className='following-text'>{currUser.length != 0 ? currUser[0].following.length : "unknown"}</p>
 					<p>Following</p>
+					{following.map(following => (
+						<div key={following.userId} className='folloing'>
+							<img className='following-profilePic' src='/kirb.jpg' height={100} width={100} />
+							<h1 className='following-username'>{following.username}</h1>
+						</div>)) }
 				</div>
 				<div className='vertical-line'></div>
 			</div>

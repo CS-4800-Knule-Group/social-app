@@ -79,19 +79,15 @@ useEffect(() => {
 			}
 			const usersData = await response.json();
 			setUsers(usersData);
+			const filteredUsers = usersData.filter(user => user.userId == decryptToken.userId)
 
-			setCurrUser(users.filter(user => user.userId == decryptToken.userId))
-			console.log(currUser);
+			setCurrUser(filteredUsers)
 			
-			const filterFollowers = users.filter(user => currUser[0].followers.contains(user.userId))
-			console.log(filterFollowers)
+			const filterFollowers = usersData.filter(user => filteredUsers[0].followers.indexOf(user.userId) != -1)
+			const filterFollowing = usersData.filter(user => filteredUsers[0].following.indexOf(user.userId) != -1)
 
-
-			
-			/*const filterFollowers = usersData.filter(followers => followers.followers == userId);
-			const filterFollowing = usersData.filter(following => following.following == userId);
 			setFollowers(filterFollowers);
-			setFollowing(filterFollowers); */
+			setFollowing(filterFollowing); 
 		} catch (error) {
 			console.error('Error fetching users', error);
 		}
@@ -157,20 +153,20 @@ return (
 					<p className='followers-text'>{currUser.length != 0? currUser[0].followers.length : "unknown"}</p>
 					<p>Followers</p>
 				</div>
-				{/*followers.map(followers => (
+				{followers.map(followers => (
 					<div key={followers.userId} className='follower'>
 						<img className='follower-profilePic' src='/kirb.jpg' height={100} width={100} />
 						<h1 className='follower-username'>{followers.username}</h1>
-					</div>)) */} 
+					</div>)) } 
 				<div className='vertical-line'></div>
 				<div className='follow-text'>
-					<p className='following-text'>{/*currUser? currUser[0].following.length : */"unknown"}</p>
+					<p className='following-text'>{currUser.length != 0 ? currUser[0].following.length : "unknown"}</p>
 					<p>Following</p>
-					{/*following.map(following => (
+					{following.map(following => (
 						<div key={following.userId} className='folloing'>
 							<img className='following-profilePic' src='/kirb.jpg' height={100} width={100} />
 							<h1 className='following-username'>{following.username}</h1>
-						</div>)) */}
+						</div>)) }
 				</div>
 				<div className='vertical-line'></div>
 			</div>

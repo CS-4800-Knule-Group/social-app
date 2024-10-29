@@ -148,7 +148,7 @@ return (
         {openModal && createPortal(
           <LoginForm onSubmit={fetchLogin} />,
           document.body
-      )}
+        )}
         <div className='feed'>
             <div className='post-input'>
                 <input type='text' placeholder=" Post text" className="post-textBox" onChange={handleChange}/>

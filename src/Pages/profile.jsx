@@ -2,6 +2,8 @@ import React, {useEffect, useState} from 'react'
 import './Profile.css'
 import { createPortal } from 'react-dom';
 import LoginForm from '../Components/LoginForm.jsx';
+import FollowingList from '../Components/FollowingList.jsx';
+import FollowerList from '../Components/FollowerList.jsx';
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
 
@@ -12,6 +14,8 @@ const apiUsers = 'https://knule.duckdns.org/users'
 const [validCookie, setValidCookie] = useState(Cookies.get('loginAuth'));
 const [decryptToken, setDecryptToken] = useState(Cookies.get('loginAuth') ? jwtDecode(Cookies.get('loginAuth')) : undefined);
 const [openModal, setOpenModal] = useState(Cookies.get('loginAuth') ? false : true);
+const [openFollowingModal, setFollowingOpenModal] = useState(false);
+const [openFollowerModal, setFollowerOpenModal] = useState(false);
 const [posts, setPosts] = useState([]);
 const [users, setUsers] = useState([]);
 const [currUser, setCurrUser] = useState([])
@@ -127,6 +131,14 @@ useEffect(() => {
 		fetchPosts();
 }, [decryptToken])
 
+const openFollowingList = () => {
+	setFollowingOpenModal(true);
+}
+
+const openFollowerList = () => {
+	setFollowerOpenModal(true);
+}
+
 
 return (
 	<div>
@@ -134,6 +146,21 @@ return (
 		<LoginForm onSubmit={fetchLogin} />,
 		document.body
 	)}
+
+	{openFollowingModal && createPortal(
+		<FollowingList
+			onClose={() => setFollowingOpenModal(false)}
+			following={following} />,
+		document.body
+	)}
+
+	{openFollowerModal && createPortal(
+		<FollowerList
+			onClose={() => setFollowerOpenModal(false)}
+			followers={followers} />,
+		document.body
+	)}
+
 		<div className='profile'>
 			<div className="images">
 			<img className= 'banner' src='/kirbBanner.jpg'/>
@@ -150,7 +177,7 @@ return (
 			<div className='follow-section'>
 				<div className='vertical-line'></div>
 				<div className='follow-text'>
-					<p className='followers-text'>{currUser.length != 0? currUser[0].followers.length : "unknown"}</p>
+					<p className='followers-text' onClick={openFollowerList}>{currUser.length != 0? currUser[0].followers.length : "unknown"}</p>
 					<p>Followers</p>
 				</div>
 				{followers.map(followers => (
@@ -160,7 +187,7 @@ return (
 					</div>)) } 
 				<div className='vertical-line'></div>
 				<div className='follow-text'>
-					<p className='following-text'>{currUser.length != 0 ? currUser[0].following.length : "unknown"}</p>
+					<p className='following-text' onClick={openFollowingList}>{currUser.length != 0 ? currUser[0].following.length : "unknown"}</p>
 					<p>Following</p>
 					{following.map(following => (
 						<div key={following.userId} className='folloing'>

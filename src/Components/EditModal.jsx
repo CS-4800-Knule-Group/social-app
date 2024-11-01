@@ -14,6 +14,13 @@ const EditModal = () => {
         formData.append("caption", caption)
         //Insert API push here
 
+        const response = await fetch('http://localhost:3000/users/updateProfile', {
+          method: 'PUT',
+          headers: {
+            'Content-Type' : 'multipart/form-data'
+          },
+          body: formData
+        })
 
 
         //Need to find a way to refresh the page AFTER doing everything...
@@ -34,7 +41,7 @@ const EditModal = () => {
     <div className="edit-modal">
         <form onSubmit={submit}>
           <h1>React File Upload</h1>
-          <input type="file" onChange={handleChange}/>
+          <input type="file" onChange={handleChange} accept='image/*'/>
           <button type="submit">Upload</button>
         </form>
     </div>

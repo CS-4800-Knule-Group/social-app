@@ -2,6 +2,7 @@ import React, {useEffect, useState} from 'react'
 import './Profile.css'
 import { createPortal } from 'react-dom';
 import LoginForm from '../Components/LoginForm.jsx';
+import EditModal from '../Components/EditModal.jsx';
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
 
@@ -17,6 +18,7 @@ const [users, setUsers] = useState([]);
 const [currUser, setCurrUser] = useState([])
 const [followers, setFollowers] = useState([]);
 const [following, setFollowing] = useState([]);
+const [editFlag, setEditFlag] = useState(false);
 
 const fetchLogin = async(e) => {
 	e.preventDefault();
@@ -134,6 +136,10 @@ return (
 		<LoginForm onSubmit={fetchLogin} />,
 		document.body
 	)}
+	{editFlag && createPortal(
+		<EditModal/>,
+		document.body
+	)}
 		<div className='profile'>
 			<div className="images">
 			<img className= 'banner' src='/kirbBanner.jpg'/>
@@ -143,6 +149,8 @@ return (
 			<div className='profile-text'>
 			<h1 className='username'>{validCookie ? decryptToken.username : "Kirby Watterson"}</h1>
 			<h3 className='fullName'>@kirbistheword</h3>
+            <button onClick={() => setEditFlag(!editFlag)}>Edit Profile</button>
+            <p>{editFlag ? "true" : "false"}</p>
 			</div>
 			<p className='bio'>
 				I play video games and am the star of my own video game franchise. I'm not as popular as Mario and Sonic but at least I wasn't replaced with a robot like Sackboy.

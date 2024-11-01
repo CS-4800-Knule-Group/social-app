@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react'
 import './Profile.css'
 import { createPortal } from 'react-dom';
 import LoginForm from '../Components/LoginForm.jsx';
-import EditModal from '../Components/EditModal.jsx';
+import EditModal from '../Components/editModal.jsx';
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
 

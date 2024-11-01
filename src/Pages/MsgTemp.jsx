@@ -44,7 +44,7 @@ const MsgTemp = () => {
     
         const loginResult = await response.json();
         const inFifteen = new Date(new Date().getTime() + 10 * 60 * 1000)
-        Cookies.set('loginAuth', loginResult.acessToken,
+        Cookies.set('loginAuth', loginResult.accessToken,
             {
             expires: inFifteen
             }

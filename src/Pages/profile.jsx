@@ -39,12 +39,12 @@ const fetchLogin = async(e) => {
 
 	const loginResult = await response.json();
 	const inFifteen = new Date(new Date().getTime() + 2 * 60 * 1000)
-	Cookies.set('loginAuth', loginResult.acessToken,
+	Cookies.set('loginAuth', loginResult.accessToken,
 		{
 		expires: inFifteen
 		}
 	);
-	const decoded = jwtDecode(loginResult.acessToken);
+	const decoded = jwtDecode(loginResult.accessToken);
 	//console.log(decoded); 
 	setValidCookie(Cookies.get('loginAuth'))
 	
@@ -169,7 +169,7 @@ return (
 						</div>)) }
 				</div>
 				<div className='vertical-line'></div>
-			</div>
+			</div> 
 			{posts.map(post =>(
 				<div key={post.postId} className='post'>
 					<div className='poster'>

@@ -1,17 +1,22 @@
 import {React, useState} from 'react'
 import './EditModal.css'
+import { jwtDecode } from 'jwt-decode'
+import Cookies from 'js-cookie'
 
 const EditModal = () => {
     
     const [file, setFile] = useState()
-    const [caption, SetCaption] = useState("")
+    const [bio, setBio] = useState("")
+    const [name, setName] = useState("")
 
     const submit = async event => {
         event.preventDefault()
 
         const formData = new FormData();
         formData.append("image", file)
-        formData.append("caption", caption)
+        formData.append("bio", bio)
+        formData.append("name", name)
+        formData.append("userId", jwtDecode(Cookies.get('loginAuth')).userId)
         //Insert API push here
 
         const response = await fetch('http://localhost:3000/users/updateProfile', {
@@ -38,8 +43,18 @@ const EditModal = () => {
     <div className="edit-modal">
         <form onSubmit={submit}>
           <h1>React File Upload</h1>
+          <label>New Pfp</label>
           <input type="file" onChange={handleChange} accept='image/*'/>
-          <input type='text' name='caption' onChange={e => SetCaption(e.target.value)}/>
+          <br/>
+
+          <label>New Bio</label>
+          <input type='text' name='bio' onChange={e => setBio(e.target.value)}/>
+          <br/>
+
+          <label>New Username</label>
+          <input type='text' name='newName' onChange={e => setName(e.target.value)}/>
+          <br/>
+          
           <button type="submit">Upload</button>
         </form>
     </div>

@@ -16,9 +16,6 @@ const EditModal = () => {
 
         const response = await fetch('http://localhost:3000/users/updateProfile', {
           method: 'PUT',
-          headers: {
-            'Content-Type' : 'multipart/form-data'
-          },
           body: formData
         })
 
@@ -42,6 +39,7 @@ const EditModal = () => {
         <form onSubmit={submit}>
           <h1>React File Upload</h1>
           <input type="file" onChange={handleChange} accept='image/*'/>
+          <input type='text' name='caption' onChange={e => SetCaption(e.target.value)}/>
           <button type="submit">Upload</button>
         </form>
     </div>

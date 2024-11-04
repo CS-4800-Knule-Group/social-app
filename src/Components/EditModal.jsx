@@ -5,7 +5,8 @@ import Cookies from 'js-cookie'
 
 const EditModal = ({user}) => {
     
-    const [file, setFile] = useState()
+    const [pfpFile, setPfpFile] = useState()
+    const [bannerFile, setBannerFile] = useState();
     const [bio, setBio] = useState(user.bio)
     const [name, setName] = useState(user.fullName)
 
@@ -13,7 +14,8 @@ const EditModal = ({user}) => {
         event.preventDefault()
 
         const formData = new FormData();
-        formData.append("image", file)
+        formData.append("pfp", pfpFile)
+        formData.append("banner", bannerFile)
         formData.append("bio", bio)
         formData.append("name", name)
         formData.append("userId", jwtDecode(Cookies.get('loginAuth')).userId)
@@ -35,8 +37,12 @@ const EditModal = ({user}) => {
         //AND WOULD BE A DESIGN PRINCIPLE :O
     }
 
-    function handleChange(event) {
-        setFile(event.target.files[0])
+    function updatePfp(event) {
+        setPfpFile(event.target.files[0])
+    }
+    
+    function updateBanner(event) {
+      setBannerFile(event.target.files[0])
     }
 
 
@@ -45,7 +51,11 @@ const EditModal = ({user}) => {
         <form onSubmit={submit}>
           <h1>React File Upload</h1>
           <label>New Pfp</label>
-          <input type="file" onChange={handleChange} accept='image/*'/>
+          <input type="file" onChange={updatePfp} accept='image/*'/>
+          <br/>
+
+          <label>New Banner</label>
+          <input type='file' onChange={updateBanner} accept='image/*'/>
           <br/>
 
           <label>New Bio</label>

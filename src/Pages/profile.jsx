@@ -137,7 +137,7 @@ return (
 		document.body
 	)}
 	{editFlag && createPortal(
-		<EditModal/>,
+		<EditModal user={currUser[0]}/>,
 		document.body
 	)}
 		<div className='profile'>
@@ -147,13 +147,14 @@ return (
 			</div>
 			
 			<div className='profile-text'>
-			<h1 className='username'>{validCookie ? decryptToken.username : "Kirby Watterson"}</h1>
-			<h3 className='fullName'>@kirbistheword</h3>
+			<h1 className='username'>{currUser.length != 0 ? currUser[0].fullName : "noNameFound"}</h1>
+			<h3 className='fullName'>{"@" + (validCookie ? decryptToken.username : "noUserFound")}</h3>
+			<br/>
+
             <button onClick={() => setEditFlag(!editFlag)}>Edit Profile</button>
-            <p>{editFlag ? "true" : "false"}</p>
 			</div>
 			<p className='bio'>
-				I play video games and am the star of my own video game franchise. I'm not as popular as Mario and Sonic but at least I wasn't replaced with a robot like Sackboy.
+				{currUser.length != 0 ? currUser[0].bio : "noBioFound"}
 			</p>
 			<div className='follow-section'>
 				<div className='vertical-line'></div>

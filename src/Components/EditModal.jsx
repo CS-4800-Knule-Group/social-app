@@ -3,11 +3,11 @@ import './EditModal.css'
 import { jwtDecode } from 'jwt-decode'
 import Cookies from 'js-cookie'
 
-const EditModal = () => {
+const EditModal = ({user}) => {
     
     const [file, setFile] = useState()
-    const [bio, setBio] = useState("")
-    const [name, setName] = useState("")
+    const [bio, setBio] = useState(user.bio)
+    const [name, setName] = useState(user.fullName)
 
     const submit = async event => {
         event.preventDefault()
@@ -39,6 +39,7 @@ const EditModal = () => {
         setFile(event.target.files[0])
     }
 
+
   return (
     <div className="edit-modal">
         <form onSubmit={submit}>
@@ -48,11 +49,13 @@ const EditModal = () => {
           <br/>
 
           <label>New Bio</label>
-          <input type='text' name='bio' onChange={e => setBio(e.target.value)}/>
+          <input type='text' name='bio' onChange={e => setBio(e.target.value)} 
+            value={bio} placeholder={user.bio}/>
           <br/>
 
           <label>New Username</label>
-          <input type='text' name='newName' onChange={e => setName(e.target.value)}/>
+          <input type='text' name='newName' onChange={e => setName(e.target.value)} 
+            value={name} placeholder={user.fullName}/>
           <br/>
           
           <button type="submit">Upload</button>

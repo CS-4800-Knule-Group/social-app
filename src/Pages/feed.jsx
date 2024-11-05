@@ -42,7 +42,7 @@ const Feed = () => {
     
         const loginResult = await response.json();
         const inFifteen = new Date(new Date().getTime() + 2 * 60 * 1000)
-        Cookies.set('loginAuth', loginResult.acessToken,
+        Cookies.set('loginAuth', loginResult.accessToken,
             {
             expires: inFifteen
             }

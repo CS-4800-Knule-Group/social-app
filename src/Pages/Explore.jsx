@@ -39,7 +39,7 @@ const Explore = () => {
   
       const loginResult = await response.json();
       const inFifteen = new Date(new Date().getTime() + 2 * 60 * 1000)
-      Cookies.set('loginAuth', loginResult.acessToken,
+      Cookies.set('loginAuth', loginResult.accessToken,
         {
           expires: inFifteen
         }
@@ -78,7 +78,7 @@ const Explore = () => {
         }
         const usersData = await response.json();
         setUsers(usersData); // Update the state with the fetched users
-        console.log(users)
+        console.log(usersData)
       } catch (error) {
         console.error('Error fetching users', error);
       }
@@ -96,12 +96,12 @@ const Explore = () => {
         <h1>Choose a user to view!</h1>
         
         {users.map(user => (
-          <div className='userCard'>
+          <div key={user.userId} className='userCard'>
           <Link to={'/profile/'+ user.userId}>
           <div className='user'>
-              <img className='profilePicture' src='/kirb.jpg' height={100} width={100} />
+              <img className='profilePicture' src={user.pfp != undefined ? user.pfp : '/kirb.jpg'} height={100} width={100} />
               <div className='textInfo'>
-                  <h1 className='username'>{user.username}</h1>
+                  <h1 className='username'>{user.fullName + " @" + user.username}</h1>
               </div>
           </div>
           </Link>

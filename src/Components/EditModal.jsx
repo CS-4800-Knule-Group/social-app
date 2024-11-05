@@ -21,7 +21,7 @@ const EditModal = ({user}) => {
         formData.append("userId", jwtDecode(Cookies.get('loginAuth')).userId)
         //Insert API push here
 
-        const response = await fetch('http://localhost:3000/users/updateProfile', {
+        const response = await fetch('https://knule.duckdns.org/users/updateProfile', {
           method: 'PUT',
           body: formData
         })

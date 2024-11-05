@@ -72,7 +72,7 @@ useEffect(() => {
 useEffect(() => {
 	const fetchUsers = async () => {
 		try {
-			const response = await fetch("http://localhost:3000/users/", {
+			const response = await fetch(apiUsers, {
 			method: 'GET', // should be lowercase 'method'
 			});
 
@@ -142,7 +142,7 @@ return (
 	)}
 		<div className='profile'>
 			<div className="images">
-			<img className= 'banner' src='/kirbBanner.jpg'/>
+			<img className= 'banner' src={currUser.length != 0 ? currUser[0].pfBanner : '/kirbBanner.jpg'}/>
 				<img className= 'profilePic' src={currUser.length != 0 ? currUser[0].pfp : "/kirb.jpg"} height={100} width={100} />
 			</div>
 			

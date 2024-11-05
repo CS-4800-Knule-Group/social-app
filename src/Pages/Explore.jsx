@@ -99,9 +99,9 @@ const Explore = () => {
           <div key={user.userId} className='userCard'>
           <Link to={'/profile/'+ user.userId}>
           <div className='user'>
-              <img className='profilePicture' src='/kirb.jpg' height={100} width={100} />
+              <img className='profilePicture' src={user.pfp != undefined ? user.pfp : '/kirb.jpg'} height={100} width={100} />
               <div className='textInfo'>
-                  <h1 className='username'>{user.username}</h1>
+                  <h1 className='username'>{user.fullName + " @" + user.username}</h1>
               </div>
           </div>
           </Link>

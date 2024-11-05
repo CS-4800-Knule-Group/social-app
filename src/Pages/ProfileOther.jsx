@@ -163,16 +163,16 @@ const ProfileOther = () => {
           )}    
         <div className='profile'>
             <div className="images">
-            <img className= 'banner' src='/kirbBanner.jpg'/>
-                <img className= 'profilePic' src='/kirb.jpg' height={100} width={100} />
+            <img className= 'banner' src={currUser.length != 0 ? currUser[0].pfBanner : '/kirbBanner.jpg'}/>
+                <img className= 'profilePic' src={currUser.length != 0 ? currUser[0].pfp : "/kirb.jpg"} height={100} width={100} />
             </div>
             
             <div className='profile-text'>
-            <h1 className='username'>{currUser.length != 0 ? currUser[0].username : "Kirby Watterson"}</h1>
-            <h3 className='fullName'>@kirbistheword</h3>
+            <h1 className='username'>{currUser.length != 0 ? currUser[0].fullName : "Kirby Watterson"}</h1>
+            <h3 className='fullName'>{"@" + (currUser.length != 0 ? currUser[0].username : "Kirby Watterson")}</h3>
             </div>
             <p className='bio'>
-                I play video games and am the star of my own video game franchise. I'm not as popular as Mario and Sonic but at least I wasn't replaced with a robot like Sackboy.
+                {currUser.length != 0 ? currUser[0].bio : "noBioFound"}
             </p>
             <div className='follow-section'>
                 <div className='follow-text'>

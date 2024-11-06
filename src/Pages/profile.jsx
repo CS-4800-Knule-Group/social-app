@@ -178,22 +178,12 @@ return (
 				<div className='vertical-line'></div>
 				<div className='follow-text'>
 					<p className='followers-text' onClick={openFollowerList}>{currUser.length != 0? currUser[0].followers.length : "unknown"}</p>
-					<p>Followers</p>
+					<p onClick={openFollowerList}>Followers</p>
 				</div>
-				{followers.map(followers => (
-					<div key={followers.userId} className='follower'>
-						<img className='follower-profilePic' src='/kirb.jpg' height={100} width={100} />
-						<h1 className='follower-username'>{followers.username}</h1>
-					</div>)) } 
 				<div className='vertical-line'></div>
 				<div className='follow-text'>
 					<p className='following-text' onClick={openFollowingList}>{currUser.length != 0 ? currUser[0].following.length : "unknown"}</p>
-					<p>Following</p>
-					{following.map(following => (
-						<div key={following.userId} className='folloing'>
-							<img className='following-profilePic' src='/kirb.jpg' height={100} width={100} />
-							<h1 className='following-username'>{following.username}</h1>
-						</div>)) }
+					<p onClick={openFollowerList}>Following</p>
 				</div>
 				<div className='vertical-line'></div>
 			</div> 

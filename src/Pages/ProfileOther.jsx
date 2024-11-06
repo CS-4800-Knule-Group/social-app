@@ -83,9 +83,9 @@ const ProfileOther = () => {
             const usersData = await response.json();
             setUsers(usersData);
             const filteredUsers = usersData.filter(user => user.userId == params.id)
-
-            setCurrUser(filteredUsers)
             
+            setCurrUser(filteredUsers)
+
             const filterFollowers = usersData.filter(user => filteredUsers[0].followers.indexOf(user.userId) != -1)
             const filterFollowing = usersData.filter(user => filteredUsers[0].following.indexOf(user.userId) != -1)
 
@@ -116,7 +116,7 @@ const ProfileOther = () => {
             })
 
             const resData = await response.text();
-            console.log(resData);
+            //console.log(resData);
             window.location.reload();
 
         } catch(err){
@@ -142,11 +142,11 @@ const ProfileOther = () => {
       
             const filterPosts = postsData.filter(post => post.userId == userId);
       
-            console.log(postsData[0].timestamp);
+            //console.log(postsData[0].timestamp);
             setPosts(filterPosts.sort((x, y) => {
               return new Date(y.timestamp) - new Date(x.timestamp);    
             })); // Update the state with the fetched users
-            console.log(posts)
+            //console.log(posts)
           } catch (error) {
             console.error('Error fetching posts', error);
           }
@@ -176,7 +176,7 @@ const ProfileOther = () => {
             </p>
             <div className='follow-section'>
                 <div className='follow-text'>
-                    <p className='followers-text'>{currUser.length != 0? currUser[0].followers.length : "unknown"}</p>
+                    <p className='followers-text'>{followers ? followers.length : "unknown"}</p>
                     <p>Followers</p>
                 </div>
                 {followers.map(followers => (
@@ -186,7 +186,7 @@ const ProfileOther = () => {
                   </div>)) } 
                 <div className='vertical-line'></div>
                 <div className='follow-text'>
-                    <p className='following-text'>{currUser.length != 0 ? currUser[0].following.length : "unknown"}</p>
+                    <p className='following-text'>{following ? following.length : "unknown"}</p>
                     <p>Following</p>
                 </div>
                 {following.map(following => (

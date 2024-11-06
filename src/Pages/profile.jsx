@@ -12,6 +12,9 @@ const Profile = () => {
 	const { user, isAuthenticated, login } = useAuth();
 	const[posts, setPosts] = useState([]);
 	const [users, setUsers] = useState([]);
+	const [currUser, setCurrUser] = useState();
+	const [followers, setFollowers] = useState([]);
+	const [following, setFollowing] = useState([]);
 
 	// fetch user data when component mounts
 	useEffect(() => {
@@ -26,6 +29,15 @@ const Profile = () => {
 			}
 			const usersData = await response.json();
 			setUsers(usersData);
+			const filteredUsers = usersData.filter(aUser => aUser.userId == user.userId)
+
+			setCurrUser(filteredUsers[0])
+			
+			const filterFollowers = usersData.filter(aUser => filteredUsers[0].followers.indexOf(aUser.userId) != -1)
+			const filterFollowing = usersData.filter(aUser => filteredUsers[0].following.indexOf(aUser.userId) != -1)
+
+			setFollowers(filterFollowers);
+			setFollowing(filterFollowing); 
 		} catch (error) {
 			console.error('Error fetching users', error);
 		}
@@ -65,25 +77,25 @@ const Profile = () => {
 		<div>
 			<div className='profile'>
 				<div className="images">
-				<img className= 'banner' src='/kirbBanner.jpg'/>
-					<img className= 'profilePic' src='/kirb.jpg' height={100} width={100} />
+				<img className= 'banner' src={currUser ? currUser.pfBanner : '/kirbBanner.jpg'}/>
+					<img className= 'profilePic' src={currUser ? currUser.pfp : '/kirb.jpg'} height={100} width={100} />
 				</div>
 				
 				<div className='profile-text'>
-				<h1 className='username'>{user.username}</h1>
-				<h3 className='fullName'>@kirbistheword</h3>
+				<h1 className='username'>{currUser ? currUser.fullName : "NoDisplayNameFound"}</h1>
+				<h3 className='fullName'>{"@" + (currUser ? currUser.username : "NoUsernameFound")}</h3>
 				</div>
 				<p className='bio'>
-					I play video games and am the star of my own video game franchise. I'm not as popular as Mario and Sonic but at least I wasn't replaced with a robot like Sackboy.
+					{currUser ? currUser.bio : "NoBioFound"}
 				</p>
 				<div className='follow-section'>
 					<div className='follow-text'>
-						<p className='followers-text'>{users.followers? users.followers.length : "unknown"}</p>
+						<p className='followers-text'>{followers? followers.length : "unknown"}</p>
 						<p>Followers</p>
 					</div>
 					<div className='vertical-line'></div>
 					<div className='follow-text'>
-						<p className='following-text'>{users.following? users.following.length : "unknown"}</p>
+						<p className='following-text'>{following? following.length : "unknown"}</p>
 						<p>Following</p>
 					</div>
 					<div className='vertical-line'></div>

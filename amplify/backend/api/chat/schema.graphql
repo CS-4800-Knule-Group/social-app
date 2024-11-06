@@ -1,0 +1,7 @@
+type Messages @model @auth(rules: [{allow: public}]) {
+  id: ID!
+  text: String!
+  userId: String!
+  targetId: String!
+}
+ 

@@ -7,20 +7,17 @@ import './Feed.css'
 
 const Feed = () => {
     
-    
+    const[posts, setPosts] = useState([])
+    const[users, setUsers] = useState([])
     const apiPosts = 'https://knule.duckdns.org/posts'
     const apiUsers = 'https://knule.duckdns.org/users'
 
-    const[posts, setPosts] = useState([])
-    const[users, setUsers] = useState([])
     const [validCookie, setValidCookie] = useState(Cookies.get('loginAuth') ? Cookies.get('loginAuth') : false);
     const [decryptToken, setDecryptToken] = useState(Cookies.get('loginAuth') ? jwtDecode(Cookies.get('loginAuth')) : false);
     const [openModal, setOpenModal] = useState(Cookies.get('loginAuth') ? false : true)
+
     const [postContent, setPostContent] = useState();
 
-    
-  //Compare login from a form (username & password)
-  //Grant auth cookie if accepted
     const fetchLogin = async(e) => {
         e.preventDefault();
     
@@ -42,7 +39,7 @@ const Feed = () => {
     
         const loginResult = await response.json();
         const inFifteen = new Date(new Date().getTime() + 2 * 60 * 1000)
-        Cookies.set('loginAuth', loginResult.accessToken,
+        Cookies.set('loginAuth', loginResult.acessToken,
             {
             expires: inFifteen
             }
@@ -68,7 +65,6 @@ const Feed = () => {
 
     }, [validCookie])
 
-    //On page render, update Posts with the list of post data
     useEffect(() => {
         
         const fetchPosts = async () => {
@@ -94,7 +90,6 @@ const Feed = () => {
             fetchPosts();
     }, [])
 
-    //Function to upload a post to the database
     const sendPost = async() => {
         if(validCookie){
             try{
@@ -115,13 +110,13 @@ const Feed = () => {
             }
         }
     }
-    //
+
     const handleChange = (e) => {
         setPostContent(e.target.value)
     }
 
-    //On Page Render, update users with list of user data
-    useEffect(() => { 
+
+    useEffect(() => { //copied over the fetchusers command
         const fetchUsers = async () => {
             try {
                 const response = await fetch(apiUsers, {
@@ -148,7 +143,7 @@ return (
         {openModal && createPortal(
           <LoginForm onSubmit={fetchLogin} />,
           document.body
-        )}
+      )}
         <div className='feed'>
             <div className='post-input'>
                 <input type='text' placeholder=" Post text" className="post-textBox" onChange={handleChange}/>

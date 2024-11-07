@@ -84,6 +84,8 @@ const ProfileOther = () => {
             setUsers(usersData);
             const filteredUsers = usersData.filter(user => user.userId == params.id)
             
+            console.log(filteredUsers[0])
+
             setCurrUser(filteredUsers)
 
             const filterFollowers = usersData.filter(user => filteredUsers[0].followers.indexOf(user.userId) != -1)

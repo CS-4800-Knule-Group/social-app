@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from 'react'
-import './Messages.css'
+import './Explore.css'
 import { Link } from 'react-router-dom'
 import { createPortal } from 'react-dom'
 import LoginForm from '../Components/LoginForm'
 import Cookies from 'js-cookie'
 import { jwtDecode } from 'jwt-decode'
 
-const Messages = () => {
+const Explore = () => {
+ 
+  const apiUsers = 'https://knule.duckdns.org/users' 
 
-  const apiUsers = 'https://knule.duckdns.org/users'
+  
   const [validCookie, setValidCookie] = useState(Cookies.get('loginAuth'));
   const [decryptToken, setDecryptToken] = useState(Cookies.get('loginAuth') ? jwtDecode(Cookies.get('loginAuth')) : undefined);
   const [openModal, setOpenModal] = useState(Cookies.get('loginAuth') ? false : true)
   const [users, setUsers] = useState([])
 
+  //Compare login from a form (username & password)
+  //Grant auth cookie if accepted
   const fetchLogin = async(e) => {
     e.preventDefault();
   
@@ -35,7 +39,7 @@ const Messages = () => {
   
       const loginResult = await response.json();
       const inFifteen = new Date(new Date().getTime() + 2 * 60 * 1000)
-      Cookies.set('loginAuth', loginResult.acessToken,
+      Cookies.set('loginAuth', loginResult.accessToken,
         {
           expires: inFifteen
         }
@@ -48,7 +52,7 @@ const Messages = () => {
     }
   }
     
-
+  //Update the valid cookie, openModal, and DecryptToken variables as validCookie is changed
   useEffect(() => {
     const login = Cookies.get('loginAuth');
       
@@ -61,6 +65,7 @@ const Messages = () => {
 
   }, [validCookie])
 
+  //On Page Render, get database of users for display
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -73,7 +78,7 @@ const Messages = () => {
         }
         const usersData = await response.json();
         setUsers(usersData); // Update the state with the fetched users
-        console.log(users)
+        console.log(usersData)
       } catch (error) {
         console.error('Error fetching users', error);
       }
@@ -88,19 +93,18 @@ const Messages = () => {
           document.body
       )}
         
-        <h1>Choose a user to message!</h1>
+        <h1>Choose a user to view!</h1>
         
         {users.map(user => (
-          <div className='userCard'>
+          <div key={user.userId} className='userCard'>
+          <Link to={'/profile/'+ user.userId}>
           <div className='user'>
-              <img className='profilePicture' src='/kirb.jpg' height={100} width={100} />
+              <img className='profilePicture' src={user.pfp != undefined ? user.pfp : '/kirb.jpg'} height={100} width={100} />
               <div className='textInfo'>
-                  <h1 className='username'>{user.username}</h1>
-                  <Link to={'/tempmsg/' + user.userId}>
-                  <button>Send Message?</button>
-                  </Link>
+                  <h1 className='username'>{user.fullName + " @" + user.username}</h1>
               </div>
           </div>
+          </Link>
           </div>
         ))}
     </div>
@@ -109,4 +113,4 @@ const Messages = () => {
 
 
 
-export default Messages;
+export default Explore;

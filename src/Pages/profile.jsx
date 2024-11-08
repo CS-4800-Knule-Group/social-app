@@ -4,6 +4,7 @@ import { createPortal } from 'react-dom';
 import LoginForm from '../Components/LoginForm.jsx';
 import { useAuth } from '../authContext.jsx'
 import { Navigate } from 'react-router-dom';
+import EditModal from '../Components/EditModal.jsx';
 
 const Profile = () => {
 	const apiPosts = 'https://knule.duckdns.org/posts';
@@ -32,6 +33,7 @@ const Profile = () => {
 			const filteredUsers = usersData.filter(aUser => aUser.userId == user.userId)
 
 			setCurrUser(filteredUsers[0])
+			console.log(currUser)
 			
 			const filterFollowers = usersData.filter(aUser => filteredUsers[0].followers.indexOf(aUser.userId) != -1)
 			const filterFollowing = usersData.filter(aUser => filteredUsers[0].following.indexOf(aUser.userId) != -1)
@@ -84,6 +86,7 @@ const Profile = () => {
 				<div className='profile-text'>
 				<h1 className='username'>{currUser ? currUser.fullName : "NoDisplayNameFound"}</h1>
 				<h3 className='fullName'>{"@" + (currUser ? currUser.username : "NoUsernameFound")}</h3>
+				<br/>
 				</div>
 				<p className='bio'>
 					{currUser ? currUser.bio : "NoBioFound"}

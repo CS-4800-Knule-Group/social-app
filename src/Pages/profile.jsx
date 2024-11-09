@@ -1,9 +1,10 @@
 import {useEffect, useState} from 'react'
 import './Profile.css'
 import { createPortal } from 'react-dom';
-import LoginForm from '../Components/LoginForm.jsx';
 import { useAuth } from '../authContext.jsx'
 import { Navigate } from 'react-router-dom';
+import EditModal from '../Components/EditModal.jsx';
+import { Button } from '@aws-amplify/ui-react';
 
 const Profile = () => {
 	const apiPosts = 'https://knule.duckdns.org/posts';
@@ -15,6 +16,7 @@ const Profile = () => {
 	const [currUser, setCurrUser] = useState();
 	const [followers, setFollowers] = useState([]);
 	const [following, setFollowing] = useState([]);
+	const [editFlag, setEditFlag] = useState(false);
 
 	// fetch user data when component mounts
 	useEffect(() => {
@@ -72,9 +74,18 @@ const Profile = () => {
 			fetchPosts();
 	}, [user])
 
+	const handleRefresh = () => {
+		window.location.reload();
+	}
+
 
 	return (
 		<div>
+			{editFlag && createPortal(
+
+				<EditModal user={currUser}/>,
+				document.body
+			)}
 			<div className='profile'>
 				<div className="images">
 				<img className= 'banner' src={currUser ? currUser.pfBanner : '/kirbBanner.jpg'}/>
@@ -88,6 +99,8 @@ const Profile = () => {
 				<p className='bio'>
 					{currUser ? currUser.bio : "NoBioFound"}
 				</p>
+				<br/>
+				<button onClick={() => setEditFlag(!editFlag)}>Edit Profile</button>
 				<div className='follow-section'>
 					<div className='follow-text'>
 						<p className='followers-text'>{followers? followers.length : "unknown"}</p>

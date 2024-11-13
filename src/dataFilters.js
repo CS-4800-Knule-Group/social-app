@@ -5,9 +5,14 @@
  * @returns A List of users that follow tarUser
  */
 export function filterFollowers(userData, tarUser){
-    const filterFollowers = userData.filter(aUser => tarUser.followers.indexOf(aUser.userId) != -1)
+    try{
+        const filterFollowers = userData.filter(aUser => tarUser.followers.indexOf(aUser.userId) != -1)
     
-    return filterFollowers;
+        return filterFollowers;
+    }catch(err){
+        console.log("Failed to filter followers", err)
+        return undefined
+    }
 }
 
 /**
@@ -17,9 +22,14 @@ export function filterFollowers(userData, tarUser){
  * @returns A List of users that tarUser follows
  */
 export function filterFollowing(userData, tarUser){
-    const filterFollowing = userData.filter(aUser => tarUser.following.indexOf(aUser.userId) != -1)
+    try{
+        const filterFollowing = userData.filter(aUser => tarUser.following.indexOf(aUser.userId) != -1)
 
-    return filterFollowing
+        return filterFollowing
+    }catch(err){
+        console.log("Failed to filter following", err);
+        return undefined;
+    }
 }
 
 export function userById(userData, tarID){

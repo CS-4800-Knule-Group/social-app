@@ -3,6 +3,8 @@ import { useParams, Link } from 'react-router-dom'
 import './Profile.css'
 import { createPortal } from 'react-dom';
 import LoginForm from '../Components/LoginForm.jsx';
+import FollowingList from '../Components/FollowingList.jsx';
+import FollowerList from '../Components/FollowerList.jsx';
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
 
@@ -15,6 +17,8 @@ const ProfileOther = () => {
     const [validCookie, setValidCookie] = useState(Cookies.get('loginAuth'));
     const [decryptToken, setDecryptToken] = useState(Cookies.get('loginAuth') ? jwtDecode(Cookies.get('loginAuth')) : undefined);
     const [openModal, setOpenModal] = useState(Cookies.get('loginAuth') ? false : true)
+	const [openFollowingModal, setFollowingOpenModal] = useState(false);
+	const [openFollowerModal, setFollowerOpenModal] = useState(false);
     const [users, setUsers] = useState([])
     const[posts, setPosts] = useState([])
     const [followButton, setFollowButton] = useState(true);
@@ -154,13 +158,36 @@ const ProfileOther = () => {
           fetchPosts();
       }, [])
 
+	const openFollowingList = () => {
+		setFollowingOpenModal(true);
+	}
+	
+	const openFollowerList = () => {
+		setFollowerOpenModal(true);
+	}
+
       
     return (
         <div>
         {openModal && createPortal(
               <LoginForm onSubmit={fetchLogin} />,
               document.body
-          )}    
+          )}  
+		  
+		  {openFollowingModal && createPortal(
+		<FollowingList
+			onClose={() => setFollowingOpenModal(false)}
+			following={following} />,
+		document.body
+		)}
+
+		{openFollowerModal && createPortal(
+			<FollowerList
+				onClose={() => setFollowerOpenModal(false)}
+				followers={followers} />,
+			document.body
+		)}
+
         <div className='profile'>
             <div className="images">
             <img className= 'banner' src='/kirbBanner.jpg'/>
@@ -176,24 +203,14 @@ const ProfileOther = () => {
             </p>
             <div className='follow-section'>
                 <div className='follow-text'>
-                    <p className='followers-text'>{currUser.length != 0? currUser[0].followers.length : "unknown"}</p>
-                    <p>Followers</p>
+                    <p className='followers-text' onClick={openFollowerList}>{currUser.length != 0 ? currUser[0].followers.length : "0"}</p>
+                    <p onClick={openFollowerList}>Followers</p>
                 </div>
-                {followers.map(followers => (
-                  <div key={followers.userId} className='follower'>
-                    <img className='follower-profilePic' src='/kirb.jpg' height={100} width={100} />
-                    <h1 className='follower-username'>{followers.username}</h1>
-                  </div>)) } 
                 <div className='vertical-line'></div>
                 <div className='follow-text'>
-                    <p className='following-text'>{currUser.length != 0 ? currUser[0].following.length : "unknown"}</p>
-                    <p>Following</p>
+                    <p className='following-text' onClick={openFollowingList}>{currUser.length != 0 ? currUser[0].following.length : "0"}</p>
+                    <p onClick={openFollowingList}>Following</p>
                 </div>
-                {following.map(following => (
-                  <div key={following.userId} className='folloing'>
-                    <img className='following-profilePic' src='/kirb.jpg' height={100} width={100} />
-                    <h1 className='following-username'>{following.username}</h1>
-                  </div>)) }
                 <div className='vertical-line'></div>
                 <div className='follow-button' onClick={onFollow}>
                     <p>{decryptToken ? (decryptToken.userId && users.followers ? (users.followers.indexOf(decryptToken.userId) != -1 ?

@@ -183,7 +183,7 @@ return (
 				<div className='vertical-line'></div>
 				<div className='follow-text'>
 					<p className='following-text' onClick={openFollowingList}>{currUser.length != 0 ? currUser[0].following.length : "unknown"}</p>
-					<p onClick={openFollowerList}>Following</p>
+					<p onClick={openFollowingList}>Following</p>
 				</div>
 				<div className='vertical-line'></div>
 			</div> 

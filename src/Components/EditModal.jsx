@@ -37,13 +37,6 @@ const EditModal = ({user}) => {
         //AND WOULD BE A DESIGN PRINCIPLE :O
     }
 
-    function updatePfp(event) {
-        setPfpFile(event.target.files[0])
-    }
-    
-    function updateBanner(event) {
-      setBannerFile(event.target.files[0])
-    }
 
 
   return (
@@ -51,11 +44,11 @@ const EditModal = ({user}) => {
         <form onSubmit={submit}>
           <h1>React File Upload</h1>
           <label>New Pfp</label>
-          <input type="file" onChange={updatePfp} accept='image/*'/>
+          <input type="file" onChange={(e) => setPfpFile(e.target.files[0])} accept='image/*'/>
           <br/>
 
           <label>New Banner</label>
-          <input type='file' onChange={updateBanner} accept='image/*'/>
+          <input type='file' onChange={(e) => setBannerFile(e.target.files[0])} accept='image/*'/>
           <br/>
 
           <label>New Bio</label>

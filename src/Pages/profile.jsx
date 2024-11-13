@@ -4,6 +4,8 @@ import { createPortal } from 'react-dom';
 import { useAuth } from '../authContext.jsx'
 import { Navigate } from 'react-router-dom';
 import EditModal from '../Components/EditModal.jsx';
+import { getUsers } from '../database.js';
+import { filterFollowers, filterFollowing, userById } from '../dataFilters.js';
 
 const Profile = () => {
 	const apiPosts = 'https://knule.duckdns.org/posts';
@@ -11,40 +13,25 @@ const Profile = () => {
 
 	const { user, isAuthenticated, login } = useAuth();
 	const[posts, setPosts] = useState([]);
-	const [users, setUsers] = useState([]);
 	const [currUser, setCurrUser] = useState();
 	const [followers, setFollowers] = useState([]);
 	const [following, setFollowing] = useState([]);
 	const [editFlag, setEditFlag] = useState(false);
 
+
 	// fetch user data when component mounts
 	useEffect(() => {
-		const fetchUser = async () => {
-		try {
-			const response = await fetch(apiUsers, {
-			method: 'GET', // should be lowercase 'method'
-			});
-
-			if (!response.ok) {
-			throw new Error('Could not reach /users');
-			}
-			const usersData = await response.json();
-			setUsers(usersData);
-			const filteredUsers = usersData.filter(aUser => aUser.userId == user.userId)
-
-			setCurrUser(filteredUsers[0])
-			console.log(currUser)
+		
+		const filterUser = async () => {
+			const usersData = await getUsers();
+			const filteredUsers = userById(usersData, user.userId)
+			setCurrUser(filteredUsers)
 			
-			const filterFollowers = usersData.filter(aUser => filteredUsers[0].followers.indexOf(aUser.userId) != -1)
-			const filterFollowing = usersData.filter(aUser => filteredUsers[0].following.indexOf(aUser.userId) != -1)
-
-			setFollowers(filterFollowers);
-			setFollowing(filterFollowing); 
-		} catch (error) {
-			console.error('Error fetching users', error);
-		}
+			setFollowers(filterFollowers(usersData, filteredUsers))
+			setFollowing(filterFollowing(usersData, filteredUsers))
+			 
 		};
-		fetchUser();
+		filterUser();
 	}, []);  // only re-run the effect if apiEndpoint changes
 
 	useEffect(() => {

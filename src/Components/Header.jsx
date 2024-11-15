@@ -8,7 +8,7 @@ const Header = () => {
     <header className='header'>
           <div className="header-container">
               <Link to="/">
-                  <img className='logo' src='/Knule-Logo-White.png' />
+                  <img className='logo' alt='Knule Logo' src='/Knule-Logo-White.png' />
               </Link>
               <nav className="top-links">
                   <Link to="/profile" className="nav-link">Profile</Link>

@@ -95,7 +95,7 @@ const Data = () => {
   }, []);  // only re-run the effect if apiEndpoint changes
 
   return (
-    <div>
+    <div className='totalTable'>
       <h1>Users</h1>
       <table>
         <thead>

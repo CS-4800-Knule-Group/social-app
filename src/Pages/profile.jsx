@@ -1,6 +1,8 @@
 import {useEffect, useState} from 'react'
 import './Profile.css'
 import { createPortal } from 'react-dom';
+import FollowingList from '../Components/FollowingList.jsx';
+import FollowerList from '../Components/FollowerList.jsx';
 import { useAuth } from '../authContext.jsx'
 import { Navigate } from 'react-router-dom';
 import EditModal from '../Components/EditModal.jsx';
@@ -12,6 +14,8 @@ const Profile = () => {
 	const apiUsers = 'https://knule.duckdns.org/users';
 
 	const { user, isAuthenticated, login } = useAuth();
+	const [openFollowingModal, setFollowingOpenModal] = useState(false);
+	const [openFollowerModal, setFollowerOpenModal] = useState(false);
 	const[posts, setPosts] = useState([]);
 	const [currUser, setCurrUser] = useState();
 	const [followers, setFollowers] = useState([]);
@@ -65,6 +69,13 @@ const Profile = () => {
 		window.location.reload();
 	}
 
+	const openFollowingList = () => {
+		setFollowingOpenModal(true);
+	}
+
+	const openFollowerList = () => {
+		setFollowerOpenModal(true);
+	}
 
 	return (
 		<div>
@@ -73,6 +84,21 @@ const Profile = () => {
 				<EditModal user={currUser}/>,
 				document.body
 			)}
+
+			{openFollowingModal && createPortal(
+				<FollowingList
+					onClose={() => setFollowingOpenModal(false)}
+					following={following} />,
+				document.body
+			)}
+
+			{openFollowerModal && createPortal(
+				<FollowerList
+					onClose={() => setFollowerOpenModal(false)}
+					followers={followers} />,
+				document.body
+			)}
+
 			<div className='profile'>
 				<div className="images">
 				<img className= 'banner' src={currUser ? currUser.pfBanner : '/kirbBanner.jpg'}/>
@@ -91,13 +117,13 @@ const Profile = () => {
 				<button onClick={() => setEditFlag(!editFlag)}>Edit Profile</button>
 				<div className='follow-section'>
 					<div className='follow-text'>
-						<p className='followers-text'>{followers? followers.length : "unknown"}</p>
-						<p>Followers</p>
+						<p className='followers-text' onClick={openFollowerList}>{followers ? followers.length : "unknown"}</p>
+						<p onClick={openFollowerList}>Followers</p>
 					</div>
 					<div className='vertical-line'></div>
 					<div className='follow-text'>
-						<p className='following-text'>{following? following.length : "unknown"}</p>
-						<p>Following</p>
+						<p className='following-text' onClick={openFollowingList}>{following? following.length : "unknown"}</p>
+						<p onClick={openFollowingList}>Following</p>
 					</div>
 					<div className='vertical-line'></div>
 				</div>

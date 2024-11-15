@@ -1,6 +1,7 @@
 // Updated Login component
 import { useAuth } from '../authContext';
 import { useState } from 'react';
+import './Login.css'
 
 const Login = () => {
     const { login } = useAuth();
@@ -13,7 +14,7 @@ const Login = () => {
     };
 
     return (
-        <div>
+        <div className='login'>
             <h2>Login</h2>
             <form onSubmit={handleSubmit}>
                 <div>

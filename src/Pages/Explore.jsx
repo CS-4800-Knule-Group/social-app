@@ -87,7 +87,7 @@ const Explore = () => {
   }, []);  // only re-run the effect if apiEndpoint changes
   
   return (
-    <div>
+    <div className='explore'>
         {openModal && createPortal(
           <LoginForm onSubmit={fetchLogin} />,
           document.body

@@ -4,6 +4,7 @@ import { jwtDecode } from 'jwt-decode'
 import LoginForm from '../Components/LoginForm'
 import { createPortal } from 'react-dom'
 import './Feed.css'
+import PostButton from '../Components/PostButton'
 
 const Feed = () => {
     
@@ -150,26 +151,20 @@ return (
           document.body
         )}
         <div className='feed'>
-            <div className='post-input'>
-                <input type='text' placeholder=" Post text" className="post-textBox" onChange={handleChange}/>
-                    <br/>
-                <button className='post-button' onClick={sendPost}>
-                    Post
-                </button>
-            </div>
+            <PostButton decryptToken={decryptToken}/>
             
             {posts.map(post =>(
                 <div className='post'>
-                <div className='poster'>
-                    <img className='profilePicture' src='/kirb.jpg' height={100} width={100} />
-                    <div className='textInfo'>
-                            <h1 className='username'>{users.findIndex(i => i.userId ===(post.userId)) == -1 ? 'bad user' : users[users.findIndex(i => i.userId ===(post.userId))].username}</h1>
+                    <div className='poster'>
+                        <img className='profilePicture' src='/kirb.jpg' height={100} width={100} />
+                        <div className='textInfo'>
+                                <h1 className='username'>{users.findIndex(i => i.userId ===(post.userId)) == -1 ? 'bad user' : users[users.findIndex(i => i.userId ===(post.userId))].username}</h1>
 
-                        <p className='postTime'>{post.timestamp}</p>
+                            <p className='postTime'>{post.timestamp}</p>
+                        </div>
                     </div>
+                    <p>{post.content}</p>
                 </div>
-                <p>{post.content}</p>
-            </div>
             ))}
         </div>
     </div>

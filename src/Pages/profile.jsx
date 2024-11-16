@@ -8,6 +8,13 @@ import { Navigate } from 'react-router-dom';
 import EditModal from '../Components/EditModal.jsx';
 import { getUsers } from '../database.js';
 import { filterFollowers, filterFollowing, userById } from '../dataFilters.js';
+import EditButton from '../Components/EditButton.jsx';
+import ProfileImages from '../Components/ProfileImages.jsx';
+import ProfileHeader from '../Components/ProfileHeader.jsx';
+import ProfileFollowStats from '../Components/ProfileFollowStats.jsx';
+import ProfilePosts from '../Components/ProfilePosts.jsx';
+
+
 
 const Profile = () => {
 	const apiPosts = 'https://knule.duckdns.org/posts';
@@ -100,47 +107,30 @@ const Profile = () => {
 			)}
 
 			<div className='profile'>
-				<div className="images">
-				<img className= 'banner' src={currUser ? currUser.pfBanner : '/kirbBanner.jpg'}/>
-					<img className= 'profilePic' src={currUser ? currUser.pfp : '/kirb.jpg'} height={100} width={100} />
-				</div>
+				<ProfileImages
+					banner={currUser ? currUser.pfBanner : '/kirbBanner.jpg'}
+					profilePic={currUser ? currUser.pfp : '/kirb.jpg'}
+				/>
+
+				<ProfileHeader
+					fullName={"@" + (currUser ? currUser.username : "NoUsernameFound")}
+					username={currUser ? currUser.fullName : "NoDisplayNameFound"}
+					bio={currUser ? currUser.bio : "NoBioFound"}
 				
-				<div className='profile-text'>
-				<h1 className='username'>{currUser ? currUser.fullName : "NoDisplayNameFound"}</h1>
-				<h3 className='fullName'>{"@" + (currUser ? currUser.username : "NoUsernameFound")}</h3>
-				<br/>
-				</div>
-				<p className='bio'>
-					{currUser ? currUser.bio : "NoBioFound"}
-				</p>
-				<br/>
-				<button onClick={() => setEditFlag(!editFlag)}>Edit Profile</button>
-				<div className='follow-section'>
-					<div className='follow-text'>
-						<p className='followers-text' onClick={openFollowerList}>{followers ? followers.length : "unknown"}</p>
-						<p onClick={openFollowerList}>Followers</p>
-					</div>
-					<div className='vertical-line'></div>
-					<div className='follow-text'>
-						<p className='following-text' onClick={openFollowingList}>{following? following.length : "unknown"}</p>
-						<p onClick={openFollowingList}>Following</p>
-					</div>
-					<div className='vertical-line'></div>
-				</div>
+				/>
+				
+				<EditButton onClick={() => setEditFlag(!editFlag)} />
+				
+				<ProfileFollowStats
+					followers={followers}
+					following={following}
+				/>
+
 				{posts.map(post =>(
-					<div key={post.postId} className='post'>
-						<div className='poster'>
-							<img className= 'post-profilePic' src='/kirb.jpg' height={100} width={100} />
-							<h1 className='post-username'>{user.username}</h1>
-							<h3 className='post-fullName'>@kirbistheword</h3>
-							{post.timestamp && 
-							<div className='textInfo'>
-								<p className='postTime'>{post.timestamp}</p>
-							</div>
-							}
-						</div>
-						{post.content && <p>{post.content}</p>}
-					</div>
+					<ProfilePosts
+						post={post}
+						user={user}
+					/>
 				))}
 			</div>
 		</div>

@@ -7,6 +7,12 @@ import FollowingList from '../Components/FollowingList.jsx';
 import FollowerList from '../Components/FollowerList.jsx';
 import Cookies from 'js-cookie';
 import { jwtDecode } from 'jwt-decode';
+import ProfileImages from '../Components/ProfileImages.jsx';
+import ProfileHeader from '../Components/ProfileHeader.jsx';
+import ProfileFollowStats from '../Components/ProfileFollowStats.jsx';
+import ProfilePosts from '../Components/ProfilePosts.jsx';
+import FollowButton from '../Components/FollowButton.jsx';
+import MessageButton from '../Components/MessageButton.jsx';
 
 const ProfileOther = () => {
 
@@ -169,71 +175,44 @@ const ProfileOther = () => {
 
     return (
         <div>
-            {openModal && createPortal(
-                <LoginForm onSubmit={fetchLogin} />,
-                document.body
-            )}
-
-            {openFollowingModal && createPortal(
-                <FollowingList
-                    onClose={() => setFollowingOpenModal(false)}
-                    following={following} />,
-                document.body
-            )}
-
-            {openFollowerModal && createPortal(
-                <FollowerList
-                    onClose={() => setFollowerOpenModal(false)}
-                    followers={followers} />,
-                document.body
-            )}
-
-            <div className='profile'>
-                <div className="images">
-                    <img className='banner' src='/kirbBanner.jpg' />
-                    <img className='profilePic' src='/kirb.jpg' height={100} width={100} />
-                </div>
-
-                <div className='profile-text'>
-                    <h1 className='username'>{currUser.length != 0 ? currUser[0].username : "Kirby Watterson"}</h1>
-                    <h3 className='fullName'>@kirbistheword</h3>
-                </div>
-                <p className='bio'>
-                    I play video games and am the star of my own video game franchise. I'm not as popular as Mario and Sonic but at least I wasn't replaced with a robot like Sackboy.
-                </p>
-                <div className='follow-section'>
-                    <div className='follow-text'>
-                        <p className='followers-text' onClick={openFollowerList}>{currUser.length != 0 ? currUser[0].followers.length : "0"}</p>
-                        <p onClick={openFollowerList}>Followers</p>
-                    </div>
-                    <div className='vertical-line'></div>
-                    <div className='follow-text'>
-                        <p className='following-text' onClick={openFollowingList}>{currUser.length != 0 ? currUser[0].following.length : "0"}</p>
-                        <p onClick={openFollowingList}>Following</p>
-                    </div>
-                    <div className='vertical-line'></div>
-                    <div className='follow-button' onClick={onFollow}>
-                        <p>{decryptToken ? (decryptToken.userId && users.followers ? (users.followers.indexOf(decryptToken.userId) != -1 ?
-                            "Unfollow" : "Follow") : "Follow") : "Follow"}</p>
-                    </div>
-                    <Link to={'/tempmsg/' + params.id}>
-                        <button>Send Message?</button>
-                    </Link>
-                </div>
-                {posts.map(post => (
-                    <div key={post.postId} className='post'>
-                        <div className='poster'>
-                            <img className='post-profilePic' src='/kirb.jpg' height={100} width={100} />
-                            <h1 className='post-username'>{currUser.length != 0 ? currUser[0].username : "Kirby Watterson"}</h1>
-                            <h3 className='post-fullName'>@kirbistheword</h3>
-                            {post.timestamp &&
-                                <div className='textInfo'>
-                                    <p className='postTime'>{post.timestamp}</p>
-                                </div>
-                            }
-                        </div>
-                        {post.content && <p>{post.content}</p>}
-                    </div>
+        {openModal && createPortal(
+              <LoginForm onSubmit={fetchLogin} />,
+              document.body
+          )}    
+        <div className='profile'>
+            
+			<ProfileImages
+				banner={currUser.length != 0 ? currUser[0].pfBanner : '/kirbBanner.jpg'}
+				profilePic={currUser.length != 0 ? currUser[0].pfp : "/kirb.jpg"}
+			/>
+            
+			<ProfileHeader
+				fullName={"@" + (currUser.length != 0 ? currUser[0].username : "Kirby Watterson")}
+				username={currUser.length != 0 ? currUser[0].fullName : "Kirby Watterson"}
+				bio={currUser.length != 0 ? currUser[0].bio : "noBioFound"}
+            />
+			
+            <div className='follow-section'>
+				<ProfileFollowStats
+					followers = {followers}
+					following = {following}
+				/>
+				
+				<FollowButton
+					onFollow={onFollow}
+					decryptToken={decryptToken}
+					users={users}
+				/>
+                
+				<MessageButton
+					params={params}
+				/>
+            </div>
+            {posts.map(post =>(
+				<ProfilePosts
+					post={post}
+					user={currUser}
+				/>
                 ))}
             </div>
         </div>

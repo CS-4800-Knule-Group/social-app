@@ -15,6 +15,7 @@ import Login from './Pages/Login.jsx'
 import { Amplify } from 'aws-amplify';
 import { AuthProvider } from './authContext.jsx'
 import ProtectedRoute from './Components/ProtectedRoute.jsx'
+import './main.css';
 
 const awsConfig = {
   "aws_project_region": "us-west-2",
@@ -34,7 +35,9 @@ const Layout = () => {
       {/* //This is where you will add layout features to the whole app. This can include a header or footer, maybe more. } */}
       {/* //These features will need to be made in the components folder and imported here. */}
       <Header/>
-      <Outlet/>
+		<div className='outlet-container'>
+			<Outlet/>
+		</div>
     </div>
   )
 }

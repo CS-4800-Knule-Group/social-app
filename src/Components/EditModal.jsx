@@ -26,6 +26,8 @@ const EditModal = ({user}) => {
           body: formData
         })
 
+        console.log(response);
+
 
         //Need to find a way to refresh the page AFTER doing everything...
         //Maybe force refresh after it all? Else need to add functionality to 

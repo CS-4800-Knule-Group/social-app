@@ -20,6 +20,7 @@ const MsgTemp = () => {
     const [newMessage, setNewMessage] = useState([]);
     const [chats, setChats] = useState([]);
     const [currUser, setCurrUser] = useState([])
+    const [tarUser, setTarUser] = useState([])
 
     const client = generateClient();
         
@@ -46,7 +47,9 @@ const MsgTemp = () => {
             const usersData = await response.json();
             const filteredUsers = usersData.filter(user => user.userId == params.id)
             
-            setCurrUser(filteredUsers)
+            setTarUser(filteredUsers)
+            console.log("This is tarUser")
+            console.log(filteredUsers)
 
           } catch (error) {
             console.error('Error fetching users', error);
@@ -187,7 +190,7 @@ const MsgTemp = () => {
     if(recipientId != ''){
         return(
             <div>
-                <h1>Chat with {currUser.length != 0 ? currUser[0].username : "No user found"} </h1>
+                <h1>Chat with {tarUser.length != 0 ? tarUser[0].username : "No user found"} </h1>
                 <div id='chat'>
                 {chats
                 .sort((a, b) => a.createdAt.localeCompare(b.createdAt))
@@ -198,7 +201,7 @@ const MsgTemp = () => {
                     >
                         <div>
                             <p>{chat.userId == user.userId ? "You: " + chat.text : 
-                            currUser.length != 0 ? currUser[0].username + ": " + chat.text : "User not found"}</p>
+                            tarUser.length ? tarUser[0].username + ": " + chat.text : "User not found"}</p>
                         </div>
                     </div>
                 ))}

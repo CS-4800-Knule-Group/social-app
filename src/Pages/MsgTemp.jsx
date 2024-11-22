@@ -9,6 +9,7 @@ import * as queries from "../queries.js"
 import * as subscriptions from "../subscriptions.js"
 import { userById } from '../dataFilters.js';
 import { useAuth } from '../authContext.jsx';
+import { getUsers } from '../database.js';
 
 const MsgTemp = () => {
 

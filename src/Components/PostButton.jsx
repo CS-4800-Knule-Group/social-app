@@ -24,13 +24,13 @@ const PostButton = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type':'application/json',
-                    'authorization' : 'BEARER ' + cookie
+                    'Authorization' : 'BEARER ' + cookie
                 },
                 body: JSON.stringify({
                     "content": postContent
                 }
             )})
-            const postResult = await response;
+            const postResult = response;
             console.log(postResult);
             //window.location.reload();
         } catch (err){

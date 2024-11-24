@@ -1,17 +1,30 @@
 import React, { useState } from 'react'
+import Cookies from 'js-cookie';
+import { jwtDecode } from 'jwt-decode';
+import { useAuth } from '../authContext';
 
-const PostButton = (decryptToken) => {
+
+
+const PostButton = () => {
     const [postContent, setPostContent] = useState();
 
-    const apiPosts = 'https://knule.duckdns.org/posts'
+    const apiPosts = 'http://localhost:3000/posts'
+    const {user, isAuth} = useAuth();
+    const cookie = Cookies.get('loginAuth');
+    const cookieDecode = jwtDecode(Cookies.get('loginAuth'));
+
+    console.log(cookie);
+    console.log(cookieDecode)
+
 
 
     const sendPost = async() => {
         try{
-            const response = await fetch(apiPosts + "/" + decryptToken.userId, {
+            const response = await fetch(apiPosts + "/" + user.userId, {
                 method: 'POST',
                 headers: {
-                    'Content-Type':'application/json'
+                    'Content-Type':'application/json',
+                    'authorization' : 'BEARER ' + cookie
                 },
                 body: JSON.stringify({
                     "content": postContent

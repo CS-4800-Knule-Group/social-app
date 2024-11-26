@@ -14,6 +14,8 @@ const Header = () => {
         location.reload()
     };
 
+    const isLoggedIn = Cookies.get('loginAuth');
+
     return (
         <header className='header'>
           <div className="header-container">
@@ -26,7 +28,9 @@ const Header = () => {
                       <Link to="/explore" className="nav-link">Explore</Link>
                       <Link to="/register" className="nav-link">Register</Link>
                       <Link to="/data" className="nav-link">Data</Link>
-                      <button onClick={signOut} className="nav-sign-out">Sign Out</button>
+                      {isLoggedIn && (
+                        <button onClick={signOut} className="nav-sign-out">Sign Out</button>
+                      )}
                 </nav>
             </div>
         </header>

@@ -20,8 +20,10 @@ const LoginForm = ({ onSubmit }) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        if (validate()) {
-        onSubmit(e);
+        if (validate())
+        {
+            onSubmit(e);
+            window.location.reload();
         }
     };
 

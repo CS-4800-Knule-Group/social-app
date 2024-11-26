@@ -27,7 +27,9 @@ const EditModal = ({user}) => {
         })
 
         console.log(response);
-
+        console.debug('test');
+        window.location.reload();
+        console.debug('if you can see this the page didnt reload');
 
         //Need to find a way to refresh the page AFTER doing everything...
         //Maybe force refresh after it all? Else need to add functionality to 

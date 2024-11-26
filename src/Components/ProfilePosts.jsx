@@ -1,8 +1,32 @@
 import React from 'react';
+import Cookieks from 'js-cookie';
+import './ProfilePosts.css'
 
 const apiPosts = 'https://knule.duckdns.org/posts'
 
 const ProfilePosts = ({ post, user }) => {
+    const deletePost = async () => {
+        try {
+            const response = await fetch('${apiPosts}/del/${user.userId}/${post.postId}', {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': 'Bearer ' + Cookies.get('loginAuth'),
+                },
+            });
+
+            const result = await response.json();
+
+            if (response.status === 200) {
+                console.log(result.success);
+                window.location.reload();
+            } else {
+                console.error('Failed to delete post:', result.error);
+            }
+        } catch (err) {
+            console.error("Post deletion failed:", err);
+        }
+    };
+
   return (
 	<div key={post.postId} className='post'>
 						<div className='poster'>
@@ -12,9 +36,9 @@ const ProfilePosts = ({ post, user }) => {
 							<div className='textInfo'>
 								<p className='postTime'>{post.timestamp}</p>
 							</div>
-							<p>X</p>
 						</div>
 						{post.content && <p>{post.content}</p>}
+						<p onClick={deletePost} className='deletePost' >Delete Post</p>
 					</div>
   );
 };

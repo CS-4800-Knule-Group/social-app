@@ -20,16 +20,16 @@ const EditModal = ({user}) => {
         formData.append("name", name)
         formData.append("userId", jwtDecode(Cookies.get('loginAuth')).userId)
         //Insert API push here
-
+        console.debug('1')
         const response = await fetch('https://knule.duckdns.org/users/updateProfile', {
           method: 'PUT',
           body: formData
         })
-
-        console.log(response);
-        console.debug('test');
+        console.debug('2');
         window.location.reload();
         console.debug('if you can see this the page didnt reload');
+        console.log(response);
+        
 
         //Need to find a way to refresh the page AFTER doing everything...
         //Maybe force refresh after it all? Else need to add functionality to 

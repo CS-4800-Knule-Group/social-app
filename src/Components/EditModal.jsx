@@ -53,7 +53,7 @@ const EditModal = ({user, onUpload}) => {
   return (
     <div className="edit-modal">
         <form onSubmit={submit}>
-          <h1>React File Upload</h1>
+          <h1>Edit Profile</h1>
           <label>New Pfp</label>
           <input type="file" onChange={(e) => setPfpFile(e.target.files[0])} accept='image/*'/>
           <br/>

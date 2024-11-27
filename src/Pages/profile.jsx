@@ -30,20 +30,21 @@ const Profile = () => {
 	const [editFlag, setEditFlag] = useState(false);
 
 
+	const filterUser = async () => {
+		const usersData = await getUsers();
+		const filteredUsers = userById(usersData, user.userId)
+		setCurrUser(filteredUsers)
+		
+		setFollowers(filterFollowers(usersData, filteredUsers))
+		setFollowing(filterFollowing(usersData, filteredUsers))
+		 
+	};
+
+
 	// fetch user data when component mounts
 	useEffect(() => {
-		
-		const filterUser = async () => {
-			const usersData = await getUsers();
-			const filteredUsers = userById(usersData, user.userId)
-			setCurrUser(filteredUsers)
-			
-			setFollowers(filterFollowers(usersData, filteredUsers))
-			setFollowing(filterFollowing(usersData, filteredUsers))
-			 
-		};
 		filterUser();
-	}, []);  // only re-run the effect if apiEndpoint changes
+	}, [currUser]);  // only re-run the effect if apiEndpoint changes
 
 	useEffect(() => {
 		const fetchPosts = async () => {
@@ -84,11 +85,15 @@ const Profile = () => {
 		setFollowerOpenModal(true);
 	}
 
+	const testing = async() => {
+		filterUser();
+	}
+
 	return (
 		<div>
 			{editFlag && createPortal(
 
-				<EditModal user={currUser}/>,
+				<EditModal user={currUser} onSubmit ={testing}/>,
 				document.body
 			)}
 

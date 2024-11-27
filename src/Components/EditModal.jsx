@@ -3,7 +3,7 @@ import './EditModal.css'
 import { jwtDecode } from 'jwt-decode'
 import Cookies from 'js-cookie'
 
-const EditModal = ({user}) => {
+const EditModal = ({user, onSubmit}) => {
     
     const [pfpFile, setPfpFile] = useState()
     const [bannerFile, setBannerFile] = useState();
@@ -11,6 +11,7 @@ const EditModal = ({user}) => {
     const [name, setName] = useState(user.fullName)
 
     const submit = async event => {
+      
         event.preventDefault()
 
         const formData = new FormData();
@@ -27,6 +28,9 @@ const EditModal = ({user}) => {
         })
 
         console.log(response);
+        if(onSubmit){
+          onSubmit();
+        }
 
 
         //Need to find a way to refresh the page AFTER doing everything...

@@ -2,13 +2,14 @@ import React, { useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
 import { jwtDecode } from 'jwt-decode'
 import LoginForm from '../Components/LoginForm'
+import { useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom'
 import { useAuth } from '../authContext';
 import moment from 'moment';
 import './Feed.css'
 
 const Feed = () => {
-    
+    const navigate = useNavigate();
     
     const apiPosts = 'https://knule.duckdns.org/posts'
     const apiUsers = 'https://knule.duckdns.org/users'
@@ -104,6 +105,11 @@ const Feed = () => {
         const user = users.find(u => u.userId === userId)
         return user ? user.pfp : '/defaultProfilePic.jpg' // Fallback profile picture
     }
+
+	const openPage = (userId) => {
+        navigate(`/profile/${userId}`);
+        location.reload();
+    };
  
 return (
     <div>
@@ -124,10 +130,11 @@ return (
                             src={getProfilePicture(post.userId)} // Use the correct profile picture here
                             height={100}
                             width={100}
+							onClick={() => openPage(post.userId)}
                             alt="Profile"
                         />
                     <div className='textInfo'>
-                            <h1 className='username'>{users.findIndex(i => i.userId ===(post.userId)) == -1 ? 'bad user' : users[users.findIndex(i => i.userId ===(post.userId))].username}</h1>
+                            <h1 className='username' onClick={() => openPage(post.userId)}>{users.findIndex(i => i.userId ===(post.userId)) == -1 ? 'bad user' : users[users.findIndex(i => i.userId ===(post.userId))].username}</h1>
 
                         <p className='postTime'>{post.timestamp}</p>
                     </div>

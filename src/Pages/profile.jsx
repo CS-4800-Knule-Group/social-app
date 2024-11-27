@@ -149,7 +149,7 @@ const Profile = () => {
 				{posts.map(post =>(
 					<ProfilePosts
 						post={post}
-						user={user}
+						user={currUser}
 					/>
 				))}
 			</div>

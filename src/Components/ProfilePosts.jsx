@@ -33,9 +33,9 @@ const ProfilePosts = ({ post, user }) => {
   return (
     <div key={post.postId} className='post'>
                         <div className='poster'>
-                            <img className= 'post-profilePic' src='/kirb.jpg' height={100} width={100} />
+                            <img className= 'post-profilePic' src={user.pfp} height={100} width={100} />
                             <h1 className='post-username'>{user.username}</h1>
-                            <h3 className='post-fullName'>{user.fullName || "NoNameFound"}</h3>
+                            <h3 className='post-fullName'>{user.fullName }</h3>
                             <div className='textInfo'>
                                 <p className='postTime'>{post.timestamp}</p>
                             </div>

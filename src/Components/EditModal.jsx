@@ -2,6 +2,7 @@ import {React, useState} from 'react'
 import './EditModal.css'
 import { jwtDecode } from 'jwt-decode'
 import Cookies from 'js-cookie'
+import { Button } from '@aws-amplify/ui-react'
 
 const EditModal = ({user, onUpload}) => {
     
@@ -52,6 +53,7 @@ const EditModal = ({user, onUpload}) => {
 
   return (
     <div className="edit-modal">
+      <button onClick={onUpload}>Close Menu</button>
         <form onSubmit={submit}>
           <h1>Edit Profile</h1>
           <label>New Pfp</label>

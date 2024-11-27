@@ -13,6 +13,7 @@ import ProfileFollowStats from '../Components/ProfileFollowStats.jsx';
 import ProfilePosts from '../Components/ProfilePosts.jsx';
 import FollowButton from '../Components/FollowButton.jsx';
 import MessageButton from '../Components/MessageButton.jsx';
+import { useAuth } from '../authContext.jsx';
 
 const ProfileOther = () => {
 
@@ -20,9 +21,7 @@ const ProfileOther = () => {
 
     const apiUsers = 'https://knule.duckdns.org/users'
     const apiPosts = 'https://knule.duckdns.org/posts'
-    const [validCookie, setValidCookie] = useState(Cookies.get('loginAuth'));
-    const [decryptToken, setDecryptToken] = useState(Cookies.get('loginAuth') ? jwtDecode(Cookies.get('loginAuth')) : undefined);
-    const [openModal, setOpenModal] = useState(Cookies.get('loginAuth') ? false : true)
+    const { user } = useAuth();
     const [openFollowingModal, setFollowingOpenModal] = useState(false);
     const [openFollowerModal, setFollowerOpenModal] = useState(false);
     const [users, setUsers] = useState([])
@@ -32,54 +31,7 @@ const ProfileOther = () => {
     const [followers, setFollowers] = useState([])
     const [following, setFollowing] = useState([]);
 
-    const fetchLogin = async (e) => {
-        e.preventDefault();
-
-        const username = e.target.username.value;
-        const password = e.target.password.value;
-
-        try {
-            const response = await fetch('https://knule.duckdns.org/auth/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    "username": username,
-                    "password": password,
-
-                })
-            });
-
-            const loginResult = await response.json();
-            const inFifteen = new Date(new Date().getTime() + 2 * 60 * 1000)
-            Cookies.set('loginAuth', loginResult.accessToken,
-                {
-                    expires: inFifteen
-                }
-            );
-            const decoded = jwtDecode(loginResult.accessToken);
-            //console.log(decoded); 
-            setValidCookie(Cookies.get('loginAuth'))
-
-        } catch (error) {
-            setValidCookie(undefined);
-            console.error('Error authenticating login', error);
-        }
-    }
-
-
-    useEffect(() => {
-        const login = Cookies.get('loginAuth');
-
-        setValidCookie(login ? login : undefined);
-        setDecryptToken(login ? jwtDecode(validCookie) : "Yeah this fucked up")
-        setOpenModal(login ? false : true)
-        console.log({ validCookie })
-        console.log({ decryptToken })
-
-    }, [validCookie])
-
+    
     useEffect(() => {
         const fetchUsers = async () => {
             try {
@@ -120,7 +72,7 @@ const ProfileOther = () => {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    'userId': decryptToken.userId,
+                    'userId': user.userId,
                     'targetId': params.id
                 })
             })
@@ -174,11 +126,7 @@ const ProfileOther = () => {
 
 
     return (
-        <div>
-        {openModal && createPortal(
-              <LoginForm onSubmit={fetchLogin} />,
-              document.body
-          )}    
+        <div> 
 
             {openFollowingModal && createPortal(
 				<FollowingList
@@ -218,7 +166,6 @@ const ProfileOther = () => {
 				
 				<FollowButton
 					onFollow={onFollow}
-					decryptToken={decryptToken}
 					users={users}
 				/>
                 

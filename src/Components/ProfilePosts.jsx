@@ -14,9 +14,9 @@ const ProfilePosts = ({ post, user }) => {
                     'Authorization': 'Bearer ' + Cookies.get('loginAuth'),
                 },
             });
-    
+
             const result = await response.json();
-    
+
             if (response.status === 200) {
                 console.log(result.success);
                 window.location.reload();
@@ -27,15 +27,15 @@ const ProfilePosts = ({ post, user }) => {
             console.error("Post deletion failed:", err);
         }
     };
-    
 
-    
+
+
   return (
     <div key={post.postId} className='post'>
                         <div className='poster'>
-                            <img className= 'post-profilePic' src={user.pfp} height={100} width={100} />
-                            <h1 className='post-username'>{user.username}</h1>
-                            <h3 className='post-fullName'>{user.fullName }</h3>
+                            <img className= 'post-profilePic' src={user ? user.pfp : '/kirb.jpg'} height={100} width={100} />
+                            <h1 className='post-username'>{user ? user.username : "NoUserNameFound"}</h1>
+                            <h3 className='post-fullName'>{user ? user.fullName : "NoDisplayNameFound" }</h3>
                             <div className='textInfo'>
                                 <p className='postTime'>{post.timestamp}</p>
                             </div>

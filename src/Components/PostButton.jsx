@@ -8,7 +8,7 @@ import { useAuth } from '../authContext';
 const PostButton = () => {
     const [postContent, setPostContent] = useState();
 
-    const apiPosts = 'http://localhost:3000/posts'
+    const apiPosts = 'https://knule.duckdns.org/posts'
     const {user, isAuth} = useAuth();
     const cookie = Cookies.get('loginAuth');
     const cookieDecode = jwtDecode(Cookies.get('loginAuth'));

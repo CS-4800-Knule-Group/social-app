@@ -1,7 +1,4 @@
 import {React, useState, useEffect} from 'react'
-import Cookies from 'js-cookie'
-import { jwtDecode } from 'jwt-decode';
-import { createPortal } from 'react-dom';
 import { useParams } from 'react-router-dom';
 import { generateClient } from 'aws-amplify/api';
 import * as mutations from "../mutations.js"
@@ -15,7 +12,7 @@ const MsgTemp = () => {
 
     const apiUsers = 'https://knule.duckdns.org/users'
     const params = useParams();
-    const { user, isAuthenticated, login } = useAuth();
+    const { user } = useAuth();
     const [recipientId, setRecipientId] = useState(params ? params.id : '');
     const [newMessage, setNewMessage] = useState([]);
     const [chats, setChats] = useState([]);
@@ -23,6 +20,7 @@ const MsgTemp = () => {
     const [tarUser, setTarUser] = useState([])
 
     const client = generateClient();
+    
         
     useEffect(() => {
 		
@@ -58,54 +56,9 @@ const MsgTemp = () => {
           
         };
         fetchUsers();
-      }, []);  // only re-run the effect if apiEndpoint changes
+    }, []);  // only re-run the effect if apiEndpoint changes
 
-    /*
-    useEffect(() => {
-        
-        console.log(recipientId);
-
-        if( validCookie && recipientId!== ''){
-            console.log("Server starting")
-            ws = new WebSocket('wss://knule.duckdns.org/' + decryptToken.userId)
-            ws.onopen = () =>{
-                console.log('Connected to ws server');
-            }
     
-            ws.onclose = () =>{
-                console.log("ws connection closed");
-            }
-            
-            ws.onmessage =(event) =>{
-                const{from, text} = JSON.parse(event.data);
-                const chatDiv = document.getElementById('chat');
-                chatDiv.innerHTML += `<div class="message recieved"><strong>${from}:</strong> ${text}</div>`;
-                chatDiv.scrollTop = chatDiv.scrollHeight;
-            }
-            
-            console.log('wss://knule.duckdns.org/' + decryptToken.userId);
-        }
-    }, [recipientId])
-
-    const sendMessage = () => {
-        const input = document.getElementById('msgInput')
-        const messageText = input.value;
-        if (messageText.trim()) {
-            const message = {
-                recipientId: recipientId,
-                text: messageText
-            }
-            ws.send(JSON.stringify(message))
-            
-            // display the sent message in the chat
-            const chatDiv = document.getElementById('chat')
-            chatDiv.innerHTML += `<div class="message sent"><strong>You:</strong> ${messageText}</div>`
-            input.value = '';   // clear input
-            chatDiv.scrollTop = chatDiv.scrollHeight;
-        }
-    }
-        */
-
     const changeRecipient = () =>{
         setRecipientId(document.getElementById('userInput').value);
     }
@@ -136,7 +89,8 @@ const MsgTemp = () => {
     }
 
     useEffect(() => {
-        async function fetchChats() {
+        const fetchChats = async() => {
+            try{
             const allChats = await client.graphql({
                 query: queries.listMessages,
             });
@@ -147,6 +101,10 @@ const MsgTemp = () => {
                 (chat.userId === recipientId && chat.targetId === user.userId)))
             console.log(filterChats);
             setChats(filterChats);
+            
+            }catch(err){
+                console.log(err);
+            }
         }
         fetchChats();
     }, []);

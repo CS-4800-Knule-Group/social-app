@@ -3,7 +3,7 @@ import './EditModal.css'
 import { jwtDecode } from 'jwt-decode'
 import Cookies from 'js-cookie'
 
-const EditModal = ({user, onSubmit}) => {
+const EditModal = ({user, onUpload}) => {
     
     const [pfpFile, setPfpFile] = useState()
     const [bannerFile, setBannerFile] = useState();
@@ -22,15 +22,20 @@ const EditModal = ({user, onSubmit}) => {
         formData.append("userId", jwtDecode(Cookies.get('loginAuth')).userId)
         //Insert API push here
 
+        try{
         const response = await fetch('https://knule.duckdns.org/users/updateProfile', {
           method: 'PUT',
           body: formData
         })
-
+        console.log("The response finished")
         console.log(response);
-        if(onSubmit){
-          onSubmit();
-        }
+      }catch(err){
+        console.log(err)
+      }
+
+        onUpload();
+        
+        
 
 
         //Need to find a way to refresh the page AFTER doing everything...

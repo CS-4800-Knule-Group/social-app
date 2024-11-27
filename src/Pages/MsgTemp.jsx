@@ -9,6 +9,7 @@ import * as queries from "../queries.js"
 import * as subscriptions from "../subscriptions.js"
 import { userById } from '../dataFilters.js';
 import { useAuth } from '../authContext.jsx';
+import './MsgTemp.css'
 import { getUsers } from '../database.js';
 
 const MsgTemp = () => {
@@ -189,7 +190,7 @@ const MsgTemp = () => {
     
     if(recipientId != ''){
         return(
-            <div>
+            <div className='Messages'>
                 <h1>Chat with {tarUser.length != 0 ? tarUser[0].username : "No user found"} </h1>
                 <div id='chat'>
                 {chats
@@ -213,7 +214,7 @@ const MsgTemp = () => {
         )
     }else{
         return (
-            <div>
+            <div className='Messages'>
               <h1>Insert Target Username Here</h1>
                 <input type='text' id='userInput' placeholder='Type your target username here...'/>
                 <button onClick={changeRecipient}>Start Conversation</button>

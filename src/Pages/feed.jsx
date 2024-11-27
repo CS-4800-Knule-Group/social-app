@@ -142,7 +142,10 @@ const Feed = () => {
         fetchUsers();
     }, []);
 
-
+    const getProfilePicture = (userId) => {
+        const user = users.find(u => u.userId === userId)
+        return user ? user.pfp : '/defaultProfilePic.jpg' // Fallback profile picture
+    }
  
 return (
     <div>
@@ -162,7 +165,13 @@ return (
             {posts.map(post =>(
                 <div className='post'>
                 <div className='poster'>
-                    <img className='profilePicture' src='/kirb.jpg' height={100} width={100} />
+                        <img
+                            className='profilePicture'
+                            src={getProfilePicture(post.userId)} // Use the correct profile picture here
+                            height={100}
+                            width={100}
+                            alt="Profile"
+                        />
                     <div className='textInfo'>
                             <h1 className='username'>{users.findIndex(i => i.userId ===(post.userId)) == -1 ? 'bad user' : users[users.findIndex(i => i.userId ===(post.userId))].username}</h1>
 

@@ -44,7 +44,11 @@ const Profile = () => {
 	// fetch user data when component mounts
 	useEffect(() => {
 		filterUser();
-	}, [currUser]);  // only re-run the effect if apiEndpoint changes
+	}, []);  // only re-run the effect if apiEndpoint changes
+
+	useEffect(() => {
+		filterUser();
+	}, [currUser]);
 
 	useEffect(() => {
 		const fetchPosts = async () => {

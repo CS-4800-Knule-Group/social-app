@@ -1,6 +1,18 @@
 .outlet-container {
-	width: 80%;
+	width: 85%;
 	margin: 0 auto;
-	padding: 20px;
 	box-sizing: border-box;
+	margin-right: 0;
+}
+
+.layout-container { 
+	display: flex;
+	height: 100vh;
+}
+
+header {
+	 width: 50%;
+	 background-color: #f0f0f0;
+	 box-sizing: border-box;
+	 padding: 20px
 }

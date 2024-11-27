@@ -31,7 +31,7 @@ Amplify.configure(awsConfig);
 
 const Layout = () => {
   return (
-    <div>
+    <div className='layout-container'>
       {/* //This is where you will add layout features to the whole app. This can include a header or footer, maybe more. } */}
       {/* //These features will need to be made in the components folder and imported here. */}
       <Header/>

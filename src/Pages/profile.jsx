@@ -13,6 +13,7 @@ import ProfileImages from '../Components/ProfileImages.jsx';
 import ProfileHeader from '../Components/ProfileHeader.jsx';
 import ProfileFollowStats from '../Components/ProfileFollowStats.jsx';
 import ProfilePosts from '../Components/ProfilePosts.jsx';
+import { setBadgeCount } from 'aws-amplify/push-notifications';
 
 
 
@@ -20,7 +21,7 @@ const Profile = () => {
 	const apiPosts = 'https://knule.duckdns.org/posts';
 	const apiUsers = 'https://knule.duckdns.org/users';
 
-	const { user, isAuthenticated, login } = useAuth();
+	const { user } = useAuth();
 	const [openFollowingModal, setFollowingOpenModal] = useState(false);
 	const [openFollowerModal, setFollowerOpenModal] = useState(false);
 	const[posts, setPosts] = useState([]);
@@ -28,6 +29,7 @@ const Profile = () => {
 	const [followers, setFollowers] = useState([]);
 	const [following, setFollowing] = useState([]);
 	const [editFlag, setEditFlag] = useState(false);
+	const [updateUser, setUpdateUser] = useState(false);
 
 
 	const filterUser = async () => {
@@ -37,6 +39,11 @@ const Profile = () => {
 		
 		setFollowers(filterFollowers(usersData, filteredUsers))
 		setFollowing(filterFollowing(usersData, filteredUsers))
+
+		console.log(editFlag)
+		if(editFlag){
+			setEditFlag(false);
+		}
 		 
 	};
 
@@ -44,7 +51,11 @@ const Profile = () => {
 	// fetch user data when component mounts
 	useEffect(() => {
 		filterUser();
-	}, [currUser]);  // only re-run the effect if apiEndpoint changes
+	}, []);  // only re-run the effect if apiEndpoint changes
+
+	useEffect(() => {
+		filterUser();
+	}, [updateUser]);
 
 	useEffect(() => {
 		const fetchPosts = async () => {
@@ -85,15 +96,17 @@ const Profile = () => {
 		setFollowerOpenModal(true);
 	}
 
-	const testing = async() => {
-		filterUser();
+	const submitEdit = async() => {
+		setUpdateUser(!updateUser)
+		setEditFlag(!editFlag)
+
 	}
 
 	return (
 		<div>
 			{editFlag && createPortal(
 
-				<EditModal user={currUser} onSubmit ={testing}/>,
+				<EditModal user={currUser} onUpload ={submitEdit}/>,
 				document.body
 			)}
 

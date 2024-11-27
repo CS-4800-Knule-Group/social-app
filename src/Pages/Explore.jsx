@@ -6,6 +6,7 @@ import LoginForm from '../Components/LoginForm'
 import Cookies from 'js-cookie'
 import { jwtDecode } from 'jwt-decode'
 import { useAuth } from '../authContext'
+import { getUsers } from '../database'
 
 const Explore = () => {
  
@@ -15,24 +16,18 @@ const Explore = () => {
   const [users, setUsers] = useState([])
 
   //On Page Render, get database of users for display
-  useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const response = await fetch(apiUsers, {
-          method: 'GET', // should be lowercase 'method'
-        });
+  const sortUsersByName = async() => {
+    const userList = await getUsers();
 
-        if (!response.ok) {
-          throw new Error('Could not reach /users');
-        }
-        const usersData = await response.json();
-        setUsers(usersData); // Update the state with the fetched users
-        console.log(usersData)
-      } catch (error) {
-        console.error('Error fetching users', error);
-      }
-    };
-    fetchUsers();
+    const sortedUsers = userList.sort((x, y) => {
+      if (x.username.toLowerCase() < y.username.toLowerCase()) { return -1; }
+      if (x.username.toLowerCase() > y.username.toLowerCase()) { return 1; }
+      return 0
+    })
+    setUsers(sortedUsers);
+  }
+  useEffect(() => {
+    sortUsersByName();
   }, []);  // only re-run the effect if apiEndpoint changes
   
   return (

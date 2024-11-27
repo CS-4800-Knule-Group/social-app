@@ -66,7 +66,18 @@ const ProfileOther = () => {
 
     const onFollow = async () => {
         try {
-            const response = await fetch(apiUsers + '/toggleFollowers', {
+            await fetch(apiUsers + '/toggleFollowers', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'userId': user.userId,
+                    'targetId': params.id
+                })
+            })
+
+            const response = await fetch(apiUsers + '/toggleFollowing', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'

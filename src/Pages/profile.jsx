@@ -129,6 +129,8 @@ const Profile = () => {
 				<ProfileFollowStats
 					followers={followers}
 					following={following}
+					openFollowersList={openFollowerList}
+					openFollowingList={openFollowingList}
 				/>
 
 				{posts.map(post =>(

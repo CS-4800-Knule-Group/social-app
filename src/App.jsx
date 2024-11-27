@@ -1,19 +1,23 @@
 import './App.css'
 import { useEffect, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import Cookies from 'js-cookie';
 
 function App() {
     const [loggedIn, setLoggedIn] = useState(false);
+    const navigate = useNavigate();
 
     useEffect(() => {
         const loginAuth = Cookies.get('loginAuth');
 
         if (loginAuth) {
             setLoggedIn(true);
+            navigate('/feed');
+            
         }
         else {
             setLoggedIn(false);
+            navigate('/register');
         }
     }, []);
 

@@ -3,6 +3,8 @@ import Cookies from 'js-cookie'
 import { jwtDecode } from 'jwt-decode'
 import LoginForm from '../Components/LoginForm'
 import { createPortal } from 'react-dom'
+import { useAuth } from '../authContext';
+import moment from 'moment';
 import './Feed.css'
 
 const Feed = () => {
@@ -11,62 +13,13 @@ const Feed = () => {
     const apiPosts = 'https://knule.duckdns.org/posts'
     const apiUsers = 'https://knule.duckdns.org/users'
 
+    const { user, isAuthenticated } = useAuth();
+    const accessToken = Cookies.get('loginAuth')
+
     const[posts, setPosts] = useState([])
     const[users, setUsers] = useState([])
-    const [validCookie, setValidCookie] = useState(Cookies.get('loginAuth') ? Cookies.get('loginAuth') : false);
-    const [decryptToken, setDecryptToken] = useState(Cookies.get('loginAuth') ? jwtDecode(Cookies.get('loginAuth')) : false);
-    const [openModal, setOpenModal] = useState(Cookies.get('loginAuth') ? false : true)
     const [postContent, setPostContent] = useState();
 
-    
-  //Compare login from a form (username & password)
-  //Grant auth cookie if accepted
-    const fetchLogin = async(e) => {
-        e.preventDefault();
-    
-        const username = e.target.username.value;
-        const password = e.target.password.value;
-    
-        try{
-        const response = await fetch('https://knule.duckdns.org/auth/login', {
-            method: 'POST',
-            headers: {
-            'Content-Type' : 'application/json'
-            },
-            body: JSON.stringify({
-            "username": username,
-            "password": password,
-            
-            })
-        });
-    
-        const loginResult = await response.json();
-        const inFifteen = new Date(new Date().getTime() + 2 * 60 * 1000)
-        Cookies.set('loginAuth', loginResult.accessToken,
-            {
-            expires: inFifteen
-            }
-        );
-        setValidCookie(Cookies.get('loginAuth'))
-        
-        } catch (error) {
-        setValidCookie(undefined);
-        console.error('Error authenticating login', error);
-        }
-    }
-        
-
-    useEffect(() => {
-        const login = Cookies.get('loginAuth');
-        
-        setValidCookie(login ? login : undefined);
-        setDecryptToken(login ? jwtDecode(validCookie) : "Yeah this fucked up")
-        setOpenModal(login ? false : true)
-        console.log({validCookie})
-        //console.log({decryptToken})
-        //console.log({openModal})
-
-    }, [validCookie])
 
     //On page render, update Posts with the list of post data
     useEffect(() => {
@@ -75,18 +28,25 @@ const Feed = () => {
             try {
                 const response = await fetch(apiPosts, {
                 method: 'GET', // should be lowercase 'method'
+                header: {
+                    'Authorization': 'BEARER ' + accessToken
+                }
                 });
         
                 if (!response.ok) {
                 throw new Error('Could not reach /posts');
                 }
                 const postsData = await response.json();
-                
-                console.log(postsData[0].timestamp);
-                setPosts(postsData.sort((x, y) => {
-                    return new Date(y.timestamp) - new Date(x.timestamp);    
-                })); // Update the state with the fetched users
-                console.log(posts)
+                // console.log(postsData)
+
+                const sortedPosts = postsData
+                    .sort((x, y) => new Date(y.timestamp) - new Date(x.timestamp))
+                    .map(post => ({
+                        ...post,
+                        timestamp: moment(post.timestamp).local().format('MMMM D, YYYY [at] h:mm A')
+                    }));
+
+                setPosts(sortedPosts);         // Update the state with the fetched users sorted
             } catch (error) {
                 console.error('Error fetching posts', error);
             }
@@ -95,10 +55,10 @@ const Feed = () => {
     }, [])
 
     //Function to upload a post to the database
-    const sendPost = async() => {
-        if(validCookie){
+    const createPost = async() => {
+        if(isAuthenticated){
             try{
-                const response = await fetch(apiPosts + "/" + decryptToken.userId, {
+                const response = await fetch(apiPosts + "/" + user.userId, {
                     method: 'POST',
                     headers: {
                         'Content-Type':'application/json'
@@ -107,8 +67,6 @@ const Feed = () => {
                         "content": postContent
                     }
                 )})
-                const postResult = await response;
-                console.log(postResult);
                 window.location.reload();
             } catch (err){
                 console.error("Post failed. " + err);
@@ -134,7 +92,7 @@ const Feed = () => {
                 }
                 const usersData = await response.json();
                 setUsers(usersData); // Update the state with the fetched users
-                console.log(usersData)
+                // console.log(usersData)
             } catch (error) {
                 console.error('Error fetching users', error);
             }
@@ -149,15 +107,11 @@ const Feed = () => {
  
 return (
     <div>
-        {openModal && createPortal(
-          <LoginForm onSubmit={fetchLogin} />,
-          document.body
-        )}
         <div className='feed'>
             <div className='post-input'>
                 <input type='text' placeholder=" Post text" className="post-textBox" onChange={handleChange}/>
                     <br/>
-                <button className='post-button' onClick={sendPost}>
+                <button className='post-button' onClick={createPost}>
                     Post
                 </button>
             </div>

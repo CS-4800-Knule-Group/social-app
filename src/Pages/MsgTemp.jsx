@@ -190,7 +190,7 @@ const MsgTemp = () => {
     
     if(recipientId != ''){
         return(
-            <div className='Messages'>
+            <div className='Messaging'>
                 <h1>Chat with {tarUser.length != 0 ? tarUser[0].username : "No user found"} </h1>
                 <div id='chat'>
                 {chats

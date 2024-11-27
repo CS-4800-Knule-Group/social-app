@@ -179,6 +179,21 @@ const ProfileOther = () => {
               <LoginForm onSubmit={fetchLogin} />,
               document.body
           )}    
+
+            {openFollowingModal && createPortal(
+				<FollowingList
+					onClose={() => setFollowingOpenModal(false)}
+					following={following} />,
+				document.body
+			)}
+
+			{openFollowerModal && createPortal(
+				<FollowerList
+					onClose={() => setFollowerOpenModal(false)}
+					followers={followers} />,
+				document.body
+			)}
+
         <div className='profile'>
             
 			<ProfileImages
@@ -196,6 +211,9 @@ const ProfileOther = () => {
 				<ProfileFollowStats
 					followers = {followers}
 					following = {following}
+                    openFollowersList={openFollowerList}
+                    openFollowingList={openFollowingList}
+
 				/>
 				
 				<FollowButton

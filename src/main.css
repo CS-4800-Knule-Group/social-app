@@ -11,8 +11,22 @@
 }
 
 header {
-	 width: 50%;
-	 background-color: #f0f0f0;
-	 box-sizing: border-box;
-	 padding: 20px
+	box-sizing: border-box;
+	padding: 20px
+}
+
+.header-logo-container {
+	height: 10%;
+	top: 0;
+}
+  
+.header-container {
+	height: 100%;
+	bottom: 0;
+}
+
+.overall-header {
+	height: 100vh;
+	position: fixed;
+	overflow-x: hidden;
 }

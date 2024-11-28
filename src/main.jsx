@@ -5,6 +5,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom'
 import Data from './Pages/Data.jsx'
 import Profile from './Pages/profile.jsx'
 import Header from './Components/Header.jsx'
+import HeaderLogo from './Components/HeaderLogo.jsx'
 import Register from './Pages/Register.jsx'
 import Feed from './Pages/feed.jsx'
 import Private from './Pages/Private.jsx'
@@ -34,7 +35,14 @@ const Layout = () => {
     <div className='layout-container'>
       {/* //This is where you will add layout features to the whole app. This can include a header or footer, maybe more. } */}
       {/* //These features will need to be made in the components folder and imported here. */}
-      <Header/>
+    <div className='overall-header'>
+      <div className='header-logo-container'>
+        <HeaderLogo/>
+      </div>
+      <div className='header-container'>
+        <Header/>
+      </div>
+    </div>
 		<div className='outlet-container'>
 			<Outlet/>
 		</div>

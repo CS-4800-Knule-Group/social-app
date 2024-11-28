@@ -18,20 +18,17 @@ const Header = () => {
 
     return (
         <header className='header'>
-          <div className="header-container">
-              <Link to="/">
-                  <img className='logo' alt='Knule Logo' src='/Knule-Logo-White.png' />
-              </Link>
-                  <nav className="top-links">
-                      <Link to="/profile" className="nav-link">Profile</Link>
-                      <Link to="/feed" className="nav-link">Feed</Link>
-                      <Link to="/explore" className="nav-link">Explore</Link>
-                      <Link to="/register" className="nav-link">Register</Link>
-                      <Link to="/data" className="nav-link">Data</Link>
-                      
-                      {isLoggedIn && (
+            <div className="nav-section">
+                <nav className="top-links">
+                    <Link to="/feed" className="nav-link">Home</Link>
+                    <Link to="/explore" className="nav-link">Explore</Link>
+                    <Link to="/profile" className="nav-link">Profile</Link>
+                    <Link to="/register" className="nav-link">Register</Link>
+                    <Link to="/data" className="nav-link">Data</Link>
+                    
+                    {isLoggedIn && (
                         <p onClick={signOut} className="nav-link">Sign Out</p>
-                      )}
+                    )}
                 </nav>
             </div>
         </header>

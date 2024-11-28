@@ -10,8 +10,8 @@ const Header = () => {
         console.log("Logging out");
         Cookies.remove('loginAuth');
 
-        navigate('/')
-        location.reload()
+        navigate('/');
+        location.reload();
     };
 
     const isLoggedIn = Cookies.get('loginAuth');
@@ -28,8 +28,9 @@ const Header = () => {
                       <Link to="/explore" className="nav-link">Explore</Link>
                       <Link to="/register" className="nav-link">Register</Link>
                       <Link to="/data" className="nav-link">Data</Link>
+                      
                       {isLoggedIn && (
-                        <button onClick={signOut} className="nav-sign-out">Sign Out</button>
+                        <p onClick={signOut} className="nav-link">Sign Out</p>
                       )}
                 </nav>
             </div>

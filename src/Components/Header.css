@@ -35,6 +35,7 @@
 
 .nav-link:hover {
     color: #b4b4b4;
+    cursor: pointer;
 }
 
 .nav-sign-out {
@@ -50,7 +51,8 @@
     height: auto;
     background-color: #e1e1e1;
     border-radius: 20%;
-    margin-top: 100%;
+    margin-top: auto;
+    margin-bottom: 0;
     margin-left: 8%;
 }
 
@@ -63,3 +65,7 @@ body {
     padding: 0;
     box-sizing: border-box;
 } 
+
+p {
+    margin: 0;
+}

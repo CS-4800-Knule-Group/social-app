@@ -20,15 +20,37 @@ const Header = () => {
         <header className='header'>
             <div className="nav-section">
                 <nav className="top-links">
-                    <Link to="/feed" className="nav-link">Home</Link>
-                    <Link to="/explore" className="nav-link">Explore</Link>
-                    <Link to="/profile" className="nav-link">Profile</Link>
-                    <Link to="/register" className="nav-link">Register</Link>
-                    <Link to="/data" className="nav-link">Data</Link>
-                    
+                    <div className='nav-link'>
+                        <img className='nav-img' alt='' src='/HomeIcon.png' />
+                        <Link to="/feed" className='nav-text'>Home</Link>
+                    </div>
+
+                    <div className='nav-link'>
+                        <img className='nav-img' alt='' src='/ExploreIcon.png' />
+                        <Link to="/explore" className='nav-text'>Explore</Link>
+                    </div>
+
+                    <div className='nav-link'>
+                        <img className='nav-img' alt='' src='/HomeIcon.png' />
+                        <Link to="/profile" className='nav-text'>Profile</Link>
+                    </div>
+
+                    <div className='nav-link'>
+                        <img className='nav-img' alt='' src='/HomeIcon.png' />
+                        <Link to="/register" className='nav-text'>Register</Link>
+                    </div>
+
+                    <div className='nav-link'>
+                        <img className='nav-img' alt='' src='/HomeIcon.png' />
+                        <Link to="/data" className='nav-text'>Data</Link>
+                    </div>
+
                     {isLoggedIn && (
-                        <p onClick={signOut} className="nav-link">Sign Out</p>
-                    )}
+                        <div className='nav-link'>
+                            <img className='nav-img' alt='' src='/HomeIcon.png' />
+                            <Link onClick={signOut} className="nav-text">SignOut</Link>
+                        </div>  
+                    )}                  
                 </nav>
             </div>
         </header>

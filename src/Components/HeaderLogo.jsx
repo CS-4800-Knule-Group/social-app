@@ -22,6 +22,7 @@ const Header = () => {
                 <Link to="/">
                     <div className='logo-bg'>
                         <img className='logo' alt='Knule Logo' src='/Knule-Logo-White.png' />
+                        <div className='divider'></div>
                     </div>
                 </Link>
             </div>

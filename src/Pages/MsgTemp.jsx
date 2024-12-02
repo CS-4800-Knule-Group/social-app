@@ -13,6 +13,7 @@ import './MsgTemp.css'
 import { getUsers } from '../database.js';
 
 const MsgTemp = () => {
+    document.getElementsByClassName('outlet-container')[0].style.filter = 'blur(0px)';
 
     const apiUsers = 'https://knule.duckdns.org/users'
     const params = useParams();

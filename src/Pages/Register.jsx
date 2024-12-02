@@ -2,6 +2,8 @@ import React from 'react'
 import './register.css'
 
 const Register = () => {
+	document.getElementsByClassName('outlet-container')[0].style.filter = 'blur(0px)';
+	
 return (
 <div>
 	<div className="columns">

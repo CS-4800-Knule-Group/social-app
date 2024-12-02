@@ -1,4 +1,5 @@
 import React from 'react';
+import './ProfileFollowStats.css';
 
 const ProfileFollowStats = ({ followers, following, openFollowersList, openFollowingList }) => {
   return (

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import './LoginForm.css';
+import './FollowLists.css';
 
 const FollowerList = ({ followers, onClose }) => {
     const navigate = useNavigate();
@@ -15,9 +15,15 @@ const FollowerList = ({ followers, onClose }) => {
         location.reload();
     };
 
+    const closeModal = () =>{
+        onClose();
+		document.getElementsByClassName('outlet-container')[0].style.filter = 'blur(0px)';
+    }
+
     return (
-        <div className="login-form">
-            <p onClick={onClose}>X</p>
+        <div className="followBackground">
+            <p className="followClose" onClick={closeModal}>Close</p>
+            <div className='followList'>
             {followers.map(followers => (
                 <div key={followers.userId} className='follower'>
                     <div onClick={() => openPage(followers.userId)}>
@@ -25,6 +31,7 @@ const FollowerList = ({ followers, onClose }) => {
                         <h1 className='follower-username'>{followers.username}</h1>
                     </div>
                 </div>))}
+            </div>
         </div>
     );
 };

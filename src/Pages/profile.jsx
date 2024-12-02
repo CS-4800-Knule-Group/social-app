@@ -103,7 +103,7 @@ const Profile = () => {
 	}
 
 	return (
-		<div>
+		<div className='whole-page'>
 			{editFlag && createPortal(
 
 				<EditModal user={currUser} onUpload ={submitEdit}/>,

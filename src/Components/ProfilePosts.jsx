@@ -40,7 +40,11 @@ const ProfilePosts = ({ post, user }) => {
                                 <p className='postTime'>{post.timestamp}</p>
                             </div>
                         </div>
-                        {post.content && <p>{post.content}</p>}
+						<div className='post-content'>
+							<div className='post-text'>
+								{post.content && <p className='post-text'>{post.content}</p>}
+							</div>
+						</div>
                         <p onClick={deletePost} className='deletePost'>Delete Post</p>
                     </div>
   );

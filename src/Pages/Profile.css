@@ -2,6 +2,10 @@
     font-family: Arial, Helvetica, sans-serif;
 }
 
+.whole-page {
+	height: 100%;
+}
+
 .profile{
     margin: auto;
     display: flex;

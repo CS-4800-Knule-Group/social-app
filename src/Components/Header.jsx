@@ -18,20 +18,30 @@ const Header = () => {
 
     return (
         <header className='header'>
-          <div className="header-container">
-              <Link to="/">
-                  <img className='logo' alt='Knule Logo' src='/Knule-Logo-White.png' />
-              </Link>
-                  <nav className="top-links">
-                      <Link to="/profile" className="nav-link">Profile</Link>
-                      <Link to="/feed" className="nav-link">Feed</Link>
-                      <Link to="/explore" className="nav-link">Explore</Link>
-                      <Link to="/register" className="nav-link">Register</Link>
-                      <Link to="/data" className="nav-link">Data</Link>
-                      
-                      {isLoggedIn && (
-                        <p onClick={signOut} className="nav-link">Sign Out</p>
-                      )}
+            <div className="nav-section">
+                <nav className="top-links">
+
+                    <div onClick={() => navigate("/feed")} className='nav-link'>
+                        <img className='nav-img' alt='' src='/HomeIcon.png' />
+                        <Link to="/feed" className='nav-text'>Home</Link>
+                    </div>
+
+                    <div onClick={() => navigate("/explore")} className='nav-link'>
+                        <img className='nav-img' alt='' src='/ExploreIcon.png' />
+                        <Link to="/explore" className='nav-text'>Explore</Link>
+                    </div>
+
+                    <div onClick={() => navigate("/profile")} className='nav-link'>
+                        <img className='nav-img' alt='' src='/HomeIcon.png' />
+                        <Link to="/profile" className='nav-text'>Profile</Link>
+                    </div>
+
+                    {isLoggedIn && (
+                        <div className='nav-link'>
+                            <img className='nav-img' alt='' src='/HomeIcon.png' />
+                            <Link onClick={signOut} className="nav-text">SignOut</Link>
+                        </div>  
+                    )}
                 </nav>
             </div>
         </header>

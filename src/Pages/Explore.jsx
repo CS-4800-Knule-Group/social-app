@@ -30,24 +30,26 @@ const Explore = () => {
     sortUsersByName();
   }, []);  // only re-run the effect if apiEndpoint changes
   
-  return (
-    <div className='explore'>
-        <h1>Choose a user to view!</h1>
-        
-        {users.map(user => (
-          <div key={user.userId} className='userCard'>
-          <Link to={'/profile/'+ user.userId}>
-          <div className='user'>
-              <img className='profilePicture' src={user.pfp != undefined ? user.pfp : '/kirb.jpg'} height={100} width={100} />
-              <div className='textInfo'>
-                  <h1 className='username'>{user.fullName + " @" + user.username}</h1>
-              </div>
-          </div>
-          </Link>
-          </div>
-        ))}
-    </div>
-  );
+	return (
+	<div className='explore'>
+		<h1>Choose a user to view!</h1>
+		
+		{users.map(user => (
+			<div key={user.userId} className='userCard'>
+				<Link to={'/profile/'+ user.userId}>
+					<div className='user'>
+						<img className='profilePicture' src={user.pfp != undefined ? user.pfp : '/kirb.jpg'} height={100} width={100} />
+						<div className='profileInfo'>
+							<h1 className='username'>{" @" + user.username}</h1>
+							<h2>{user.fullName}</h2>
+						</div>
+					</div>
+					<p>{user.bio}</p>
+				</Link>
+			</div>
+		))}
+	</div>
+	);
 }
 
 

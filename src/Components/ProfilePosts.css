@@ -1,8 +1,79 @@
+p {
+	color: black;
+}
+
+.profilePicture {
+    margin-left: 5%;
+    border-radius: 50%;
+	width: 10%;
+	height: auto;
+}
+
 .deletePost {
+	margin-top: 2%;
     font-size: 12px;
     color: grey;
 }
 
 .deletePost:hover {
     cursor : pointer;
+}
+
+.post {
+    width: 70%;
+    margin: 10px 0;
+    padding: 10px;
+	border-radius: 15px;
+    border: 5px solid #a18f7c;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.poster {
+	display: flex;
+	align-items: center;
+	width: 50%;
+	height: auto;
+}
+
+.post-content {
+	display: flex;
+    align-items: center;
+	width: 50%;
+	height: auto;
+	margin-left: 1%;
+}
+
+.post-text {
+	color: black;
+	margin-top: 2%;
+	font-size: 20px;
+}
+
+.postTexts {
+	display: flex;
+	flex-direction: column;
+	align-items: flex-start;
+	justify-content: center;
+	margin-left: 2%;
+}
+
+.profile-text{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.post-profilePic {
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+}
+
+.post-username {
+	color: black;
+    font-size: 20px;
+    margin: 0;
+	margin-bottom: 1%;
 }

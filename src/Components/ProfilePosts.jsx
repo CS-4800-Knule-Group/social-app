@@ -31,18 +31,19 @@ const ProfilePosts = ({ post, user }) => {
 
 
   return (
-    <div key={post.postId} className='post'>
-                        <div className='poster'>
-                            <img className= 'post-profilePic' src={user ? user.pfp : '/kirb.jpg'} height={100} width={100} />
-                            <h1 className='post-username'>{user ? user.username : "NoUserNameFound"}</h1>
-                            <h3 className='post-fullName'>{user ? user.fullName : "NoDisplayNameFound" }</h3>
-                            <div className='textInfo'>
-                                <p className='postTime'>{post.timestamp}</p>
-                            </div>
-                        </div>
-                        {post.content && <p>{post.content}</p>}
-                        <p onClick={deletePost} className='deletePost'>Delete Post</p>
-                    </div>
+	<div key={post.postId} className='post'>
+		<div className='poster'>
+			<img className= 'post-profilePic' src={user ? user.pfp : '/kirb.jpg'} height={100} width={100} />
+			<div className='postTexts'>
+				<h1 className='post-username'>{user ? user.username : "NoUserNameFound"}</h1>
+				<p className='postTime'>{post.timestamp}</p>
+			</div>
+		</div>
+
+		{post.content && <p className='post-text'>{post.content}</p>}
+
+		<p onClick={deletePost} className='deletePost'>Delete Post</p>
+	</div>
   );
 };
 

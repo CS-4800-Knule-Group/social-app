@@ -5,6 +5,7 @@ import { createBrowserRouter, Outlet, RouterProvider } from 'react-router-dom'
 import Data from './Pages/Data.jsx'
 import Profile from './Pages/profile.jsx'
 import Header from './Components/Header.jsx'
+import HeaderLogo from './Components/HeaderLogo.jsx'
 import Register from './Pages/Register.jsx'
 import Feed from './Pages/feed.jsx'
 import Private from './Pages/Private.jsx'
@@ -32,12 +33,23 @@ Amplify.configure(awsConfig);
 const Layout = () => {
   return (
     <div className='layout-container'>
-      {/* //This is where you will add layout features to the whole app. This can include a header or footer, maybe more. } */}
-      {/* //These features will need to be made in the components folder and imported here. */}
-      <Header/>
-		<div className='outlet-container'>
-			<Outlet/>
-		</div>
+      <div className='leftSide'>
+        <div class="splitTLeft">
+          <HeaderLogo/>
+        </div>
+
+        <div class="splitCLeft">
+          <Header/>
+        </div>
+
+		<div class="splitBLeft">
+          <HeaderLogo/>
+        </div>
+      </div>
+
+      <div class="splitRight">
+        <Outlet/>
+      </div>
     </div>
   )
 }

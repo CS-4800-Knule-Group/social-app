@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom'
 import { useAuth } from '../authContext';
 import moment from 'moment';
+import ProfilePosts from '../Components/ProfilePosts.jsx';
 import './Feed.css'
 
 const Feed = () => {
@@ -123,24 +124,17 @@ return (
             </div>
             
             {posts.map(post =>(
-                <div className='post'>
-                <div className='poster'>
-                        <img
-                            className='profilePicture'
-                            src={getProfilePicture(post.userId)} // Use the correct profile picture here
-                            height={100}
-                            width={100}
-							onClick={() => openPage(post.userId)}
-                            alt="Profile"
-                        />
-                    <div className='textInfo'>
-                            <h1 className='username' onClick={() => openPage(post.userId)}>{users.findIndex(i => i.userId ===(post.userId)) == -1 ? 'bad user' : users[users.findIndex(i => i.userId ===(post.userId))].username}</h1>
+				<div key={post.postId} className='post'>
+					<div className='poster'>
+						<img onClick={() => openPage(post.userId)} className= 'post-profilePic' src={getProfilePicture(post.userId)} height={100} width={100} />
+						<div className='postTexts'>
+							<h1 onClick={() => openPage(post.userId)} className='post-username'>{users.findIndex(i => i.userId ===(post.userId)) == -1 ? 'bad user' : users[users.findIndex(i => i.userId ===(post.userId))].username}</h1>
+							<p className='postTime'>{post.timestamp}</p>
+						</div>
+					</div>
 
-                        <p className='postTime'>{post.timestamp}</p>
-                    </div>
-                </div>
-                <p>{post.content}</p>
-            </div>
+					{post.content && <p className='post-text'>{post.content}</p>}
+				</div>
             ))}
         </div>
     </div>

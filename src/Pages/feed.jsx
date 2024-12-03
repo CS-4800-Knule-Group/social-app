@@ -1,13 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import Cookies from 'js-cookie'
-import { jwtDecode } from 'jwt-decode'
-import LoginForm from '../Components/LoginForm'
 import { useNavigate } from 'react-router-dom';
-import { createPortal } from 'react-dom'
 import { useAuth } from '../authContext';
 import moment from 'moment';
 import ProfilePosts from '../Components/ProfilePosts.jsx';
 import './Feed.css'
+import Post from '../Components/Post.jsx';
 
 const Feed = () => {
     const navigate = useNavigate();
@@ -29,7 +27,7 @@ const Feed = () => {
         const fetchPosts = async () => {
             try {
                 const response = await fetch(apiPosts, {
-                method: 'GET', // should be lowercase 'method'
+                method: 'GET',
                 header: {
                     'Authorization': 'BEARER ' + accessToken
                 }
@@ -54,39 +52,14 @@ const Feed = () => {
             }
             };
             fetchPosts();
-    }, [])
-
-    //Function to upload a post to the database
-    const createPost = async() => {
-        if(isAuthenticated){
-            try{
-                const response = await fetch(apiPosts + "/" + user.userId, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type':'application/json'
-                    },
-                    body: JSON.stringify({
-                        "content": postContent
-                    }
-                )})
-                window.location.reload();
-            } catch (err){
-                console.error("Post failed. " + err);
-                window.location.reload();
-            }
-        }
-    }
-    //
-    const handleChange = (e) => {
-        setPostContent(e.target.value)
-    }
+    }, [accessToken]);
 
     //On Page Render, update users with list of user data
     useEffect(() => { 
         const fetchUsers = async () => {
             try {
                 const response = await fetch(apiUsers, {
-                    method: 'GET', // should be lowercase 'method'
+                    method: 'GET',
                 });
 
                 if (!response.ok) {
@@ -102,15 +75,38 @@ const Feed = () => {
         fetchUsers();
     }, []);
 
-    const getProfilePicture = (userId) => {
-        const user = users.find(u => u.userId === userId)
-        return user ? user.pfp : '/defaultProfilePic.jpg' // Fallback profile picture
-    }
+    //Function to upload a post to the database
+    const createPost = async() => {
+        if(isAuthenticated){
+            try{
+                await fetch(`${apiPosts}/${user.userId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type':'application/json'
+                    },
+                    body: JSON.stringify({ "content": postContent })
+                })
+                window.location.reload();
+            } catch (err){
+                console.error("Post failed. " + err);
+                window.location.reload();
+            }
+        }
+    };
+    
+    const handleChange = (e) => {
+        setPostContent(e.target.value);
+    };
 
-	const openPage = (userId) => {
+	const openProfile = (userId) => {
         navigate(`/profile/${userId}`);
         location.reload();
     };
+
+    const openPost = (postId) => {
+        navigate(`/post/${postId}`);
+        location.reload();
+    }
  
 return (
     <div>
@@ -123,22 +119,18 @@ return (
                 </button>
             </div>
             
-            {posts.map(post =>(
-				<div key={post.postId} className='post'>
-					<div className='poster'>
-						<img onClick={() => openPage(post.userId)} className= 'post-profilePic' src={getProfilePicture(post.userId)} height={100} width={100} />
-						<div className='postTexts'>
-							<h1 onClick={() => openPage(post.userId)} className='post-username'>{users.findIndex(i => i.userId ===(post.userId)) == -1 ? 'bad user' : users[users.findIndex(i => i.userId ===(post.userId))].username}</h1>
-							<p className='postTime'>{post.timestamp}</p>
-						</div>
-					</div>
-
-					{post.content && <p className='post-text'>{post.content}</p>}
-				</div>
+            {posts.map(post => (
+				<Post
+                    key={post.postId}
+                    post={post}
+                    users={users}
+                    openProfile={openProfile}
+                    onClick={() => openPost(post.postId)}
+                />
             ))}
         </div>
     </div>
 )
-}
+};
 
 export default Feed

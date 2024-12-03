@@ -2,11 +2,8 @@ import { React, useState, useEffect } from 'react'
 import { useParams, Link } from 'react-router-dom'
 import './Profile.css'
 import { createPortal } from 'react-dom';
-import LoginForm from '../Components/LoginForm.jsx';
 import FollowingList from '../Components/FollowingList.jsx';
 import FollowerList from '../Components/FollowerList.jsx';
-import Cookies from 'js-cookie';
-import { jwtDecode } from 'jwt-decode';
 import ProfileImages from '../Components/ProfileImages.jsx';
 import ProfileHeader from '../Components/ProfileHeader.jsx';
 import ProfileFollowStats from '../Components/ProfileFollowStats.jsx';

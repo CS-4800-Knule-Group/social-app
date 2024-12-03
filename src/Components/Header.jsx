@@ -20,29 +20,20 @@ const Header = () => {
         <header className='header'>
             <div className="nav-section">
                 <nav className="top-links">
-                    <div className='nav-link'>
+
+                    <div onClick={() => navigate("/feed")} className='nav-link'>
                         <img className='nav-img' alt='' src='/HomeIcon.png' />
                         <Link to="/feed" className='nav-text'>Home</Link>
                     </div>
 
-                    <div className='nav-link'>
+                    <div onClick={() => navigate("/explore")} className='nav-link'>
                         <img className='nav-img' alt='' src='/ExploreIcon.png' />
                         <Link to="/explore" className='nav-text'>Explore</Link>
                     </div>
 
-                    <div className='nav-link'>
+                    <div onClick={() => navigate("/profile")} className='nav-link'>
                         <img className='nav-img' alt='' src='/HomeIcon.png' />
                         <Link to="/profile" className='nav-text'>Profile</Link>
-                    </div>
-
-                    <div className='nav-link'>
-                        <img className='nav-img' alt='' src='/HomeIcon.png' />
-                        <Link to="/register" className='nav-text'>Register</Link>
-                    </div>
-
-                    <div className='nav-link'>
-                        <img className='nav-img' alt='' src='/HomeIcon.png' />
-                        <Link to="/data" className='nav-text'>Data</Link>
                     </div>
 
                     {isLoggedIn && (
@@ -50,7 +41,7 @@ const Header = () => {
                             <img className='nav-img' alt='' src='/HomeIcon.png' />
                             <Link onClick={signOut} className="nav-text">SignOut</Link>
                         </div>  
-                    )}                  
+                    )}
                 </nav>
             </div>
         </header>

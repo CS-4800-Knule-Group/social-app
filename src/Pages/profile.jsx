@@ -124,6 +124,14 @@ const Profile = () => {
 				document.body
 			)}
 
+			<div onClick={() => setEditFlag(!editFlag)} className='dropdown'>
+				<img className='profile-TR' src={currUser ? currUser.pfp : '/kirb.jpg'} alt="Profile" height={100} width={100} />
+				<div className='dropdown-content'>
+					<p>Profile</p>
+					<p>Log Out</p>
+				</div>
+			</div>
+
 			<div className='profile'>
 				<ProfileImages
 					banner={currUser ? currUser.pfBanner : '/kirbBanner.jpg'}
@@ -136,9 +144,7 @@ const Profile = () => {
 					bio={currUser ? currUser.bio : "NoBioFound"}
 				
 				/>
-				
-				<EditButton onClick={() => setEditFlag(!editFlag)} />
-				
+
 				<ProfileFollowStats
 					followers={followers}
 					following={following}
@@ -153,6 +159,11 @@ const Profile = () => {
 					/>
 				))}
 			</div>
+
+			<footer>
+				<p>Author: Knule Group<br></br>
+				<a href="mailto:baduser@gmail.com">Contact Us</a></p>
+			</footer>
 		</div>
 	)
 }

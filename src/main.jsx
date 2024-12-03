@@ -38,8 +38,12 @@ const Layout = () => {
           <HeaderLogo/>
         </div>
 
-        <div class="splitBLeft">
+        <div class="splitCLeft">
           <Header/>
+        </div>
+
+		<div class="splitBLeft">
+          <HeaderLogo/>
         </div>
       </div>
 

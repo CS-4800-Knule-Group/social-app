@@ -4,28 +4,36 @@
     background-color: #49672d;
     border-radius: 25px;
     width: 100%;
-    padding: 14.25% 29%;
-    margin-right: 24%;
+    padding: 14.25% 15%;
+    margin-right: 14%;
     margin-bottom: 14.5%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.nav-link:hover {
+	background-color: #334d1b;
 }
 
 .nav-text {
     color: #e1e1e1;
     text-decoration: none;
     font-size: 31.25px;
-    margin-left: 26%;
+    padding-left: 10%;
 }
 
 .top-links {
     display: flex;
     flex-direction: column;
     align-items: center;
+	justify-content: center;
 }
 
 .nav-img {
-    width: 13%;
-    left: 13.75%;
-    position: absolute;
+    width: 20%;
+    left: 2%;
     height: auto;
 }
 
@@ -76,5 +84,5 @@ p {
     width: 85%;
     height: 7%;
     background-color: #a4b396;
-    bottom: 30%;
+    bottom: 15%;
 }

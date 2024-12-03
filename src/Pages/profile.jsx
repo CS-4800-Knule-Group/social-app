@@ -19,8 +19,6 @@ import moment from 'moment';
 
 
 const Profile = () => {
-	const apiUsers = 'https://knule.duckdns.org/users';
-
 	const { user } = useAuth();
 	const [openFollowingModal, setFollowingOpenModal] = useState(false);
 	const [openFollowerModal, setFollowerOpenModal] = useState(false);
@@ -75,7 +73,7 @@ const Profile = () => {
 	const apiPosts = `https://knule.duckdns.org/posts/${user.userId}`
 	const getUserPosts = async () => {
 		try {
-			const response = await fetch(localUserPosts)
+			const response = await fetch(apiPosts)
 			
 			// check if response is successful
 			if (!response.ok) {
@@ -92,7 +90,6 @@ const Profile = () => {
 					timestamp: moment(post.timestamp).local().format('MMMM D, YYYY [at] h:mm A')
 				}));
 			setPosts(sortedPosts)
-			console.log(sortedPosts)
 		} catch (error) {
 			console.error('Error fetching user posts: ', error)
 		}

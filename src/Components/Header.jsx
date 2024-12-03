@@ -35,13 +35,6 @@ const Header = () => {
                         <img className='nav-img' alt='' src='/HomeIcon.png' />
                         <Link to="/profile" className='nav-text'>Profile</Link>
                     </div>
-
-                    {isLoggedIn && (
-                        <div className='nav-link'>
-                            <img className='nav-img' alt='' src='/HomeIcon.png' />
-                            <Link onClick={signOut} className="nav-text">SignOut</Link>
-                        </div>  
-                    )}
                 </nav>
             </div>
         </header>

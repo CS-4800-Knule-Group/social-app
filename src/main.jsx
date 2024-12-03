@@ -6,6 +6,8 @@ import Data from './Pages/Data.jsx'
 import Profile from './Pages/profile.jsx'
 import Header from './Components/Header.jsx'
 import HeaderLogo from './Components/HeaderLogo.jsx'
+import HeaderProfile from './Components/HeaderProfile.jsx'
+import HeaderProfileDropdown from './Components/HeaderProfileDropdown.jsx'
 import Register from './Pages/Register.jsx'
 import Feed from './Pages/feed.jsx'
 import Private from './Pages/Private.jsx'
@@ -42,14 +44,20 @@ const Layout = () => {
           <Header/>
         </div>
 
-		<div class="splitBLeft">
-          <HeaderLogo/>
+        <div className='profileDropdown'>
+          
+          <HeaderProfileDropdown/>
+
+          <div class="splitBLeft">
+            <HeaderProfile/>
+          </div>
         </div>
       </div>
 
       <div class="splitRight">
         <Outlet/>
       </div>
+      
     </div>
   )
 }

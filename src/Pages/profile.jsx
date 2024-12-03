@@ -125,11 +125,8 @@ const Profile = () => {
 			)}
 
 			<div onClick={() => setEditFlag(!editFlag)} className='dropdown'>
-				<img className='profile-TR' src={currUser ? currUser.pfp : '/kirb.jpg'} alt="Profile" height={100} width={100} />
-				<div className='dropdown-content'>
-					<p>Profile</p>
-					<p>Log Out</p>
-				</div>
+				<img className='profile-TR' src={'/EditIcon.png'} alt="Edit" height={100} width={100} />
+				
 			</div>
 
 			<div className='profile'>

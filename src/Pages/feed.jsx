@@ -6,7 +6,6 @@ import { useNavigate } from 'react-router-dom';
 import { createPortal } from 'react-dom'
 import { useAuth } from '../authContext';
 import moment from 'moment';
-import ProfilePosts from '../Components/ProfilePosts.jsx';
 import './Feed.css'
 
 const Feed = () => {

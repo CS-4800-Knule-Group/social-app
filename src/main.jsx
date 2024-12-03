@@ -15,6 +15,7 @@ import MsgTemp from './Pages/MsgTemp.jsx'
 import ProfileOther from './Pages/ProfileOther.jsx'
 import Explore from './Pages/Explore.jsx'
 import Login from './Pages/Login.jsx'
+import PostPage from './Pages/PostPage.jsx'
 import { Amplify } from 'aws-amplify';
 import { AuthProvider } from './authContext.jsx'
 import ProtectedRoute from './Components/ProtectedRoute.jsx'
@@ -86,10 +87,9 @@ const router = createBrowserRouter([{
       ]
      },
     { path:'/profile/:id', element: <ProfileOther/> },
+    { path:'/post/:postId', element: <PostPage/> },
     { path:'/register', element:<Register/> },
-    // { path:'/Explore', element:<Explore/> },
     { path:'/private', element:<Private/> },
-	  // { path:'/feed', element:<Feed/> },
     { path:'/tempmsg/:id', element: <MsgTemp/> }
   ]
 }])

@@ -14,13 +14,11 @@ import ProfileHeader from '../Components/ProfileHeader.jsx';
 import ProfileFollowStats from '../Components/ProfileFollowStats.jsx';
 import ProfilePosts from '../Components/ProfilePosts.jsx';
 import { setBadgeCount } from 'aws-amplify/push-notifications';
+import moment from 'moment';
 
 
 
 const Profile = () => {
-	const apiPosts = 'https://knule.duckdns.org/posts';
-	const apiUsers = 'https://knule.duckdns.org/users';
-
 	const { user } = useAuth();
 	const [openFollowingModal, setFollowingOpenModal] = useState(false);
 	const [openFollowerModal, setFollowerOpenModal] = useState(false);
@@ -47,6 +45,58 @@ const Profile = () => {
 		 
 	};
 
+	// fetch user data from api
+	// const localUser = `http://localhost:3000/users/${user.userId}`
+	// const getUserData = async () => {
+	// 	try {
+	// 		const response = await fetch(localUser, {
+	// 			method: 'GET',
+	// 			headers: {
+	// 				'Content-Type': 'application/json',
+	// 			}
+	// 		})
+
+	// 		// check if response is successful
+	// 		if (!response.ok) {
+	// 			throw new Error('Failed to fetch user data')
+	// 		}
+
+	// 		// parse JSON response
+	// 		const userData = await response.json()		// assign valuable information to variables to post
+	// 		console.log(userData)
+	// 	} catch (err) {
+	// 		console.error('Error fetching user data: ', err)
+	// 	}
+	// }
+
+	// fetch user posts from api
+	const apiPosts = `https://knule.duckdns.org/posts/${user.userId}`
+	const getUserPosts = async () => {
+		try {
+			const response = await fetch(apiPosts)
+			
+			// check if response is successful
+			if (!response.ok) {
+				throw new Error('Failed to fetch user posts')
+			}
+
+			// parse JSON response
+			const userPosts = await response.json()
+
+			const sortedPosts = userPosts
+				.sort((x, y) => new Date(y.timestamp) - new Date(x.timestamp))
+				.map(post => ({
+					...post,
+					timestamp: moment(post.timestamp).local().format('MMMM D, YYYY [at] h:mm A')
+				}));
+			setPosts(sortedPosts)
+		} catch (error) {
+			console.error('Error fetching user posts: ', error)
+		}
+	}
+	useEffect(() => {
+		getUserPosts();
+	}, [user]);
 
 	// fetch user data when component mounts
 	useEffect(() => {
@@ -56,33 +106,6 @@ const Profile = () => {
 	useEffect(() => {
 		filterUser();
 	}, [updateUser]);
-
-	useEffect(() => {
-		const fetchPosts = async () => {
-			try {
-				const response = await fetch(apiPosts, {
-				method: 'GET', // should be lowercase 'method'
-				});
-		
-				if (!response.ok) {
-				throw new Error('Could not reach /posts');
-				}
-				const postsData = await response.json();
-
-				const userId = user.userId;
-				const filterPosts = postsData.filter(post => post.userId == userId);
-
-				console.log(postsData[0].timestamp);
-				setPosts(filterPosts.sort((x, y) => {
-					return new Date(y.timestamp) - new Date(x.timestamp);    
-				})); // Update the state with the fetched users
-				console.log(posts)
-			} catch (error) {
-				console.error('Error fetching posts', error);
-			}
-			};
-			fetchPosts();
-	}, [user])
 
 	const handleRefresh = () => {
 		window.location.reload();

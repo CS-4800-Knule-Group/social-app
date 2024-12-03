@@ -3,6 +3,7 @@ import Cookies from 'js-cookie'
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../authContext';
 import moment from 'moment';
+import CopyrightFooter from '../Components/CopyrightFooter.jsx'
 import './Feed.css'
 import Post from '../Components/Post.jsx';
 
@@ -111,7 +112,7 @@ return (
     <div>
         <div className='feed'>
             <div className='post-input'>
-                <input type='text' placeholder=" Post text" className="post-textBox" onChange={handleChange}/>
+                <input type='text' placeholder=" Speak your mind" className="post-textBox" onChange={handleChange}/>
                     <br/>
                 <button className='post-button' onClick={createPost}>
                     Post
@@ -128,6 +129,7 @@ return (
                 />
             ))}
         </div>
+        <CopyrightFooter/>
     </div>
 )
 };

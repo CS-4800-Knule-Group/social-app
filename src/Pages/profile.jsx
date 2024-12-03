@@ -13,6 +13,7 @@ import ProfileImages from '../Components/ProfileImages.jsx';
 import ProfileHeader from '../Components/ProfileHeader.jsx';
 import ProfileFollowStats from '../Components/ProfileFollowStats.jsx';
 import ProfilePosts from '../Components/ProfilePosts.jsx';
+import CopyrightFooter from '../Components/CopyrightFooter.jsx'
 import { setBadgeCount } from 'aws-amplify/push-notifications';
 import moment from 'moment';
 
@@ -180,10 +181,7 @@ const Profile = () => {
 				))}
 			</div>
 
-			<footer>
-				<p>Author: Knule Group<br></br>
-				<a href="mailto:baduser@gmail.com">Contact Us</a></p>
-			</footer>
+			<CopyrightFooter/>
 		</div>
 	)
 }

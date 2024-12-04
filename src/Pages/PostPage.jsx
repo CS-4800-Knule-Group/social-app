@@ -11,9 +11,12 @@ const PostPage = () => {
     const [post, setPost] = useState(null);
     const [users, setUsers] = useState([]);
     const [comments, setComments] = useState([]);
+    const [commentContent, setCommentContent] = useState();
+    const [isCommentBoxVisible, setIsCommentBoxVisible] = useState(false);
     const params = useParams();
     const navigate = useNavigate();
     const { postId } = params;
+    const IMG_SIZE = 100;
 
     const postApi = `https://knule.duckdns.org/posts/post/${postId}`;
     // const postApi = `http://localhost:3000/posts/post/${postId}`;        // local test
@@ -77,8 +80,15 @@ const PostPage = () => {
                     throw new Error('Failed to fetch comments')
                 }
                 const postComments = await response.json();
-                setComments(postComments);
-                console.log(postComments);
+
+                const sortedComments = postComments
+                    .sort((x, y) => new Date(x.createdAt) - new Date(y.createdAt))
+                    .map(comment => ({
+                        ...comment,
+                        createdAt: moment(comment.createdAt).local().format('MMMM D, YYYY [at] h:mm A')
+                    }))
+                setComments(sortedComments);
+                // console.log(postComments);
             } catch (error) {
                 console.error('Error fetching comments');
             }
@@ -89,7 +99,7 @@ const PostPage = () => {
     const createComment = async() => {
         if (isAuthenticated) {
             try {
-                await fetch(`https://knule.duckdns.org/comments/post/${post.postId}`, {
+                await fetch(`https://knule.duckdns.org/comments/newComment`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -107,26 +117,57 @@ const PostPage = () => {
         }
     }
 
+    const toggleCommentBox = () => {
+        setIsCommentBoxVisible((prev) => !prev);
+    }
+
+    const handleChange = (e) => {
+        setCommentContent(e.target.value);
+    }
+
     // Ensure post and users are available before proceeding
     if (!post || !users || !comments) {
         return <div>Loading...</div>;
     }
 
     return (
-        <div className='container'>
-            <Post 
-            post={post}
-            openProfile={openProfile}
-            users={users}
-            />
-            
-            <div className='comments-container'>
-                {comments.map(comment => (
-                    <Comment 
-                        key={comment.commentId}
-                        comment={comment}
-                    />
-                ))}
+        <div className='big-container'>
+            <div className='left-container'>
+                <Post
+                post={post}
+                openProfile={openProfile}
+                users={users}
+                isSinglePostPage={true}
+                toggleCommentBox={toggleCommentBox}
+                width={80}
+                />
+                
+                <div className='comments-container'>
+                    {comments.map(comment => (
+                        <Comment 
+                            key={comment.commentId}
+                            comment={comment}
+                        />
+                    ))}
+                </div>
+            </div>
+            <div className='right-container' style={{ visibility: isCommentBoxVisible ? 'visible' : 'hidden' }}>
+                    <div className='small-right-container'>
+                        <img src="" className='post-profilePic' height={IMG_SIZE} width={IMG_SIZE}/>
+                        <div className='comment-input'>
+                            <textarea 
+                                type="textarea" 
+                                rows="10" cols="30" 
+                                placeholder='Post your reply' 
+                                className='comment-textbox' 
+                                value={commentContent}
+                                onChange={handleChange}
+                            />
+                        </div>
+                        <button className='postButton' onClick={createComment}>
+                            Reply
+                        </button>
+                    </div>
             </div>
         </div>
     )

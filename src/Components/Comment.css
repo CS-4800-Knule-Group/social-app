@@ -2,8 +2,19 @@ p {
 	color: black;
 }
 
-.comment-container {
-    width: 50%;
+.whole-container {
+	display: flex;
+	align-items: center;
+	gap: 2%;
+	margin-left: 2%;
+}
+
+.comment-arrow {
+	color: #a18f7c;
+}
+
+.comment-box {
+    width: 70%;
     margin: 12px 0;
     padding: 10px;
 	border-radius: 15px;
@@ -14,7 +25,7 @@ p {
 }
 
 .leftside-comment {
-    width: 80%;
+    width: 95%;
 }
 
 .comment-header {

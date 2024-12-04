@@ -126,6 +126,7 @@ return (
                     users={users}
                     openProfile={openProfile}
                     openPost={() => openPost(post.postId)}
+                    isSinglePostPage={false}
                 />
             ))}
         </div>

@@ -3,7 +3,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import './Header.css';
 import Cookies from 'js-cookie';
 
-const Header = () => {
+const HeaderLogo = () => {
     const navigate = useNavigate();
 
     const signOut = () => {
@@ -30,4 +30,4 @@ const Header = () => {
   )
 }
 
-export default Header
+export default HeaderLogo

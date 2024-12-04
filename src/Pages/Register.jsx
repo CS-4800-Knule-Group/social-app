@@ -3,7 +3,10 @@ import CopyrightFooter from '../Components/CopyrightFooter.jsx'
 import './register.css'
 
 const Register = () => {
-	document.getElementsByClassName('outlet-container')[0].style.filter = 'blur(0px)';
+	const outletElements = document.getElementsByClassName('splitRight')
+	if(outletElements.length > 0){
+		document.getElementsByClassName('splitRight')[0].style.filter = 'blur(0px)';
+	}
 	
 return (
 <div>

@@ -8,7 +8,11 @@ import './Feed.css'
 import Post from '../Components/Post.jsx';
 
 const Feed = () => {
-    document.getElementsByClassName('outlet-container')[0].style.filter = 'blur(0px)';
+    const outletElements = document.getElementsByClassName('splitRight')
+	if(outletElements.length > 0){
+		document.getElementsByClassName('splitRight')[0].style.filter = 'blur(0px)';
+	}
+    
     const navigate = useNavigate();
     
     const apiPosts = 'https://knule.duckdns.org/posts'

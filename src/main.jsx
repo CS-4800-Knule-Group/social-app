@@ -55,7 +55,7 @@ const Layout = () => {
         </div>
       </div>
 
-      <div class="splitRight">
+      <div className="splitRight">
         <Outlet/>
       </div>
       

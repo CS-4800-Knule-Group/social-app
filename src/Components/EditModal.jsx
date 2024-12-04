@@ -51,7 +51,7 @@ const EditModal = ({user, onUpload}) => {
 
     const closeModal = () =>{
       onUpload();
-      document.getElementsByClassName('outlet-container')[0].style.filter = 'blur(0px)';
+      document.getElementsByClassName('splitRight')[0].style.filter = 'blur(0px)';
     }
 
   return (

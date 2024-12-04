@@ -115,21 +115,21 @@ const Profile = () => {
 	const openFollowingList = () => {
 		if(!openFollowerModal && !editFlag){
 			setFollowingOpenModal(true);
-			document.getElementsByClassName('outlet-container')[0].style.filter = 'blur(5px)';
+			document.getElementsByClassName('splitRight')[0].style.filter = 'blur(5px)';
 		}
 	}
 
 	const openFollowerList = () => {
 		if(!openFollowingModal && !editFlag){
 			setFollowerOpenModal(true);
-			document.getElementsByClassName('outlet-container')[0].style.filter = 'blur(5px)';
+			document.getElementsByClassName('splitRight')[0].style.filter = 'blur(5px)';
 		}
 	}
 
 	const openEdit = () =>{
 		if(!openFollowerModal && !openFollowingModal){
 			setEditFlag(true);
-			document.getElementsByClassName('outlet-container')[0].style.filter = 'blur(5px)';
+			document.getElementsByClassName('splitRight')[0].style.filter = 'blur(5px)';
 		}
 	}
 
@@ -161,7 +161,7 @@ const Profile = () => {
 				document.body
 			)}
 
-			<div onClick={() => setEditFlag(!editFlag)} className='dropdown'>
+			<div onClick={openEdit} className='dropdown'>
 				<img className='profile-TR' src={'/EditIcon.png'} alt="Edit" height={100} width={100} />
 				
 			</div>
@@ -178,8 +178,6 @@ const Profile = () => {
 					bio={currUser ? currUser.bio : "NoBioFound"}
 				
 				/>
-				
-				<EditButton onClick={openEdit} />
 				
 				<ProfileFollowStats
 					followers={followers}

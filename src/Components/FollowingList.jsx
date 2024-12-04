@@ -17,7 +17,7 @@ const FollowingList = ({ following, onClose }) => {
 
     const closeModal = () =>{
         onClose();
-		document.getElementsByClassName('outlet-container')[0].style.filter = 'blur(0px)';
+		document.getElementsByClassName('splitRight')[0].style.filter = 'blur(0px)';
     }
 
     return (

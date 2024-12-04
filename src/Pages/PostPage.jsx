@@ -5,7 +5,6 @@ import Post from '../Components/Post';
 import Comment from '../Components/Comment';
 import moment from 'moment';
 import './PostPage.css'
-import { del } from 'aws-amplify/api';
 
 const PostPage = () => {
     const { user, isAuthenticated } = useAuth();

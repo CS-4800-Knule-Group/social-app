@@ -113,11 +113,24 @@ const Profile = () => {
 	}
 
 	const openFollowingList = () => {
-		setFollowingOpenModal(true);
+		if(!openFollowerModal && !editFlag){
+			setFollowingOpenModal(true);
+			document.getElementsByClassName('outlet-container')[0].style.filter = 'blur(5px)';
+		}
 	}
 
 	const openFollowerList = () => {
-		setFollowerOpenModal(true);
+		if(!openFollowingModal && !editFlag){
+			setFollowerOpenModal(true);
+			document.getElementsByClassName('outlet-container')[0].style.filter = 'blur(5px)';
+		}
+	}
+
+	const openEdit = () =>{
+		if(!openFollowerModal && !openFollowingModal){
+			setEditFlag(true);
+			document.getElementsByClassName('outlet-container')[0].style.filter = 'blur(5px)';
+		}
 	}
 
 	const submitEdit = async() => {
@@ -165,7 +178,9 @@ const Profile = () => {
 					bio={currUser ? currUser.bio : "NoBioFound"}
 				
 				/>
-
+				
+				<EditButton onClick={openEdit} />
+				
 				<ProfileFollowStats
 					followers={followers}
 					following={following}

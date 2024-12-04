@@ -6,6 +6,10 @@
 	height: 100%;
 }
 
+.profile-background{
+    z-index: 50;
+}
+
 .profile{
     margin: auto;
     display: flex;

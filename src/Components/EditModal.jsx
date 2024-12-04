@@ -49,11 +49,14 @@ const EditModal = ({user, onUpload}) => {
         //AND WOULD BE A DESIGN PRINCIPLE :O
     }
 
-
+    const closeModal = () =>{
+      onUpload();
+      document.getElementsByClassName('outlet-container')[0].style.filter = 'blur(0px)';
+    }
 
   return (
     <div className="edit-modal">
-      <button onClick={onUpload}>Close Menu</button>
+      <button onClick={closeModal}>Close Menu</button>
         <form onSubmit={submit}>
           <h1>Edit Profile</h1>
           <label>New Pfp</label>

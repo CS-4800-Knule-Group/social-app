@@ -3,7 +3,8 @@ import './Private.css'
 import { Link } from 'react-router-dom'
 
 const Private = () => {
-
+    document.getElementsByClassName('outlet-container')[0].style.filter = 'blur(0px)';
+    
     return (
         <div>
           

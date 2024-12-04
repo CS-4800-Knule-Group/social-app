@@ -94,12 +94,14 @@ const PostPage = () => {
             }
         }
         fetchComments();
+        console.log(comments)
     }, [post])
 
     const createComment = async() => {
         if (isAuthenticated) {
             try {
-                await fetch(`https://knule.duckdns.org/comments/newComment`, {
+                const response = await fetch(`http://localhost:3000/comments/newComment`, {
+                // const response = await fetch(`https://knule.duckdns.org/comments/newComment`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -108,11 +110,16 @@ const PostPage = () => {
                         "postId": post.postId,
                         "userId": user.userId,
                         "content": commentContent
-                    })
+                     })
                 });
-                window.location.reload();
+
+                const newComment = await response.json();
+                // Add the new comment to the existing comments state
+                setComments((prevComments) => [...prevComments, newComment]);       // error here
+                // Clear the comment box
+                setCommentContent('');
             } catch (error) {
-                console.error('Comment failed');
+                console.error('Comment failed', error);
             }
         }
     }
@@ -140,6 +147,7 @@ const PostPage = () => {
                 isSinglePostPage={true}
                 toggleCommentBox={toggleCommentBox}
                 width={80}
+                commentsCount={comments.length}
                 />
                 
                 <div className='comments-container'>

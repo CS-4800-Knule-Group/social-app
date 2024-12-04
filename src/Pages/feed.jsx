@@ -127,6 +127,7 @@ return (
                     openProfile={openProfile}
                     openPost={() => openPost(post.postId)}
                     isSinglePostPage={false}
+                    commentsCount={post.comments.length}
                 />
             ))}
         </div>

@@ -15,8 +15,8 @@ const PostPage = () => {
     const navigate = useNavigate();
     const { postId } = params;
 
-    // // const postApi = `https://knule.duckdns.org/posts/post/${postId}`;
-    const postApi = `http://localhost:3000/posts/post/${postId}`;
+    const postApi = `https://knule.duckdns.org/posts/post/${postId}`;
+    // const postApi = `http://localhost:3000/posts/post/${postId}`;        // local test
 
     useEffect(() => {
         const fetchPost = async() => {
@@ -40,8 +40,8 @@ const PostPage = () => {
 
     useEffect(() => {
         if (!post) return;
-        // const userApi = `https://knule.duckdns.org/users/${post.userId}`;   // userId from post
-        const userApi = `http://localhost:3000/users/${post.userId}`;   // userId from post
+        const userApi = `https://knule.duckdns.org/users/${post.userId}`;   // userId from post
+        // const userApi = `http://localhost:3000/users/${post.userId}`;   // local test
 
         const fetchUser = async() => {
             try {
@@ -68,7 +68,8 @@ const PostPage = () => {
 
     useEffect(() => {
         if (!post) return;
-        const commentApi = `http://localhost:3000/comments/post/${post.postId}`
+        // const commentApi = `http://localhost:3000/comments/post/${post.postId}`      // local test
+        const commentApi = `https://knule.duckdns.org/comments/post/${post.postId}`
         const fetchComments = async() => {
             try {
                 const response = await fetch(commentApi);
@@ -88,7 +89,7 @@ const PostPage = () => {
     const createComment = async() => {
         if (isAuthenticated) {
             try {
-                await fetch(`http://localhost:3000/comments/post/${post.postId}`, {
+                await fetch(`https://knule.duckdns.org/comments/post/${post.postId}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'

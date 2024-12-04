@@ -125,7 +125,7 @@ return (
                     post={post}
                     users={users}
                     openProfile={openProfile}
-                    onClick={() => openPost(post.postId)}
+                    openPost={() => openPost(post.postId)}
                 />
             ))}
         </div>

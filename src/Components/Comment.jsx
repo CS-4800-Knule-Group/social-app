@@ -8,7 +8,8 @@ const Comment = ({ comment }) => {
     comment.timestamp = moment(comment.timestamp).local().format('MMMM D, YYYY [at] h:mm A')
 
     useEffect(() => {
-        const userApi = `http://localhost:3000/users/${comment.userId}`;   // userId from post
+        const userApi = `https://knule.duckdns.org/users/${comment.userId}`;   // userId from post
+        // const userApi = `http://localhost:3000/users/${comment.userId}`;   // local test
 
         const fetchUser = async() => {
             try {

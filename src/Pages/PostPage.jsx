@@ -5,6 +5,7 @@ import Post from '../Components/Post';
 import Comment from '../Components/Comment';
 import moment from 'moment';
 import './PostPage.css'
+import { del } from 'aws-amplify/api';
 
 const PostPage = () => {
     const { user, isAuthenticated } = useAuth();
@@ -33,7 +34,7 @@ const PostPage = () => {
                 const post = await response.json();
                 post.timestamp = moment(post.timestamp).local().format('MMMM D, YYYY [at] h:mm A')
                 setPost(post)
-                console.log(post)
+                // console.log(post)
             } catch (error) {
                 console.error('Error fetching post: ', error);
             }
@@ -56,7 +57,7 @@ const PostPage = () => {
                 // parse json response
                 const userData = await response.json();
                 setUsers(userData);
-                console.log(userData)
+                // console.log(userData)
             } catch (error) {
                 console.error('Error fetching user: ', error);
             }
@@ -94,14 +95,13 @@ const PostPage = () => {
             }
         }
         fetchComments();
-        console.log(comments)
+        // console.log(comments)
     }, [post])
 
     const createComment = async() => {
         if (isAuthenticated) {
             try {
-                const response = await fetch(`http://localhost:3000/comments/newComment`, {
-                // const response = await fetch(`https://knule.duckdns.org/comments/newComment`, {
+                const response = await fetch(`https://knule.duckdns.org/comments/newComment`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
@@ -115,11 +115,24 @@ const PostPage = () => {
 
                 const newComment = await response.json();
                 // Add the new comment to the existing comments state
-                setComments((prevComments) => [...prevComments, newComment]);       // error here
+                setComments((prevComments) => [...prevComments, newComment]);
                 // Clear the comment box
                 setCommentContent('');
             } catch (error) {
                 console.error('Comment failed', error);
+            }
+        }
+    }
+
+    const deleteComment = async (commentId) => {
+        if (isAuthenticated) {
+            setComments((prevComments) => prevComments.filter(comment => comment.commentId !== commentId));
+            try {
+                await fetch(`https://knule.duckdns.org/comments/${postId}/${commentId}`, {
+                    method: "DELETE"
+                })
+            } catch (err) {
+                console.log(err);
             }
         }
     }
@@ -155,6 +168,7 @@ const PostPage = () => {
                         <Comment 
                             key={comment.commentId}
                             comment={comment}
+                            deleteComment={deleteComment}
                         />
                     ))}
                 </div>

@@ -65,3 +65,16 @@ p {
 	margin-top: 2%;
 	font-size: 20px;
 }
+
+.deleteIcon {
+	cursor: pointer;
+	padding: 4px;
+}
+
+.deleteIcon:hover {
+	fill: #cabcae;
+}
+
+.comment-profilePic, .comment-username {
+	cursor: pointer;
+}

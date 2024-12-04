@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
-import moment from 'moment';
+import { useAuth } from '../authContext.jsx'
+import { useNavigate } from 'react-router-dom';
 import './Comment.css';
 
-const Comment = ({ comment }) => {
-    const [user, setUser] = useState(null);
+const Comment = ({ comment, deleteComment }) => {
+    const [commentUser, setCommentUser] = useState(null);
+    const { user, isAuthenticated } = useAuth();     // user of app
+    const navigate = useNavigate();
     const IMG_SIZE = 100;
 
     useEffect(() => {
@@ -19,7 +22,7 @@ const Comment = ({ comment }) => {
                 }
                 // parse json response
                 const userData = await response.json();
-                setUser(userData);
+                setCommentUser(userData);
             } catch (error) {
                 console.error('Error fetching user: ', error);
             }
@@ -40,14 +43,19 @@ const Comment = ({ comment }) => {
             <div className="comment-box">
                 <div className="leftside-comment">
                     <div className="comment-header">
-                        <img className="comment-profilePic" src={user ? user.pfp : '/defaultProfilePic.jpg'} height={IMG_SIZE} width={IMG_SIZE}/>
+                        <img className="comment-profilePic" src={commentUser ? commentUser.pfp : '/defaultProfilePic.jpg'} height={IMG_SIZE} width={IMG_SIZE} onClick={() => openProfile(commentUser.userId)}/>
                         <div className="header-texts">
-                            <h1 className="comment-username" onClick={() => openProfile(user.userId)}>{user ? user.username : "NoUserNameFound"}</h1>
+                            <h1 className="comment-username" onClick={() => openProfile(commentUser.userId)}>{commentUser ? commentUser.username : "NoUserNameFound"}</h1>
                             <p className="commentTime">{comment.createdAt}</p>
                         </div>
                     </div>
 
                     {comment && <p className="comment-text">{comment.content}</p>}
+                </div>
+                <div className="rightside-comment">
+                    <svg xmlns="http://www.w3.org/2000/svg" className="deleteIcon" onClick={() => deleteComment(comment.commentId)} visibility={ user.userId == comment.userId ? "visible" : "hidden" } width="32" height="32" fill="#a18f7c" viewBox="0 0 16 16">
+                        <path d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5M8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5m3 .5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 1 0"/>
+                    </svg>
                 </div>
             </div>
         </div>

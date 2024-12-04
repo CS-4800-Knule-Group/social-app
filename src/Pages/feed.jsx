@@ -14,10 +14,11 @@ const Feed = () => {
     const apiUsers = 'https://knule.duckdns.org/users'
 
     const { user, isAuthenticated } = useAuth();
-    const accessToken = Cookies.get('loginAuth')
+    const accessToken = Cookies.get('loginAuth');
 
-    const[posts, setPosts] = useState([])
-    const[users, setUsers] = useState([])
+    const[posts, setPosts] = useState([]);
+    const[users, setUsers] = useState([]);
+    const [myLikes, setMyLikes] = useState([]);
     const [postContent, setPostContent] = useState();
 
 
@@ -52,6 +53,7 @@ const Feed = () => {
             }
             };
             fetchPosts();
+            console.log(posts)
     }, [accessToken]);
 
     //On Page Render, update users with list of user data
@@ -107,6 +109,44 @@ const Feed = () => {
         navigate(`/post/${postId}`);
         location.reload();
     }
+
+    const toggleLike = async (postId, userId) => {
+        if (isAuthenticated) {
+            // update ui first
+            const hasLiked = posts.find(post => post.postId === postId)?.likes.some(like => like.S == userId);
+            console.log(`${hasLiked}`)
+
+            // Optionally, update the local state to reflect the new like/unlike
+            setPosts(prevPosts => 
+                prevPosts.map(post =>
+                    post.postId === postId
+                        ? {
+                            ...post,
+                            likes: hasLiked
+                                ? post.likes.filter(like => like.S !== userId) // Remove like
+                                : [...post.likes, { S: userId }] // Add like
+                        }
+                        : post
+                )
+            );
+            
+            try {
+                if (hasLiked) {
+                    const response = await fetch(`https://knule.duckdns.org/likes/${postId}/${userId}`, {
+                        method: "DELETE"
+                    })
+                } else {
+                    const response = await fetch(`https://knule.duckdns.org/likes/${postId}`, {
+                        method: "POST",
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ "userId": userId })
+                    })
+                }
+            } catch (error) {
+                console.error('error liking post', error);
+            }
+        }
+    }
  
 return (
     <div>
@@ -128,6 +168,9 @@ return (
                     openPost={() => openPost(post.postId)}
                     isSinglePostPage={false}
                     commentsCount={post.comments.length}
+                    likesCount={post.likes.length}
+                    onLike={() => toggleLike(post.postId, user.userId)}
+                    liked={post.likes.some(like => like.S == user.userId)}
                 />
             ))}
         </div>

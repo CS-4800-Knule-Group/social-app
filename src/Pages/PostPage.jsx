@@ -113,6 +113,7 @@ const PostPage = () => {
                 });
 
                 const newComment = await response.json();
+                newComment.createdAt = moment(newComment.createdAt).local().format('MMMM D, YYYY [at] h:mm A')
                 // Add the new comment to the existing comments state
                 setComments((prevComments) => [...prevComments, newComment]);
                 // Clear the comment box
@@ -144,6 +145,38 @@ const PostPage = () => {
         setCommentContent(e.target.value);
     }
 
+    const toggleLike = async (postId, userId) => {
+        if (isAuthenticated) {
+            // update ui first
+            const hasLiked = post.likes.some(like => like.S == userId);
+            console.log(`${hasLiked}`)
+            
+            // Optimistic update
+            setPost((prevPost) => ({
+                ...prevPost,
+                likes: hasLiked
+                ? prevPost.likes.filter((like) => like.S !== userId)
+                : [...prevPost.likes, { S: userId }],
+            }));
+
+            try {
+                if (hasLiked) {
+                    const response = await fetch(`https://knule.duckdns.org/likes/${postId}/${userId}`, {
+                        method: "DELETE"
+                    })
+                } else {
+                    const response = await fetch(`https://knule.duckdns.org/likes/${postId}`, {
+                        method: "POST",
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ "userId": userId })
+                    })
+                }
+            } catch (error) {
+                console.error('error liking post', error);
+            }
+        }
+    }
+
     // Ensure post and users are available before proceeding
     if (!post || !users || !comments) {
         return <div>Loading...</div>;
@@ -160,6 +193,9 @@ const PostPage = () => {
                 toggleCommentBox={toggleCommentBox}
                 width={80}
                 commentsCount={comments.length}
+                likesCount={post.likes.length}
+                onLike={() => toggleLike(post.postId, user.userId)}
+                liked={post.likes.some(like => like.S == user.userId)}
                 />
                 
                 <div className='comments-container'>

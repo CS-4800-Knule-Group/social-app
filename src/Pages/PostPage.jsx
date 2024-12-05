@@ -10,6 +10,7 @@ const PostPage = () => {
     const { user, isAuthenticated } = useAuth();
     const [post, setPost] = useState(null);
     const [users, setUsers] = useState([]);
+    const [allUsers, setAllUsers] = useState([]);
     const [comments, setComments] = useState([]);
     const [commentContent, setCommentContent] = useState();
     const [isCommentBoxVisible, setIsCommentBoxVisible] = useState(false);
@@ -38,7 +39,21 @@ const PostPage = () => {
                 console.error('Error fetching post: ', error);
             }
         };
+
+        const fetchAllUsers = async() => {
+            try {
+                const response = await fetch(`https://knule.duckdns.org/users`)
+                if (!response.ok) {
+                    throw new Error('Failed to fetch users');
+                }
+                const allAccounts = await response.json();
+                setAllUsers(allAccounts)
+            } catch (error) {
+                console.error('Error fetching users')
+            }
+        }
         fetchPost();
+        fetchAllUsers();
     }, [postId])
 
     useEffect(() => {
@@ -177,6 +192,11 @@ const PostPage = () => {
         }
     }
 
+    const getProfilePicture = (userId) => {
+        const currentUser = allUsers.find(u => u.userId === userId)
+        return currentUser ? currentUser.pfp : '/defaultProfilePic.jpg'
+    }
+
     // Ensure post and users are available before proceeding
     if (!post || !users || !comments) {
         return <div>Loading...</div>;
@@ -210,7 +230,7 @@ const PostPage = () => {
             </div>
             <div className='right-container' style={{ visibility: isCommentBoxVisible ? 'visible' : 'hidden' }}>
                     <div className='small-right-container'>
-                        <img src="" className='post-profilePic' height={IMG_SIZE} width={IMG_SIZE}/>
+                        <img src={getProfilePicture(user.userId)} className='post-profilePic' height={IMG_SIZE} width={IMG_SIZE}/>
                         <div className='comment-input'>
                             <textarea 
                                 type="textarea" 

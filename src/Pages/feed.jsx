@@ -112,7 +112,6 @@ const Feed = () => {
 
     const openPost = (postId) => {
         navigate(`/post/${postId}`);
-        location.reload();
     }
 
     const toggleLike = async (postId, userId) => {

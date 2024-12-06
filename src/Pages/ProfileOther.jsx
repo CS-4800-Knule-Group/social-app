@@ -125,12 +125,18 @@ const ProfileOther = () => {
     }, [])
 
     const openFollowingList = () => {
-        setFollowingOpenModal(true);
-    }
+		if(!openFollowerModal){
+			setFollowingOpenModal(true);
+			document.getElementsByClassName('splitRight')[0].style.filter = 'blur(5px)';
+		}
+	}
 
-    const openFollowerList = () => {
-        setFollowerOpenModal(true);
-    }
+	const openFollowerList = () => {
+		if(!openFollowingModal){
+			setFollowerOpenModal(true);
+			document.getElementsByClassName('splitRight')[0].style.filter = 'blur(5px)';
+		}
+	}
 
 
     return (
@@ -184,7 +190,7 @@ const ProfileOther = () => {
             {posts.map(post =>(
 				<ProfilePosts
 					post={post}
-					user={currUser}
+					user={currUser[0]}
 				/>
                 ))}
             </div>

@@ -16,6 +16,7 @@ const Feed = () => {
     const navigate = useNavigate();
     
     const apiPosts = 'https://knule.duckdns.org/posts'
+    const apiPostsTest = 'http://localhost:3000/posts'
     const apiUsers = 'https://knule.duckdns.org/users'
 
     const { user, isAuthenticated } = useAuth();
@@ -25,6 +26,7 @@ const Feed = () => {
     const[users, setUsers] = useState([]);
     const [myLikes, setMyLikes] = useState([]);
     const [postContent, setPostContent] = useState();
+    const [postImg, setPostImg] = useState([]);
 
 
     //On page render, update Posts with the list of post data
@@ -43,7 +45,7 @@ const Feed = () => {
                 throw new Error('Could not reach /posts');
                 }
                 const postsData = await response.json();
-                // console.log(postsData)
+                 console.log(postsData)
 
                 const sortedPosts = postsData
                     .sort((x, y) => new Date(y.timestamp) - new Date(x.timestamp))
@@ -85,13 +87,13 @@ const Feed = () => {
     //Function to upload a post to the database
     const createPost = async() => {
         if(isAuthenticated){
+            const formData = new FormData();
+            formData.append("content", postContent);
+            formData.append("img1", postImg);
             try{
                 await fetch(`${apiPosts}/${user.userId}`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type':'application/json'
-                    },
-                    body: JSON.stringify({ "content": postContent })
+                    body: formData
                 })
                 window.location.reload();
             } catch (err){
@@ -158,6 +160,7 @@ return (
             <div className='post-input'>
                 <input type='text' placeholder=" Speak your mind" className="post-textBox" onChange={handleChange}/>
                     <br/>
+                <input type='file' onChange={(e) => setPostImg(e.target.files[0])} accept='image/*'/>
                 <button className='post-button' onClick={createPost}>
                     Post
                 </button>

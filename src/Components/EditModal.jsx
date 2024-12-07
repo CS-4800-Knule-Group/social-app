@@ -30,6 +30,8 @@ const EditModal = ({user, onUpload}) => {
         })
         console.log("The response finished")
         console.log(response);
+		    document.getElementsByClassName('splitRight')[0].style.filter = 'blur(0px)';
+
       }catch(err){
         console.log(err)
       }

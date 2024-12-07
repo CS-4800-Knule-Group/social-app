@@ -4,7 +4,8 @@ import './Post.css';
 
 
 
-const Post = ({ post, openProfile, users, openPost, isSinglePostPage, toggleCommentBox, width, commentsCount, likesCount, onLike, liked }) => {
+const Post = ({ post, openProfile, users, openPost, isSinglePostPage, 
+    toggleCommentBox, width, commentsCount, likesCount, onLike, liked }) => {
 
     const IMG_SIZE = 100
     // if users = array then V else user = users
@@ -34,6 +35,13 @@ const Post = ({ post, openProfile, users, openPost, isSinglePostPage, toggleComm
                 </div>
 
                 {post.content && <p className='post-text'>{post.content}</p>}
+                {(post.images.length > 0) &&
+                    post.images.map(img => (
+                        <div>
+                            <img src={img}></img>
+                        </div>
+                    ))
+                }
             </div>
 
             <div className='rightside-post'>

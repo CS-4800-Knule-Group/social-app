@@ -3,6 +3,7 @@ import { useAuth } from '../authContext';
 import { useState } from 'react';
 import CopyrightFooter from '../Components/CopyrightFooter.jsx'
 import './register.css'
+import { Link } from 'react-router-dom';
 
 const Login = () => {
     const { login } = useAuth();
@@ -49,8 +50,11 @@ const Login = () => {
                     <input className='submitButton' type='submit'/>
                 </form>
                 <br/>
-                <p className='otherReg'>Need to make an account? Register</p>
+                <Link to="/register" className='otherReg'>Need to make an account? Register</Link>
             </div>
+
+			<div className='spacing'>
+			</div>
 
             <CopyrightFooter/>
         </div>

@@ -7,8 +7,9 @@
 }
 
 .profilePicture {
-	width: 100px;
-	height: auto;
+	width: 75px;
+	height: 75px;
+	margin-bottom: 3%;
 }
 
 h1 {
@@ -22,14 +23,62 @@ h2 {
 }
 
 .userCard {
-	width: 70%;
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	width: 40%;
 	height: 10%;
 	border-radius: 15px;
     border: 5px solid #a18f7c;
 	margin-bottom: 1%;
+	justify-content: space-between;
 }
 
 .user {
 	display: flex;
 	flex-direction: row;
+	width: 100%;
+	height: 100%;
+}
+
+.bio {
+	margin-bottom: 6%;
+	font-size: 17px;
+}
+
+.profileNames {
+	margin: 0;
+	margin-bottom: 2%;
+}
+
+.user {
+	font-size: 25px;
+}
+
+.full {
+	font-size: 20px;
+	font-weight: normal;
+	color: #444444;
+}
+
+.profileLink {
+	text-decoration: none;
+}
+
+.profileInfo {
+	margin-left: 2%;
+}
+
+.visitSec {
+	display: flex;
+	align-items: center;
+	margin-right: 5%;
+}
+
+.visitButton {
+	background-color: #49672d;
+	padding: 15px 55px;
+	border-radius: 25px;
+	color: white;
+	font-weight: bold;
 }

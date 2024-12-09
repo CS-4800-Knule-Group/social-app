@@ -1,7 +1,6 @@
 .followBackground{
     z-index: 100;
     position:absolute;
-    border: 5px solid #555;
     left:0;
     right:0;
     margin-left: auto;
@@ -12,19 +11,25 @@
     margin-top: 8%;
     align-content: center;
     text-align: center;
-    background-color: #921717;
+    background-color: #e6d9cc;
     backdrop-filter: blur(8px);
+	border-radius: 10px;
+	border: 8px solid #49672d;
 }
 
 .followClose{
     background-color: white;
     align-content: center;
-    width: 12%;
-    margin-left: 42%;
-    margin-bottom: 1%;
+    width: 7%;
+	height: 7%;
+    margin-left: 2%;
+    margin-bottom: 0;
+	left: 0;
+	margin-top: 2%;
 }
 
 .followList{
+	border: #49672d;
     overflow-y: auto;
     height: 85%;
     scrollbar-gutter:stable;

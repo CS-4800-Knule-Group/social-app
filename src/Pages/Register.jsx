@@ -1,6 +1,7 @@
 import React from 'react'
 import CopyrightFooter from '../Components/CopyrightFooter.jsx'
 import './register.css'
+import { Link } from 'react-router-dom';
 
 const Register = () => {
 	const outletElements = document.getElementsByClassName('splitRight')
@@ -28,7 +29,7 @@ return (
 			<input className='submitButton' type='submit'/>
 		</form>
 		<br/>
-		<p className='otherReg'>Already have an account? Log In</p>
+		<Link to="/profile" className='otherReg'>Already have an account? Log In</Link> {/* Has to Link to profile so when user logs in they open profile automatically */}
 	</div>
 	<CopyrightFooter/>
 </div>

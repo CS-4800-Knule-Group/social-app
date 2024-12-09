@@ -42,16 +42,23 @@ const Explore = () => {
 			
 			{users.map(user => (
 				<div key={user.userId} className='userCard'>
-					<Link to={'/profile/'+ user.userId}>
+					<Link className='profileLink' to={'/profile/'+ user.userId}>
 						<div className='user'>
 							<img className='profilePicture' src={user.pfp != undefined ? user.pfp : '/kirb.jpg'} height={100} width={100} />
 							<div className='profileInfo'>
-								<h1 className='username'>{" @" + user.username}</h1>
-								<h2>{user.fullName}</h2>
+								<div className='profileNames'>
+									<h1 className='user'>{" @" + user.username}</h1>
+									<h2 className='full'>{user.fullName}</h2>
+								</div>
+								<p className='bio'>{user.bio != "" ? user.bio : "No bio"}</p>
 							</div>
 						</div>
-						<p>{user.bio}</p>
 					</Link>
+					<div className='visitSec'>
+						<Link className='profileLink' to={'/profile/' + user.userId}>
+							<p className='visitButton'>VISIT</p>
+						</Link>
+					</div>
 				</div>
 			))}
 		</div>

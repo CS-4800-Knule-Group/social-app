@@ -9,6 +9,8 @@
     justify-content: center;
     background-color: #49672d;
     color: #e7e9ea;
+	padding-bottom: .7%;
+	bottom: 0;
 }
 
 .footer-line {

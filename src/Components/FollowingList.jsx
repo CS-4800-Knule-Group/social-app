@@ -22,16 +22,16 @@ const FollowingList = ({ following, onClose }) => {
 
     return (
         <div className="followBackground">
-            <p className="followClose" onClick={closeModal}>Close</p>
+            <p className="followClose" onClick={closeModal}>X</p>
             <div className='followList'>
-            {following.map(following => (
-                <div key={following.userId} className='following'>
-                    <div onClick={() => openPage(following.userId)}>
-                        <img className='following-profilePic' src={getProfilePicture(following.userId)} alt={following.username} />
-                        <h1 className='following-username'>{following.username}</h1>
+                {following.map(following => (
+                    <div key={following.userId} className='follow'>
+                        <div onClick={() => openPage(following.userId)}>
+                            <img className='follow-profilePic' src={getProfilePicture(following.userId)} alt={following.username} />
+                            <h1 className='follow-username'>{following.username}</h1>
+                        </div>
                     </div>
-                </div>
-            ))}
+                ))}
             </div>
         </div>
     );

@@ -1,4 +1,5 @@
 .follow-text:hover{
-    background-color: dimgrey;
+    background-color: #cabaaa;
     cursor: pointer;
+    border-radius: 10px;
 }

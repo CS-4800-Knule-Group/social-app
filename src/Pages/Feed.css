@@ -15,6 +15,13 @@
     color: white;
     padding: 10px;
     cursor: pointer;
+    border-width: 2px;
+    border-color: black;
+    border-style: outset;
+}
+
+.post-button:hover {
+    background-color: #648049;
 }
 
 .post-textBox {
@@ -23,7 +30,8 @@
     width: 500px;
     height: 30px;
     padding: 6px;
-    border-radius: 10px;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
     font-size: 20px;
 }
 
@@ -31,4 +39,28 @@
     display: flex;
     align-items: center;
     margin-top: 10px;
+}
+
+.inputFile {
+	width: 0.1px;
+	height: 0.1px;
+	opacity: 0;
+	overflow: hidden;
+	position: absolute;
+	z-index: -1;
+}
+
+.imageInput {
+    background-color: #78945e;
+    padding: 12px;
+    border-width: 2px;
+    border-color: black;
+    border-style: outset;
+    border-right-style: none;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+}
+
+.imageInput:hover {
+    background-color: #648049;
 }

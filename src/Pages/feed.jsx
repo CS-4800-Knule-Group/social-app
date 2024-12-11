@@ -158,9 +158,10 @@ return (
     <div>
         <div className='feed'>
             <div className='post-input'>
+                <input type='file' className="inputFile" id="file" onChange={(e) => setPostImg(e.target.files[0])} accept='image/*'/>
+                <label className='imageInput' for="file">+</label>
                 <input type='text' placeholder=" Speak your mind" className="post-textBox" onChange={handleChange}/>
                     <br/>
-                <input type='file' onChange={(e) => setPostImg(e.target.files[0])} accept='image/*'/>
                 <button className='post-button' onClick={createPost}>
                     Post
                 </button>

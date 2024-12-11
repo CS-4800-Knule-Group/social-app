@@ -5,7 +5,7 @@ import './ProfilePosts.css'
 
 const apiPosts = 'https://knule.duckdns.org/posts'
 
-const ProfilePosts = ({ post, user }) => {
+const ProfilePosts = ({ post, user, deletable }) => {
     const deletePost = async () => {
         try {
             const response = await fetch(`${apiPosts}/del/${user.userId}/${post.postId}`, {
@@ -42,7 +42,7 @@ const ProfilePosts = ({ post, user }) => {
 
 		{post.content && <p className='post-text'>{post.content}</p>}
 
-		<p onClick={deletePost} className='deletePost'>Delete Post</p>
+		{deletable ? (<p onClick={deletePost} className='deletePost'>Delete Post</p>) : null }
 	</div>
   );
 };

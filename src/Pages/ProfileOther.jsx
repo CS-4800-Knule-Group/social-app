@@ -191,6 +191,7 @@ const ProfileOther = () => {
 				<ProfilePosts
 					post={post}
 					user={currUser[0]}
+                    deletable={false}
 				/>
                 ))}
             </div>

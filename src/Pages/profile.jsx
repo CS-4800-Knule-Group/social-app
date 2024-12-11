@@ -190,6 +190,7 @@ const Profile = () => {
 					<ProfilePosts
 						post={post}
 						user={currUser}
+						deletable={true}
 					/>
 				))}
 			</div>

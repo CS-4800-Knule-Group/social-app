@@ -32,7 +32,7 @@ const Header = () => {
                     </div>
 
                     <div onClick={() => navigate("/profile")} className='nav-link'>
-                        <img className='nav-img' alt='' src='/HomeIcon.png' />
+                        <img className='nav-img' alt='' src='/ProfileIcon.png' />
                         <Link to="/profile" className='nav-text'>Profile</Link>
                     </div>
                 </nav>

@@ -1,16 +1,87 @@
 .edit-modal{
     z-index: 100;
     position:absolute;
-    border: 1px solid #555;
     left:0;
     right:0;
     margin-left: auto;
     margin-right:auto;
-    height: 30%;
+    height: 60%;
     top: 5%;
     width: 30%;
-    margin-top: 15%;
+    margin-top: 8%;
     align-content: center;
     text-align: center;
-    background-color: #921717;
+    background-color: #e6d9cc;
+    backdrop-filter: blur(8px);
+	border-radius: 10px;
+	border: 8px solid #49672d;
+}
+
+.editClose {
+    background-color: #49672d;
+    color: #e6d9cc;
+    border-radius: 50%;
+    align-content: center;
+    width: 7%;
+    height: 7%;
+    top: 2%;
+    left: 2%;
+    font-weight: bold;
+    position: absolute;
+}
+
+.editForm {
+    margin-bottom: 10%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.editHeader {
+    color: white ;
+    background-color: #49672d;
+    padding: 10px;
+    border-radius: 15px;
+}
+
+.editInput {
+    margin-top: 5%;
+    margin-left: 15%;
+    margin-bottom: 5%;
+}
+
+.editTextInput {
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.editTitle {
+    font-weight: bold;
+    font-size: 25px;
+    color: #49672d;
+}
+
+.uploadButton {
+    background-color: #78945e;
+    border: none;
+    border-radius: 10px;
+    width: 100px;
+    height: 40px;
+    text-align: center;
+    font-size: 18px;
+    color: white;
+    padding: 10px;
+    cursor: pointer;
+    border-width: 2px;
+    border-color: black;
+    border-style: outset;
+    box-shadow: none;
+    outline: none;
+    border: none;
+}
+
+.uploadButton:hover {
+    background-color: #49672d;
 }

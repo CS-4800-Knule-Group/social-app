@@ -93,6 +93,7 @@ const Explore = () => {
 				</div>
 			))}
 		</div>
+		<div className='footer-break'></div>
 		<CopyrightFooter/>
 	</div>
 	);

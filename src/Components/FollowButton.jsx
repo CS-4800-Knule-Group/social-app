@@ -5,7 +5,7 @@ const FollowButton = ({ onFollow, users }) => {
   const { user, isAuthenticated } = useAuth();
   return (
 	<div className='follow-button' onClick={onFollow}>
-        <p>
+        <p className='follow-button-text'>
           {isAuthenticated ? (users.followers ? (users.followers.indexOf(user.userId) != -1 ?
           "Unfollow" : "Follow") : "Follow") : "Follow"}
           

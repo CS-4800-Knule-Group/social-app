@@ -7,13 +7,12 @@
 }
 
 .MessagingScreen {
-    height: 80%;
+    height: 93%;
     width: 70%;
     position: fixed;
     z-index: 1;
     top: 0;
     overflow-x: hidden;
-    padding-top: 20px;
     right: 0;
 }
 
@@ -24,18 +23,38 @@
     z-index: 1;
     top: 0;
     overflow-x: hidden;
-    padding-top: 20px;
     left: 0;
     background-color: #dd0000;
 }
 
 .MessagingTexter {
-    height: 20%;
+    height: 7%;
     width: 70%;
     position: fixed;
     z-index: 1;
     bottom: 0;
     overflow-x: hidden;
-    padding-top: 20px;
     right: 0;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.MessageChat {
+    width: 90%;
+    height: 79%;
+    margin-right: 0%;
+    border-radius: 10px;
+}
+
+.MessageSend {
+    width: 5%;
+    height: 90%;
+    right: 0;
+    border: none;
+    font-size: 40px;
+    color: #a4b396;
+    background-color: transparent;
+    margin-bottom: 5px;
 }

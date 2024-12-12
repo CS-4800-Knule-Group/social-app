@@ -1,12 +1,11 @@
 import React from 'react';
-import { useParams, Link } from 'react-router-dom'
+import { useParams, Link, useNavigate } from 'react-router-dom'
 
 
 const MessageButton = ({ params }) => {
+  const navigate = useNavigate();
   return (
-    <Link to={'/tempmsg/' + params.id}>
-        <button>Send Message?</button>
-    </Link>
+        <img onClick={() => navigate("/tempmsg/" + params.id)} className='message-button' alt='Message' src='/MessageIcon.png' />
   );
 };
 

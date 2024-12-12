@@ -41,7 +41,13 @@ const ProfilePosts = ({ post, user, deletable }) => {
 		</div>
 
 		{post.content && <p className='post-text'>{post.content}</p>}
-
+        {(post.images.length > 0) &&
+            post.images.map(img => (
+                <div>
+                    <img src={img}></img>
+                </div>
+        ))
+        }
 		{deletable ? (<p onClick={deletePost} className='deletePost'>Delete Post</p>) : null }
 	</div>
   );

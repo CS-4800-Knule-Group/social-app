@@ -2,7 +2,10 @@ import React, { useState, useEffect } from 'react'
 import './Data.css'
 
 const Data = () => {
-  document.getElementsByClassName('outlet-container')[0].style.filter = 'blur(0px)';
+  const outletElements = document.getElementsByClassName('splitRight')
+  if(outletElements.length > 0){
+    document.getElementsByClassName('splitRight')[0].style.filter = 'blur(0px)';
+  }
   
   const apiUsers = 'https://knule.duckdns.org/users'
   const apiPosts = 'https://knule.duckdns.org/posts'

@@ -8,6 +8,7 @@ import { jwtDecode } from 'jwt-decode'
 import CopyrightFooter from '../Components/CopyrightFooter.jsx'
 import { useAuth } from '../authContext'
 import { getUsers } from '../database'
+import { TextField } from '@aws-amplify/ui-react'
 
 const Explore = () => {
 	const outletElements = document.getElementsByClassName('splitRight')
@@ -18,7 +19,10 @@ const Explore = () => {
   const apiUsers = 'https://knule.duckdns.org/users' 
   const {user} = useAuth();
 
-  const [users, setUsers] = useState([])
+  const [users, setUsers] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([])
+  const [userFilter, setUserFilter] = useState('');
+  
 
   //On Page Render, get database of users for display
   const sortUsersByName = async() => {
@@ -33,14 +37,39 @@ const Explore = () => {
   }
   useEffect(() => {
     sortUsersByName();
-  }, []);  // only re-run the effect if apiEndpoint changes
+  }, []);
+
+  const filterUsers = (filter) =>{
+	let tempUserList = users;
+	const pattern = filter.toLowerCase();
+
+	if(userFilter != ''){
+		tempUserList = tempUserList.filter( (user) => user.username.toLowerCase().includes(pattern))
+	}
+	return tempUserList;
+  }
+
+  useEffect(() =>{
+	setFilteredUsers(filterUsers(userFilter));
+  }, [userFilter])
   
 	return (
 	<div>
 		<div className='explore'>
 			<h1>Choose a user to view!</h1>
-			
-			{users.map(user => (
+			<div className='search'>
+				<TextField
+				id="outlined-basic"
+				variant="outlined"
+				fullWidth
+				onChange={(e) => setUserFilter(e.target.value)}
+				/>
+			</div>
+			{filteredUsers.length < 1 && <div>
+				<br/>
+				<p>No users matched your search</p>
+				</div>}
+			{filteredUsers.map(user => (
 				<div key={user.userId} className='userCard'>
 					<Link className='profileLink' to={'/profile/'+ user.userId}>
 						<div className='user'>

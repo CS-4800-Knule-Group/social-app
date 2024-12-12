@@ -58,29 +58,40 @@ const EditModal = ({user, onUpload}) => {
 
   return (
     <div className="edit-modal">
-      <button onClick={closeModal}>Close Menu</button>
-        <form onSubmit={submit}>
-          <h1>Edit Profile</h1>
-          <label>New Pfp</label>
-          <input type="file" onChange={(e) => setPfpFile(e.target.files[0])} accept='image/*'/>
-          <br/>
+        <p className="editClose" onClick={closeModal}>X</p>
 
-          <label>New Banner</label>
-          <input type='file' onChange={(e) => setBannerFile(e.target.files[0])} accept='image/*'/>
-          <br/>
+        <div className='editForm'>
+          <form onSubmit={submit}>
+            <h1 className='editHeader'>Edit Profile</h1>
+            <label className='editTitle'>New PFP</label>
+            <br/>
+            <input className='editInput' type="file" onChange={(e) => setPfpFile(e.target.files[0])} accept='image/*'/>
+            <br/>
+            <br/>
 
-          <label>New Bio</label>
-          <input type='text' name='bio' onChange={e => setBio(e.target.value)} 
-            value={bio} placeholder={user.bio}/>
-          <br/>
+            <label className='editTitle'>New Banner</label>
+            <br/>
+            <input className='editInput' type='file' onChange={(e) => setBannerFile(e.target.files[0])} accept='image/*'/>
+            <br/>
+            <br/>
 
-          <label>New Username</label>
-          <input type='text' name='newName' onChange={e => setName(e.target.value)} 
-            value={name} placeholder={user.fullName}/>
-          <br/>
-          
-          <button type="submit">Upload</button>
-        </form>
+            <label className='editTitle'>New Bio</label>
+            <br/>
+            <input className='editTextInput' type='text' name='bio' onChange={e => setBio(e.target.value)} 
+              value={bio} placeholder={user.bio}/>
+            <br/>            
+            <br/>
+
+            <label className='editTitle'>New Username</label>
+            <br/>             
+            <input className='editTextInput' type='text' name='newName' onChange={e => setName(e.target.value)} 
+              value={name} placeholder={user.fullName}/>
+            <br/>
+            <br/>
+
+            <button className='uploadButton' type="submit">Upload</button>
+          </form>
+        </div>
     </div>
   )
 }

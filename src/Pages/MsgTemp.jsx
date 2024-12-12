@@ -216,6 +216,8 @@ const MsgTemp = () => {
                             </div>
                         ))}
                         </div>
+                    </div>
+                    <div className='MessagingTexter'>
                         <input type='text' id='msgInput' placeholder='Type your msg here...' onChange={e => setNewMessage(e.target.value)}
                         value={newMessage} onKeyUp={sendMessageEnter}/>
                         <button onClick={sendMessage}>Send</button>

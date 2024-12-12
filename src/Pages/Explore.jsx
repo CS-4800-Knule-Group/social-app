@@ -34,6 +34,7 @@ const Explore = () => {
       return 0
     })
     setUsers(sortedUsers);
+	setFilteredUsers(sortedUsers)
   }
   useEffect(() => {
     sortUsersByName();
@@ -44,7 +45,8 @@ const Explore = () => {
 	const pattern = filter.toLowerCase();
 
 	if(userFilter != ''){
-		tempUserList = tempUserList.filter( (user) => user.username.toLowerCase().includes(pattern))
+		tempUserList = tempUserList.filter( (user) => user.username.toLowerCase().includes(pattern)
+			| user.fullName.toLowerCase().includes(pattern))
 	}
 	return tempUserList;
   }

@@ -34,6 +34,7 @@ const Explore = () => {
       return 0
     })
     setUsers(sortedUsers);
+	setFilteredUsers(sortedUsers)
   }
   useEffect(() => {
     sortUsersByName();

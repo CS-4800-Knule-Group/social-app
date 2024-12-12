@@ -3,7 +3,8 @@
 }
 
 .Messaging {
-    padding-left: 10%;
+    height: 100%;
+    width: 100%;
 }
 
 .MessagingScreen {
@@ -54,7 +55,21 @@
     right: 0;
     border: none;
     font-size: 40px;
-    color: #a4b396;
+    color: #334d1b;
     background-color: transparent;
     margin-bottom: 5px;
+}
+
+.MessageSend:hover {
+    color: #a4b396;
+    cursor: pointer;
+}
+
+.poster {
+
+}
+
+.chats {
+    background-color: #334d1b;
+    width: 10%;
 }

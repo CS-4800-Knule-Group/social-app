@@ -58,12 +58,13 @@ const Explore = () => {
 	return (
 	<div>
 		<div className='explore'>
-			<h1>Choose a user to view!</h1>
+			<h1>Search</h1>
 			<div className='search'>
-				<TextField
+				<input
+				className='searchBar'
 				id="outlined-basic"
 				variant="outlined"
-				fullWidth
+				placeholder='Search'
 				onChange={(e) => setUserFilter(e.target.value)}
 				/>
 			</div>

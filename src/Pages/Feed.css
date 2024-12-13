@@ -25,6 +25,32 @@
     background-color: #648049;
 }
 
+.tab-button {
+    background-color: transparent;
+    border: none;
+    border-radius: 10px;
+    height: 40px;
+    text-align: center;
+    font-size: 18px;
+    color: #648049;
+    padding: 10px;
+    cursor: pointer;
+    border-top-width: 0px;
+    border-right-width: 0px;
+    border-left-width: 0px;
+    border-bottom-width: 4px;
+    border-color: #a18f7c;
+    border-style: solid;
+	font-weight: bold;
+    margin-top: 1%;
+}
+
+.tab-button:hover {
+    background-color: #648049;
+    color: white;
+    border-color: white;
+}
+
 .post-textBox {
     flex-grow: 1;
     margin-right: 16px;

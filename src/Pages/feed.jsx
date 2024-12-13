@@ -236,7 +236,7 @@ return (
                     Post
                 </button>
             </div>
-            <button onClick={() => setOnlyFollowing(!onlyFollowing)}>{onlyFollowing ? "Followers Only" : "Explore"}</button>
+            <button className='tab-button' onClick={() => setOnlyFollowing(!onlyFollowing)}>{onlyFollowing ? "Followers-Only Mode" : "Explore Mode"}</button>
             
             {(onlyFollowing && activePosts.length > 0) ? activePosts.map(post => (
 				<Post

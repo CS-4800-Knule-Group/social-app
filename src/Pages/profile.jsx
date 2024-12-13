@@ -171,6 +171,7 @@ const Profile = () => {
 				))}
 			</div>
 
+			<div className='footerBreaker'></div>
 			<CopyrightFooter/>
 		</div>
 	)

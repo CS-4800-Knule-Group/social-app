@@ -278,6 +278,7 @@ return (
             ))}
             
         </div>
+		<div className='footerBreak'></div>
         <CopyrightFooter/>
     </div>
 )

@@ -9,6 +9,21 @@ const MessageMenu = ({users, chats}) => {
         window.location.reload();
     }
     
+    const formatDate = (dateString) => {
+        const date = new Date(dateString);
+    
+        const options = {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: 'numeric',
+          hour12: true,
+        };
+    
+        return date.toLocaleString('en-US', options);
+      };
+
   return (
     <div className='Messages'>
         <h1 className='messageTitle'>Message</h1>
@@ -21,7 +36,7 @@ const MessageMenu = ({users, chats}) => {
                     <img className='allPfps' src={chatUser.pfp} height={100} width={100} />
                     <h1>{chatUser.username}</h1>
                 </div>
-                <p className='lastDate'>{chats[index].createdAt}</p>
+                <p className='lastDate'>{formatDate(chats[index].createdAt)}</p>
                 <p className='lastChat'>{chats[index].text}</p>
                 <div className='userDiv'>
                     <p>----</p>

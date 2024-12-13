@@ -37,7 +37,7 @@ const Header = () => {
                     </div>
 
                     <div onClick={() => navigate("/tempMsg")} className='nav-link'>
-                        <img className='nav-img' alt='' src='/ProfileIcon.png' />
+                        <img className='nav-img' alt='' src='/MessageHeaderIcon.png' />
                         <Link to="/tempMsg" className='nav-text'>DM's</Link>
                     </div>
                 </nav>

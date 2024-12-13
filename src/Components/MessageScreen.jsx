@@ -1,6 +1,47 @@
-import React from 'react'
+import {React, useState, useEffect} from 'react'
+import { generateClient } from 'aws-amplify/api';
+import * as mutations from "../mutations.js"
+import * as queries from "../queries.js"
+import * as subscriptions from "../subscriptions.js"
 
-const MessageScreen = ({tarUser, chats, currUser, }) => {
+const MessageScreen = ({tarUser, chats, currUser }) => {
+
+    const [newMessage, setNewMessage] = useState([]);
+    const client = generateClient();
+    
+    
+
+    const sendMessage = async() => {
+        if(newMessage != ''){
+            await client.graphql({
+                query: mutations.createMessages,
+                variables: {
+                    input: {
+                        text: newMessage,
+                        userId: currUser.userId,
+                        targetId: tarUser.userId
+                    }
+                }
+            })
+        }
+
+        setNewMessage("");
+
+    }
+
+    const sendMessageEnter = async(e) => {
+        if (e.key === "Enter"){
+            await sendMessage();
+            e.target.value = "";
+        }
+    }
+
+    const testEnter = (e) =>{
+        setNewMessage(e.target.value);
+        console.log(e.target.value)
+    }
+
+
   return (
     <div className='MessagingScreen'>
         <div className='Messaging'>
@@ -24,11 +65,11 @@ const MessageScreen = ({tarUser, chats, currUser, }) => {
                 ))}
             </div>
         </div>
-        <div className='MessagingTexter'>
-            <input className='MessageChat' type='text' id='msgInput' placeholder='Type your msg here...' onChange={e => setNewMessage(e.target.value)}
+        {/* <div className='MessagingTexter'>
+            <input className='MessageChat' type='text' id='msgInput' placeholder='Type your msg here...' onChange={e => testEnter(e)}
             value={newMessage} onKeyUp={sendMessageEnter}/>
             <button className='MessageSend' onClick={sendMessage}>➤</button>
-        </div>
+        </div> */}
     </div>
   )
 }

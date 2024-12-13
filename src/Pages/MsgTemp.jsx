@@ -9,6 +9,7 @@ import { useAuth } from '../authContext.jsx';
 import './MsgTemp.css'
 import { getUsers } from '../database.js';
 import MessageMenu from '../Components/MessageMenu.jsx';
+import MessageScreen from '../Components/MessageScreen.jsx';
 
 const MsgTemp = () => {
     const outletElements = document.getElementsByClassName('splitRight')
@@ -19,12 +20,13 @@ const MsgTemp = () => {
     const params = useParams();
     const { user } = useAuth();
     const [recipientId, setRecipientId] = useState(params ? params.id : '');
-    const [newMessage, setNewMessage] = useState([]);
     const [chats, setChats] = useState([]);
+    const [newMessage, setNewMessage] = useState([]);
     const [currUser, setCurrUser] = useState([])
     const [tarUser, setTarUser] = useState([])
     const [userChats, setUserChats] = useState([])
     const [chatUsers, setChatUsers] = useState([])
+    const [updateChats, setUpdateChats] = useState(true);
 
     const client = generateClient();
         
@@ -68,7 +70,7 @@ const MsgTemp = () => {
           
         };
         fetchUsers();
-      }, []);  // only re-run the effect if apiEndpoint changes
+      }, [recipientId]);  // only re-run the effect if apiEndpoint changes
         
 
     const sendMessage = async() => {
@@ -84,6 +86,7 @@ const MsgTemp = () => {
         })
 
         setNewMessage("");
+        setUpdateChats(!updateChats);
 
     }
 
@@ -101,22 +104,26 @@ const MsgTemp = () => {
                 query: queries.listMessages,
             });
             allChats.data.listMessages.items = allChats.data.listMessages.items.sort((x, y) => new Date(y.createdAt) - new Date(x.createdAt))
-            console.log("all chats:")
-            console.log(allChats.data.listMessages.items);
-            console.log("Current user id");
-            console.log(currUser.userId)
-            let filterChats = allChats.data.listMessages.items.filter(chat => 
+            //console.log("all chats:")
+            //console.log(allChats.data.listMessages.items);
+            //console.log("Current user id");
+            //console.log(currUser.userId)
+            const filterChats = allChats.data.listMessages.items.filter(chat => 
                 ((chat.userId === currUser.userId) || 
                 (chat.targetId === currUser.userId)));
+
+            let msgChats = [];
+            console.log(msgChats)
             if(params.id != undefined){
-                filterChats = allChats.data.listMessages.items.filter(chat => 
+                msgChats = allChats.data.listMessages.items.filter(chat => 
                 ((chat.userId === currUser.userId && chat.targetId === recipientId) || 
                 (chat.userId === recipientId && chat.targetId === currUser.userId)))
             }
 
             console.log("These are filtered chats")
             console.log(filterChats);
-            setChats(filterChats);
+            if(msgChats.length > 0);
+            setChats(msgChats);
 
             let chatUsers = [];
             let targetExists = false;
@@ -146,7 +153,7 @@ const MsgTemp = () => {
             setUserChats(chatUsers);
         }
         fetchChats();
-    }, [currUser]);
+    }, [currUser, updateChats]);
 
     useEffect(() => {
         const filterUsers = async() => {
@@ -223,14 +230,25 @@ const MsgTemp = () => {
         return () => sub.unsubscribe();
       }, []);
 
-    if(params.id != undefined){
+    if(currUser.userId != undefined){
         return(
             <div>
                 <div className='otherMessages'>
                     <MessageMenu users={chatUsers} chats={userChats}/>
 
                 </div>
-                <div className='MessagingScreen'>
+                {(params.id != undefined) && 
+                    <div className='MessagingScreen'>
+                        <MessageScreen tarUser={tarUser} chats={chats} currUser={currUser}/>
+                        <div className='MessagingTexter'>
+                            <input className='MessageChat' type='text' id='msgInput' placeholder='Type your msg here...' onChange={e => setNewMessage(e.target.value)}
+                                value={newMessage} onKeyUp={sendMessageEnter}/>
+                            <button className='MessageSend' onClick={sendMessage}>➤</button>
+                        </div>
+                    </div>
+                }
+                
+                {/*<div className='MessagingScreen'>
                     <div className='Messaging'>
                         <div className='poster'>
                             <img className='profilePicture' src={tarUser.length != 0 ? tarUser[0].pfp != undefined ? tarUser[0].pfp : '/kirb.jpg' : '/kirb.jpg'} height={100} width={100} />
@@ -257,22 +275,16 @@ const MsgTemp = () => {
                         value={newMessage} onKeyUp={sendMessageEnter}/>
                         <button className='MessageSend' onClick={sendMessage}>➤</button>
                     </div>
-                </div>
+                </div> */}
             </div>
         )
-    }else if(currUser.userId == undefined){
+    }else {
         return(
             <div>
                 Loading
             </div>
         )
-    }else{
-        return (
-            <div className='smth'>
-                <MessageMenu users={chatUsers} chats={userChats}/>
-            </div>
-          )
-    } 
+    }
   
 }
 

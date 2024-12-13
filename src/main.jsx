@@ -89,8 +89,8 @@ const router = createBrowserRouter([{
     { path:'/profile/:id', element: <ProfileOther/> },
     { path:'/post/:postId', element: <PostPage/> },
     { path:'/register', element:<Register/> },
-    { path:'/private', element:<Private/> },
-    { path:'/tempmsg/:id', element: <MsgTemp/> }
+    { path:'/tempmsg/:id', element: <MsgTemp/> },
+    { path:'/tempmsg', element: <MsgTemp/> }
   ]
 }])
 

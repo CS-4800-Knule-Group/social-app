@@ -94,7 +94,7 @@
 }
 
 .message-button:hover {
-    background-image: url('/public/MessageIconHover.png');
+    background-image: url('/MessageIconHover.png');
     cursor: pointer;
 }
 

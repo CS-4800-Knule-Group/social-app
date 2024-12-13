@@ -1,7 +1,4 @@
-import {React, useState, useEffect} from 'react'
-import Cookies from 'js-cookie'
-import { jwtDecode } from 'jwt-decode';
-import { createPortal } from 'react-dom';
+import {React, useState, useEffect, useMemo} from 'react'
 import { useParams } from 'react-router-dom';
 import { generateClient } from 'aws-amplify/api';
 import * as mutations from "../mutations.js"
@@ -11,6 +8,7 @@ import { userById } from '../dataFilters.js';
 import { useAuth } from '../authContext.jsx';
 import './MsgTemp.css'
 import { getUsers } from '../database.js';
+import MessageMenu from '../Components/MessageMenu.jsx';
 
 const MsgTemp = () => {
     const outletElements = document.getElementsByClassName('splitRight')
@@ -19,25 +17,33 @@ const MsgTemp = () => {
 	}
     const apiUsers = 'https://knule.duckdns.org/users'
     const params = useParams();
-    const { user, isAuthenticated, login } = useAuth();
+    const { user } = useAuth();
     const [recipientId, setRecipientId] = useState(params ? params.id : '');
     const [newMessage, setNewMessage] = useState([]);
     const [chats, setChats] = useState([]);
     const [currUser, setCurrUser] = useState([])
     const [tarUser, setTarUser] = useState([])
+    const [userChats, setUserChats] = useState([])
+    const [chatUsers, setChatUsers] = useState([])
 
     const client = generateClient();
         
+    const filterUser = async () => {
+        const usersData = await getUsers();
+        const filteredUsers = userById(usersData, user.userId)
+        console.log("f-user")
+        console.log(filteredUsers)
+        setCurrUser(filteredUsers)
+        
+    };
+
     useEffect(() => {
-		
-		const filterUser = async () => {
-			const usersData = await getUsers();
-			const filteredUsers = userById(usersData, user.userId)
-			setCurrUser(filteredUsers)
-		};
 		filterUser();
 	}, []);  // only re-run the effect if apiEndpoint changes
 
+    useEffect(() => {
+		filterUser();
+	}, [user]);
     useEffect(() => {
         const fetchUsers = async () => {
           try {
@@ -63,58 +69,7 @@ const MsgTemp = () => {
         };
         fetchUsers();
       }, []);  // only re-run the effect if apiEndpoint changes
-
-    /*
-    useEffect(() => {
         
-        console.log(recipientId);
-
-        if( validCookie && recipientId!== ''){
-            console.log("Server starting")
-            ws = new WebSocket('wss://knule.duckdns.org/' + decryptToken.userId)
-            ws.onopen = () =>{
-                console.log('Connected to ws server');
-            }
-    
-            ws.onclose = () =>{
-                console.log("ws connection closed");
-            }
-            
-            ws.onmessage =(event) =>{
-                const{from, text} = JSON.parse(event.data);
-                const chatDiv = document.getElementById('chat');
-                chatDiv.innerHTML += `<div class="message recieved"><strong>${from}:</strong> ${text}</div>`;
-                chatDiv.scrollTop = chatDiv.scrollHeight;
-            }
-            
-            console.log('wss://knule.duckdns.org/' + decryptToken.userId);
-        }
-    }, [recipientId])
-
-    const sendMessage = () => {
-        const input = document.getElementById('msgInput')
-        const messageText = input.value;
-        if (messageText.trim()) {
-            const message = {
-                recipientId: recipientId,
-                text: messageText
-            }
-            ws.send(JSON.stringify(message))
-            
-            // display the sent message in the chat
-            const chatDiv = document.getElementById('chat')
-            chatDiv.innerHTML += `<div class="message sent"><strong>You:</strong> ${messageText}</div>`
-            input.value = '';   // clear input
-            chatDiv.scrollTop = chatDiv.scrollHeight;
-        }
-    }
-        */
-
-    const changeRecipient = () =>{
-        setRecipientId(document.getElementById('userInput').value);
-    }
-        
-
 
     const sendMessage = async() => {
         await client.graphql({
@@ -122,7 +77,7 @@ const MsgTemp = () => {
             variables: {
                 input: {
                     text: newMessage,
-                    userId: user.userId,
+                    userId: currUser.userId,
                     targetId: recipientId
                 }
             }
@@ -139,43 +94,121 @@ const MsgTemp = () => {
         }
     }
 
+
     useEffect(() => {
         async function fetchChats() {
-            const allChats = await client.graphql({
+            let allChats = await client.graphql({
                 query: queries.listMessages,
             });
+            allChats.data.listMessages.items = allChats.data.listMessages.items.sort((x, y) => new Date(y.createdAt) - new Date(x.createdAt))
+            console.log("all chats:")
             console.log(allChats.data.listMessages.items);
-            
-            const filterChats = allChats.data.listMessages.items.filter(chat => 
-                ((chat.userId === user.userId && chat.targetId === recipientId) || 
-                (chat.userId === recipientId && chat.targetId === user.userId)))
+            console.log("Current user id");
+            console.log(currUser.userId)
+            let filterChats = allChats.data.listMessages.items.filter(chat => 
+                ((chat.userId === currUser.userId) || 
+                (chat.targetId === currUser.userId)));
+            if(params.id != undefined){
+                filterChats = allChats.data.listMessages.items.filter(chat => 
+                ((chat.userId === currUser.userId && chat.targetId === recipientId) || 
+                (chat.userId === recipientId && chat.targetId === currUser.userId)))
+            }
+
+            console.log("These are filtered chats")
             console.log(filterChats);
             setChats(filterChats);
+
+            let chatUsers = [];
+            let targetExists = false;
+
+            if(filterChats.length > 0){
+                for(let j = 0; j < filterChats.length; j++){
+                    if(filterChats[j].userId == currUser.userId){
+                        chatUsers.push(filterChats[j]);
+                        break;
+                    }
+                }
+            }
+            for(let i = 0; i < filterChats.length; i++){
+                targetExists = false;
+                    for(let j = 0; j < chatUsers.length; j++){
+                        if(chatUsers[j].targetId == (filterChats[i].targetId)){
+                            targetExists = true;
+                            break;
+                        }
+                    }
+                    if(!targetExists){
+                        chatUsers.push(filterChats[i])
+                    }   
+            }
+            //console.log("These are chats from users:")
+            //console.log(chatUsers)
+            setUserChats(chatUsers);
         }
         fetchChats();
-    }, []);
+    }, [currUser]);
+
+    useEffect(() => {
+        const filterUsers = async() => {
+            const allUsers = await getUsers();
+
+            let tempUsers = [];
+
+            for(let i = 0; i < userChats.length; i++){
+                //console.log(userChats[i].targetId)
+                for(let j = 0; j < allUsers.length; j++){
+                    if(allUsers[j].userId == userChats[i].targetId){
+                        tempUsers.push(allUsers[j]);
+                        break;
+                    }
+                }
+            }
+
+            //console.log("FILTER THE USERS")
+            //console.log(tempUsers)
+            setChatUsers(tempUsers);
+
+        }
+        if(userChats.length > 0){
+            filterUsers();
+        }
+
+    }, [userChats])
+
 
     useEffect(() => {
         let filter
-        if (recipientId) {
-        filter = {
-            or:[{
-                userId: {
-                    eq: recipientId
-                },
-                targetId: {
-                    eq: user.userId
-                }
-            },{
-                userId: {
-                    eq: user.userId
-                },
-                targetId: {
-                    eq: recipientId
-                }
-            }]
+        if (recipientId != undefined) {
+            filter = {
+                or:[{
+                    userId: {
+                        eq: recipientId
+                    },
+                    targetId: {
+                        eq: currUser.userId
+                    }
+                },{
+                    userId: {
+                        eq: currUser.userId
+                    },
+                    targetId: {
+                        eq: recipientId
+                    }
+                }]
+            }
+        }else{
+            filter = {
+                or:[{
+                    targetId: {
+                        eq: currUser.userId
+                    }
+                },{
+                    userId: {
+                        eq: currUser.userId
+                    }
+                }]
+            }
         }
-    }
 
         const sub = client.graphql({
             query: subscriptions.onCreateMessages,
@@ -190,11 +223,11 @@ const MsgTemp = () => {
         return () => sub.unsubscribe();
       }, []);
 
-    
-    if(recipientId != ''){
+    if(params.id != undefined){
         return(
             <div>
                 <div className='otherMessages'>
+                    <MessageMenu users={chatUsers} chats={userChats}/>
 
                 </div>
                 <div className='MessagingScreen'>
@@ -212,7 +245,7 @@ const MsgTemp = () => {
                                 className="chats"
                                 >
                                     <div>
-                                        <p>{chat.userId == user.userId ? "You: " + chat.text : 
+                                        <p>{chat.userId == currUser.userId ? "You: " + chat.text : 
                                         tarUser.length ? tarUser[0].username + ": " + chat.text : "User not found"}</p>
                                     </div>
                                 </div>
@@ -227,13 +260,16 @@ const MsgTemp = () => {
                 </div>
             </div>
         )
+    }else if(currUser.userId == undefined){
+        return(
+            <div>
+                Loading
+            </div>
+        )
     }else{
         return (
-            <div className='Messages'>
-              <h1>Insert Target Username Here</h1>
-                <input type='text' id='userInput' placeholder='Type your target username here...'/>
-                <button onClick={changeRecipient}>Start Conversation</button>
-                
+            <div className='smth'>
+                <MessageMenu users={chatUsers} chats={userChats}/>
             </div>
           )
     } 

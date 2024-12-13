@@ -238,7 +238,7 @@ return (
             </div>
             <button className='tab-button' onClick={() => setOnlyFollowing(!onlyFollowing)}>{onlyFollowing ? "Followers-Only Mode" : "Explore Mode"}</button>
             
-            {(onlyFollowing && activePosts.length > 0) ? activePosts.map(post => (
+            {(onlyFollowing && activePosts.length > 0) && activePosts.map(post => (
 				<Post
                     key={post.postId}
                     post={post}
@@ -251,10 +251,13 @@ return (
                     onLike={() => toggleLike(post.postId, user.userId)}
                     liked={post.likes.some(like => like.S == user.userId)}
                 />
-            )) : 
+            ))}
+            {(onlyFollowing && activePosts.length < 1) &&
             <div>
                 <h1>You aren't following anyone yet</h1>
-            </div>}
+            </div>
+            } 
+            
             {(!onlyFollowing) && posts.map(post => (
 				<Post
                     key={post.postId}

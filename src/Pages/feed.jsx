@@ -238,7 +238,7 @@ return (
             </div>
             <button onClick={() => setOnlyFollowing(!onlyFollowing)}>{onlyFollowing ? "Followers Only" : "Explore"}</button>
             
-            {(onlyFollowing) && activePosts.map(post => (
+            {(onlyFollowing && activePosts.length > 0) ? activePosts.map(post => (
 				<Post
                     key={post.postId}
                     post={post}
@@ -251,7 +251,10 @@ return (
                     onLike={() => toggleLike(post.postId, user.userId)}
                     liked={post.likes.some(like => like.S == user.userId)}
                 />
-            ))}
+            )) : 
+            <div>
+                <h1>You aren't following anyone yet</h1>
+            </div>}
             {(!onlyFollowing) && posts.map(post => (
 				<Post
                     key={post.postId}

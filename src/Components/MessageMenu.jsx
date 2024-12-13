@@ -15,7 +15,7 @@ const MessageMenu = ({users, chats}) => {
         <div className='userDiv'>
             <p>----</p>
         </div>
-        {users.map((chatUser, index) =>(
+        {users.length > 0 ? users.map((chatUser, index) =>(
             <div className='lastUser' onClick={() => nav("/tempmsg/" + chatUser.userId)}>
                 <div className='usersList'>
                     <img className='allPfps' src={chatUser.pfp} height={100} width={100} />
@@ -27,7 +27,10 @@ const MessageMenu = ({users, chats}) => {
                     <p>----</p>
                 </div>
             </div>
-        ))}
+        )) : 
+        <div>
+            <h3>No messages so far</h3>
+        </div>}
     </div>
   )
 }

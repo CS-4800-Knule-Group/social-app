@@ -45,6 +45,7 @@ h2 {
 .bio {
 	margin-bottom: 6%;
 	font-size: 17px;
+	overflow: hidden;
 }
 
 .profileNames {

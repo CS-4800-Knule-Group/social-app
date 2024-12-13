@@ -29,6 +29,7 @@ const Feed = () => {
     const [myLikes, setMyLikes] = useState([]);
     const [postContent, setPostContent] = useState();
     const [postImg, setPostImg] = useState([]);
+	const [hasImg, setHasImg] = useState([]);
 
     //On Page Render, update users with list of user data
     useEffect(() => { 
@@ -104,25 +105,29 @@ const Feed = () => {
             };
         };
             fetchPosts();
+			setHasImg(false);
             console.log(posts)
     }, [currUser]);
 
     //Function to upload a post to the database
     const createPost = async() => {
         if(isAuthenticated){
-            const formData = new FormData();
-            formData.append("content", postContent);
-            formData.append("img1", postImg);
-            try{
-                await fetch(`${apiPosts}/${user.userId}`, {
-                    method: 'POST',
-                    body: formData
-                })
-                window.location.reload();
-            } catch (err){
-                console.error("Post failed. " + err);
-                window.location.reload();
-            }
+			if(postContent != null)
+			{
+				const formData = new FormData();
+				formData.append("content", postContent);
+				formData.append("img1", postImg);
+				try{
+					await fetch(`${apiPosts}/${user.userId}`, {
+						method: 'POST',
+						body: formData
+					})
+					window.location.reload();
+				} catch (err){
+					console.error("Post failed. " + err);
+					window.location.reload();
+				}
+			}
         }
     };
     
@@ -176,13 +181,18 @@ const Feed = () => {
             }
         }
     }
- 
+
+	const handleFileChange = (e) => {
+		setPostImg(e.target.files[0]);
+		setHasImg(true);
+	  };
+
 return (
     <div>
         <div className='feed'>
             <div className='post-input'>
-                <input type='file' className="inputFile" id="file" onChange={(e) => setPostImg(e.target.files[0])} accept='image/*'/>
-                <label className='imageInput' for="file">{postImg ? '✔' : '+'}</label>
+                <input type='file' className="inputFile" id="file" onChange={handleFileChange} accept='image/*'/>
+                <label className='imageInput' for="file">{hasImg ? '✔' : '+'}</label>
                 <input type='text' placeholder=" Speak your mind" className="post-textBox" onChange={handleChange}/>
                     <br/>
                 <button className='post-button' onClick={createPost}>

@@ -11,13 +11,21 @@ const MessageMenu = ({users, chats}) => {
     
   return (
     <div className='Messages'>
-        <h1>Who would you like to message?</h1>
+        <h1 className='messageTitle'>Message</h1>
+        <div className='userDiv'>
+            <p>----</p>
+        </div>
         {users.map((chatUser, index) =>(
-            <div onClick={() => nav("/tempmsg/" + chatUser.userId)}>
-                <h1>{chatUser.username}</h1>
-                <p>{chats[index].text}</p>
-                <p>{chats[index].createdAt}</p>
-
+            <div className='lastUser' onClick={() => nav("/tempmsg/" + chatUser.userId)}>
+                <div className='usersList'>
+                    <img className='allPfps' src={chatUser.pfp} height={100} width={100} />
+                    <h1>{chatUser.username}</h1>
+                </div>
+                <p className='lastDate'>{chats[index].createdAt}</p>
+                <p className='lastChat'>{chats[index].text}</p>
+                <div className='userDiv'>
+                    <p>----</p>
+                </div>
             </div>
         ))}
     </div>

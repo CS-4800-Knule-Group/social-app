@@ -30,6 +30,7 @@ const Feed = () => {
     const [postContent, setPostContent] = useState();
     const [postImg, setPostImg] = useState([]);
 	const [hasImg, setHasImg] = useState([]);
+    const [onlyFollowing, setOnlyFollowing] = useState(true);
 
     //On Page Render, update users with list of user data
     useEffect(() => { 
@@ -107,7 +108,7 @@ const Feed = () => {
             fetchPosts();
 			setHasImg(false);
             console.log(posts)
-    }, [currUser]);
+    }, [currUser, onlyFollowing]);
 
     //Function to upload a post to the database
     const createPost = async() => {
@@ -146,38 +147,74 @@ const Feed = () => {
 
     const toggleLike = async (postId, userId) => {
         if (isAuthenticated) {
-            // update ui first
-            const hasLiked = activePosts.find(post => post.postId === postId)?.likes.some(like => like.S == userId);
-            console.log(`${hasLiked}`)
+            if(onlyFollowing){
+                // update ui first
+                const hasLiked = activePosts.find(post => post.postId === postId)?.likes.some(like => like.S == userId);
+                console.log(`${hasLiked}`)
 
-            // Optionally, update the local state to reflect the new like/unlike
-            setActivePosts(prevPosts => 
-                prevPosts.map(post =>
-                    post.postId === postId
-                        ? {
-                            ...post,
-                            likes: hasLiked
-                                ? post.likes.filter(like => like.S !== userId) // Remove like
-                                : [...post.likes, { S: userId }] // Add like
-                        }
-                        : post
-                )
-            );
-            
-            try {
-                if (hasLiked) {
-                    const response = await fetch(`https://knule.duckdns.org/likes/${postId}/${userId}`, {
-                        method: "DELETE"
-                    })
-                } else {
-                    const response = await fetch(`https://knule.duckdns.org/likes/${postId}`, {
-                        method: "POST",
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({ "userId": userId })
-                    })
+                // Optionally, update the local state to reflect the new like/unlike
+                setActivePosts(prevPosts => 
+                    prevPosts.map(post =>
+                        post.postId === postId
+                            ? {
+                                ...post,
+                                likes: hasLiked
+                                    ? post.likes.filter(like => like.S !== userId) // Remove like
+                                    : [...post.likes, { S: userId }] // Add like
+                            }
+                            : post
+                    )
+                );
+                
+                try {
+                    if (hasLiked) {
+                        const response = await fetch(`https://knule.duckdns.org/likes/${postId}/${userId}`, {
+                            method: "DELETE"
+                        })
+                    } else {
+                        const response = await fetch(`https://knule.duckdns.org/likes/${postId}`, {
+                            method: "POST",
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ "userId": userId })
+                        })
+                    }
+                } catch (error) {
+                    console.error('error liking post', error);
                 }
-            } catch (error) {
-                console.error('error liking post', error);
+            }else{
+                // update ui first
+                const hasLiked = posts.find(post => post.postId === postId)?.likes.some(like => like.S == userId);
+                console.log(`${hasLiked}`)
+
+                // Optionally, update the local state to reflect the new like/unlike
+                setPosts(prevPosts => 
+                    prevPosts.map(post =>
+                        post.postId === postId
+                            ? {
+                                ...post,
+                                likes: hasLiked
+                                    ? post.likes.filter(like => like.S !== userId) // Remove like
+                                    : [...post.likes, { S: userId }] // Add like
+                            }
+                            : post
+                    )
+                );
+                
+                try {
+                    if (hasLiked) {
+                        const response = await fetch(`https://knule.duckdns.org/likes/${postId}/${userId}`, {
+                            method: "DELETE"
+                        })
+                    } else {
+                        const response = await fetch(`https://knule.duckdns.org/likes/${postId}`, {
+                            method: "POST",
+                            headers: { 'Content-Type': 'application/json' },
+                            body: JSON.stringify({ "userId": userId })
+                        })
+                    }
+                } catch (error) {
+                    console.error('error liking post', error);
+                }
             }
         }
     }
@@ -199,8 +236,9 @@ return (
                     Post
                 </button>
             </div>
+            <button onClick={() => setOnlyFollowing(!onlyFollowing)}>{onlyFollowing ? "Followers Only" : "Explore"}</button>
             
-            {activePosts.map(post => (
+            {(onlyFollowing) && activePosts.map(post => (
 				<Post
                     key={post.postId}
                     post={post}
@@ -214,6 +252,21 @@ return (
                     liked={post.likes.some(like => like.S == user.userId)}
                 />
             ))}
+            {(!onlyFollowing) && posts.map(post => (
+				<Post
+                    key={post.postId}
+                    post={post}
+                    users={users}
+                    openProfile={openProfile}
+                    openPost={() => openPost(post.postId)}
+                    isSinglePostPage={false}
+                    commentsCount={post.comments.length}
+                    likesCount={post.likes.length}
+                    onLike={() => toggleLike(post.postId, user.userId)}
+                    liked={post.likes.some(like => like.S == user.userId)}
+                />
+            ))}
+            
         </div>
         <CopyrightFooter/>
     </div>

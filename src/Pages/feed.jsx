@@ -137,7 +137,11 @@ const Feed = () => {
     };
 
 	const openProfile = (userId) => {
-        navigate(`/profile/${userId}`);
+        if(userId == currUser.userId){
+            navigate('/profile');
+        }else{
+            navigate(`/profile/${userId}`);
+        }
         location.reload();
     };
 

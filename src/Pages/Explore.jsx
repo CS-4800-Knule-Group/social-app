@@ -54,6 +54,14 @@ const Explore = () => {
   useEffect(() =>{
 	setFilteredUsers(filterUsers(userFilter));
   }, [userFilter])
+
+  const profileLink = (userId) => {
+	if(userId == user.userId){
+		return('/profile');
+	}else{
+		return(`/profile/${userId}`);
+	}
+  }
   
 	return (
 	<div>
@@ -74,7 +82,7 @@ const Explore = () => {
 				</div>}
 			{filteredUsers.map(user => (
 				<div key={user.userId} className='userCard'>
-					<Link className='profileLink' to={'/profile/'+ user.userId}>
+					<Link className='profileLink' to={profileLink(user.userId)}>
 						<div className='user'>
 							<img className='profilePicture' src={user.pfp != undefined ? user.pfp : '/kirb.jpg'} height={100} width={100} />
 							<div className='profileInfo'>
@@ -87,7 +95,7 @@ const Explore = () => {
 						</div>
 					</Link>
 					<div className='visitSec'>
-						<Link className='profileLink' to={'/profile/' + user.userId}>
+						<Link className='profileLink' to={profileLink(user.userId)}>
 							<p className='visitButton'>VISIT</p>
 						</Link>
 					</div>

@@ -31,6 +31,7 @@
 	margin-bottom: 10%;
 	border-radius: 10px;
 	font-weight: bold;
+	padding-left: 6px;
 }
 
 .submitButton {
@@ -51,4 +52,17 @@
 
 .spacing {
 	margin-bottom: 19.1%;
+}
+
+.columnFlex {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.wrong-pass {
+	/* visibility: hidden; */
+	color: red;
+	margin-top: 2px;
+	font-size: 12px;
 }

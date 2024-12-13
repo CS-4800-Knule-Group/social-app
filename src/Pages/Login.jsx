@@ -9,13 +9,23 @@ const Login = () => {
     const { login } = useAuth();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [showError, setShowError] = useState(false);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try{
-            await login(username, password);
-            window.location.reload();
+            const loggedIn = await login(username, password);
+            if (loggedIn) {
+                setShowError(false);
+                window.location.reload();
+            } else {
+                console.log("Incorrect usernmae or password.")
+                setShowError(true);
+                setUsername("");
+                setPassword("");
+            }
         } catch (err){
+            setShowError(true);
             console.error("No account exists " + err);
         }
     };
@@ -26,7 +36,7 @@ const Login = () => {
                 <h1 className='title'>Login</h1>
                 <p className="subtitle">Welcome back to the land of the leftovers!</p>
                 <br/>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit} className='columnFlex'>
                     <div>
                         <input 
                             type="text" 
@@ -48,6 +58,9 @@ const Login = () => {
                         />
                     </div>
                     <input className='submitButton' type='submit'/>
+                    { showError && (
+                        <span className='wrong-pass'>Incorrect username or password.</span>
+                    )}
                 </form>
                 <br/>
                 <Link to="/register" className='otherReg'>Need to make an account? Register</Link>

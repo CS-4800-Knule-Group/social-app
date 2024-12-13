@@ -24,19 +24,24 @@ export const AuthProvider = ({ children }) => {
     const login = async (username, password) => {
         try {
             const response = await fetch('https://knule.duckdns.org/auth/login', {
+            // const response = await fetch('http://localhost:3000/auth/login', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({ "username": username, "password": password }),
             });
+            if (response.status == 400) {
+                throw new Error("failed to login")
+            }
             const data = await response.json();
             const token = data.accessToken;
             Cookies.set('loginAuth', token);
             const decoded = jwtDecode(token);
             setUser(decoded);
             setIsAuthenticated(true);
+            return true;
         } catch (error) {
-            console.error('Login failed', error);
             logout();
+            return false;
         }
     };
 

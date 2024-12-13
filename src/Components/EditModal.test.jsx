@@ -30,11 +30,21 @@ describe("Testing EditModal.jsx", () =>{
     
     test("Renders New PFP Text", () =>{
         render(<EditModal user={dummyUser}/>)
-        expect(screen.getByText("New Pfp")).toBeDefined();
+        expect(screen.getByText("New PFP")).toBeDefined();
     })
 
-    test("Renders React File Upload Text", () =>{
+    test("Renders Upload Text", () =>{
         render(<EditModal user={dummyUser}/>)
-        expect(screen.getByText("React File Upload")).toBeDefined();
+        expect(screen.getByText("Upload")).toBeDefined();
+    })
+
+    test("Renders X Exit", () =>{
+        render(<EditModal user={dummyUser}/>)
+        expect(screen.getByText("X")).toBeDefined();
+    })
+
+    test("Renders Upload Text", () =>{
+        render(<EditModal user={dummyUser}/>)
+        expect(screen.getByText("Uploads")).toBeDefined();
     })
 })

@@ -4,7 +4,7 @@ import LoginForm from "./LoginForm";
 
 
 describe("Testing LoginForm.jsx", () =>{
-    test("Renders", () =>{
+    test("Renders Title", () =>{
         render(<LoginForm/>)
         expect(screen.getByText("Sign In")).toBeDefined();
     })

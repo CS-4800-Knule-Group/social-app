@@ -2,6 +2,7 @@ import { render, screen } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
 import { BrowserRouter } from "react-router-dom";
 import Header from "./Header";
+import HeaderLogo from "./HeaderLogo"
 
 
 describe("Testing Header.jsx", () =>{
@@ -10,28 +11,23 @@ describe("Testing Header.jsx", () =>{
         expect(screen.getByText("Profile")).toBeDefined();
     })
 
-    test("Renders Feed Text", () =>{
+    test("Renders Home Text", () =>{
         render(<BrowserRouter><Header/></BrowserRouter>)
-        expect(screen.getByText("Feed")).toBeDefined();
+        expect(screen.getByText("Home")).toBeDefined();
     })
 
     test("Renders Explore Text", () =>{
         render(<BrowserRouter><Header/></BrowserRouter>)
         expect(screen.getByText("Explore")).toBeDefined();
     })
-
-    test("Renders Register Text", () =>{
-        render(<BrowserRouter><Header/></BrowserRouter>)
-        expect(screen.getByText("Register")).toBeDefined();
-    })
     
-    test("Renders Data Text", () =>{
+    test("Renders DMs Text", () =>{
         render(<BrowserRouter><Header/></BrowserRouter>)
-        expect(screen.getByText("Data")).toBeDefined();
+        expect(screen.getByText("DM's")).toBeDefined();
     })
 
     test("Renders Logo Image", () => {
-        render(<BrowserRouter><Header/></BrowserRouter>)
+        render(<BrowserRouter><HeaderLogo/></BrowserRouter>)
         const logoImage = screen.getByAltText("Knule Logo");
         expect(logoImage).toHaveAttribute('src', '/Knule-Logo-White.png');
     })

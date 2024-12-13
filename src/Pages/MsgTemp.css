@@ -9,7 +9,7 @@
 
 .MessagingScreen {
     height: 93%;
-    width: 70%;
+    width: 80%;
     position: fixed;
     z-index: 1;
     top: 0;
@@ -19,18 +19,24 @@
 
 .otherMessages {
     height: 100%;
-    width: 30%;
+    width: 20%;
     position: fixed;
     z-index: 1;
     top: 0;
     overflow-x: hidden;
     left: 0;
-    background-color: #dd0000;
+    background-color: #a0b68a;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+.messageTitle {
+    font-size: 50px;
 }
 
 .MessagingTexter {
     height: 7%;
-    width: 70%;
+    width: 80%;
     position: fixed;
     z-index: 1;
     bottom: 0;
@@ -65,11 +71,63 @@
     cursor: pointer;
 }
 
-.poster {
-
+.userChat {
+    background-color: #334d1b;
+    width: 20%;
+    padding: 15px;
+    border-radius: 20px;
+    margin-left: 76%;
+    margin-bottom: 2%;
+    font-weight: bold;
+    color: white;
 }
 
-.chats {
-    background-color: #334d1b;
-    width: 10%;
+.otherChat {
+    background-color: #b39e89;
+    width: 20%;
+    padding: 15px;
+    border-radius: 20px;
+    margin-left: 2%;
+    margin-bottom: 2%;
+    font-weight: bold;
+}
+
+.profilePicture {
+    margin-right: 3%;
+}
+
+.allPfps {
+    border-radius: 50%;
+    width: 15%;
+    height: 15%;
+    margin-right: 2%;
+}
+
+.lastUser:hover {
+    cursor: pointer;
+}
+
+.usersList {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.lastDate {
+    margin-bottom: 4%;
+    font-weight: bold;
+}
+
+.lastChat {
+    margin-bottom: 5%;
+}
+
+.userDiv {
+    width: 88%;
+    height: 1%;
+    font-size: 4px;
+    background-color: #4e6e2f;
+    border-radius: 20px;
+    z-index: 100;
 }

@@ -53,14 +53,12 @@ const MessageScreen = ({tarUser, chats, currUser }) => {
                 {chats
                 .sort((a, b) => a.createdAt.localeCompare(b.createdAt))
                 .map((chat) => (
-                    <div
-                    key={chat.id}
-                    className="chats"
-                    >
-                        <div>
-                            <p>{chat.userId == currUser.userId ? "You: " + chat.text : 
-                            tarUser.length ? tarUser[0].username + ": " + chat.text : "User not found"}</p>
-                        </div>
+                    <div key={chat.id} className="chats">
+                        {chat.userId == currUser.userId ?
+                            <p className='userChat'>{chat.text}</p>
+                            :
+                            <p className='otherChat'>{chat.text}</p>
+                        }
                     </div>
                 ))}
             </div>

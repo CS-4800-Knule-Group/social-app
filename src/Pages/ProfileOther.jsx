@@ -10,6 +10,7 @@ import ProfileFollowStats from '../Components/ProfileFollowStats.jsx';
 import ProfilePosts from '../Components/ProfilePosts.jsx';
 import FollowButton from '../Components/FollowButton.jsx';
 import MessageButton from '../Components/MessageButton.jsx';
+import CopyrightFooter from '../Components/CopyrightFooter.jsx'
 import { useAuth } from '../authContext.jsx';
 
 const ProfileOther = () => {
@@ -180,7 +181,7 @@ const ProfileOther = () => {
 				
 				<FollowButton
 					onFollow={onFollow}
-					users={users}
+					followed={user && followers.find(follower => follower.userId === user.userId) !== undefined}
 				/>
                 
 				<MessageButton
@@ -195,6 +196,7 @@ const ProfileOther = () => {
 				/>
                 ))}
             </div>
+			<CopyrightFooter/>
         </div>
     )
 }

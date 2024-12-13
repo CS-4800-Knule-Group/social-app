@@ -46,30 +46,6 @@ const Profile = () => {
 		 
 	};
 
-	// fetch user data from api
-	// const localUser = `http://localhost:3000/users/${user.userId}`
-	// const getUserData = async () => {
-	// 	try {
-	// 		const response = await fetch(localUser, {
-	// 			method: 'GET',
-	// 			headers: {
-	// 				'Content-Type': 'application/json',
-	// 			}
-	// 		})
-
-	// 		// check if response is successful
-	// 		if (!response.ok) {
-	// 			throw new Error('Failed to fetch user data')
-	// 		}
-
-	// 		// parse JSON response
-	// 		const userData = await response.json()		// assign valuable information to variables to post
-	// 		console.log(userData)
-	// 	} catch (err) {
-	// 		console.error('Error fetching user data: ', err)
-	// 	}
-	// }
-
 	// fetch user posts from api
 	const apiPosts = `https://knule.duckdns.org/posts/${user.userId}`
 	const getUserPosts = async () => {

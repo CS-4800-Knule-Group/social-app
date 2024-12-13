@@ -9,7 +9,7 @@ const ProfileHeader = ({ fullName, username, bio }) => {
 		<h3 className='fullName'>{(username || "NoUsernameFound")}</h3>
 		<br/>
 		<p className='bio'>
-			{bio || "NoBioFound"}
+			{bio || ""}
 		</p>
 		<br/>
 	</div>

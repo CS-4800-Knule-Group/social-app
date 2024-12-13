@@ -23,12 +23,52 @@ const Feed = () => {
     const accessToken = Cookies.get('loginAuth');
 
     const[posts, setPosts] = useState([]);
+    const [activePosts, setActivePosts] = useState([])
     const[users, setUsers] = useState([]);
+    const [currUser, setCurrUser] = useState([]);
     const [myLikes, setMyLikes] = useState([]);
     const [postContent, setPostContent] = useState();
     const [postImg, setPostImg] = useState([]);
 
+    //On Page Render, update users with list of user data
+    useEffect(() => { 
+        const fetchUsers = async () => {
+            try {
+                const response = await fetch(apiUsers, {
+                    method: 'GET',
+                });
 
+                if (!response.ok) {
+                    throw new Error('Could not reach /users');
+                }
+                const usersData = await response.json();
+                setUsers(usersData); // Update the state with the fetched users
+                // console.log(usersData)
+
+                const filteredUsers = usersData.filter(tempUser => tempUser.userId == user.userId)
+                setCurrUser(filteredUsers[0])
+                //console.log(filteredUsers)
+
+            } catch (error) {
+                console.error('Error fetching users', error);
+            }
+        };
+        fetchUsers();
+    }, []);
+
+    const filterPostsByFollowing = (posts) =>{
+        const tempPosts = [];
+        //console.log(currUser.following)
+        for(let i = 0; i < posts.length; i++){
+            if((currUser.following.includes(posts[i].userId)) || (posts[i].userId == user.userId)){
+                tempPosts.push(posts[i]);
+                continue;
+            }
+        }
+        //console.log("temp Posts")
+        //console.log(tempPosts)
+        setActivePosts(tempPosts);
+    }
     //On page render, update Posts with the list of post data
     useEffect(() => {
         
@@ -54,35 +94,18 @@ const Feed = () => {
                         timestamp: moment(post.timestamp).local().format('MMMM D, YYYY [at] h:mm A')
                     }));
 
+                
+
                 setPosts(sortedPosts);         // Update the state with the fetched users sorted
+
+                filterPostsByFollowing(sortedPosts);
             } catch (error) {
                 console.error('Error fetching posts', error);
-            }
             };
+        };
             fetchPosts();
             console.log(posts)
-    }, [accessToken]);
-
-    //On Page Render, update users with list of user data
-    useEffect(() => { 
-        const fetchUsers = async () => {
-            try {
-                const response = await fetch(apiUsers, {
-                    method: 'GET',
-                });
-
-                if (!response.ok) {
-                    throw new Error('Could not reach /users');
-                }
-                const usersData = await response.json();
-                setUsers(usersData); // Update the state with the fetched users
-                // console.log(usersData)
-            } catch (error) {
-                console.error('Error fetching users', error);
-            }
-        };
-        fetchUsers();
-    }, []);
+    }, [currUser]);
 
     //Function to upload a post to the database
     const createPost = async() => {
@@ -119,11 +142,11 @@ const Feed = () => {
     const toggleLike = async (postId, userId) => {
         if (isAuthenticated) {
             // update ui first
-            const hasLiked = posts.find(post => post.postId === postId)?.likes.some(like => like.S == userId);
+            const hasLiked = activePosts.find(post => post.postId === postId)?.likes.some(like => like.S == userId);
             console.log(`${hasLiked}`)
 
             // Optionally, update the local state to reflect the new like/unlike
-            setPosts(prevPosts => 
+            setActivePosts(prevPosts => 
                 prevPosts.map(post =>
                     post.postId === postId
                         ? {
@@ -167,7 +190,7 @@ return (
                 </button>
             </div>
             
-            {posts.map(post => (
+            {activePosts.map(post => (
 				<Post
                     key={post.postId}
                     post={post}

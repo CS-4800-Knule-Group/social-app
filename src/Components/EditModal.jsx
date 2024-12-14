@@ -77,19 +77,19 @@ const EditModal = ({user, onUpload}) => {
 
             <label className='editTitle'>New Bio</label>
             <br/>
-            <input className='editTextInput' type='text' name='bio' onChange={e => setBio(e.target.value)} 
+            <input className='editTextInput' data-testid={'bioField'} type='text' name='bio' onChange={e => setBio(e.target.value)} 
               value={bio} placeholder={user.bio}/>
             <br/>            
             <br/>
 
             <label className='editTitle'>New Username</label>
             <br/>             
-            <input className='editTextInput' type='text' name='newName' onChange={e => setName(e.target.value)} 
+            <input className='editTextInput' data-testid={'nameField'} type='text' name='newName' onChange={e => setName(e.target.value)} 
               value={name} placeholder={user.fullName}/>
             <br/>
             <br/>
 
-            <button className='uploadButton' type="submit">Upload</button>
+            <button className='uploadButton' data-testId={'uploadButton'} type="submit">Upload</button>
           </form>
         </div>
     </div>

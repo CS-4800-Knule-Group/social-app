@@ -21,7 +21,7 @@ const Header = () => {
             <div className="nav-section">
                 <nav className="top-links">
 
-                    <div onClick={() => navigate("/feed")} className='nav-link'>
+                    <div onClick={() => navigate("/feed")} data-testid='Home' className='nav-link'>
                         <img className='nav-img' alt='' src='/HomeIcon.png' />
                         <Link to="/feed" className='nav-text'>Home</Link>
                     </div>

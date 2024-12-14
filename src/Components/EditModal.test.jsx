@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
 import EditModal from "./EditModal";
 
@@ -45,6 +45,20 @@ describe("Testing EditModal.jsx", () =>{
 
     test("Renders Upload Text", () =>{
         render(<EditModal user={dummyUser}/>)
-        expect(screen.getByText("Uploads")).toBeDefined();
+        expect(screen.getByTestId("uploadButton")).toBeDefined();
+    })
+
+    test("Can Change Bio", () => {
+        render(<EditModal user={dummyUser}/>)
+        const bio = screen.getByTestId('bioField');
+        fireEvent.change(bio, {target: {value: "NewBio"}})
+        expect(screen.getByTestId('bioField').value).toBe("NewBio")
+    })
+
+    test("Can Change Username", () => {
+        render(<EditModal user={dummyUser}/>)
+        const bio = screen.getByTestId('nameField');
+        fireEvent.change(bio, {target: {value: "NewName"}})
+        expect(screen.getByTestId('nameField').value).toBe("NewName")
     })
 })

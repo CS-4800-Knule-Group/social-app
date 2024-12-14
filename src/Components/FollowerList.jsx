@@ -17,17 +17,21 @@ const FollowerList = ({ followers, onClose }) => {
 
     const closeModal = () =>{
         onClose();
-		document.getElementsByClassName('splitRight')[0].style.filter = 'blur(0px)';
+        const outletElements = document.getElementsByClassName('splitRight')
+        if(outletElements.length > 0){
+            document.getElementsByClassName('splitRight')[0].style.filter = 'blur(0px)';
+        }
+		
     }
 
     return (
-        <div className="followBackground">
-            <p className="followClose" onClick={closeModal}>X</p>
+        <div className="followBackground" data-testid="followBackground">
+            <p className="followClose" data-testId="closeBtn" onClick={closeModal}>X</p>
             <div className='followList'>
             {followers.map(followers => (
-                <div key={followers.userId} className='follow'>
-                    <div onClick={() => openPage(followers.userId)}>
-                        <img className='follow-profilePic' src={getProfilePicture(followers.userId)} />
+                <div key={followers.userId}  className='follow'>
+                    <div onClick={() => openPage(followers.userId)} data-testId="Link">
+                        <img className='follow-profilePic' data-testid="follower-profilePic" src={getProfilePicture(followers.userId)} />
                         <h1 className='follow-username'>{followers.username}</h1>
                     </div>
                 </div>))}

@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import { describe, expect, test } from "vitest";
 import { BrowserRouter } from "react-router-dom";
 import Header from "./Header";
@@ -13,7 +13,7 @@ describe("Testing Header.jsx", () =>{
 
     test("Renders Home Text", () =>{
         render(<BrowserRouter><Header/></BrowserRouter>)
-        expect(screen.getByText("Home")).toBeDefined();
+        expect(screen.getByTestId("Home")).toBeDefined();
     })
 
     test("Renders Explore Text", () =>{
@@ -30,5 +30,13 @@ describe("Testing Header.jsx", () =>{
         render(<BrowserRouter><HeaderLogo/></BrowserRouter>)
         const logoImage = screen.getByAltText("Knule Logo");
         expect(logoImage).toHaveAttribute('src', '/Knule-Logo-White.png');
+    })
+
+    test("Click on home", () => {
+        render(<BrowserRouter><Header/></BrowserRouter>)
+        screen.debug();
+        fireEvent.click(screen.getByTestId('Home'))
+        //screen.debug();
+        expect(screen.findByText("Home")).toHaveBeenCalledOnce();
     })
 })

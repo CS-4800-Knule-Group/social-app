@@ -164,7 +164,7 @@ const MsgTemp = () => {
             for(let i = 0; i < userChats.length; i++){
                 //console.log(userChats[i].targetId)
                 for(let j = 0; j < allUsers.length; j++){
-                    if(allUsers[j].userId == userChats[i].targetId){
+                    if(allUsers[j].userId == userChats[i].targetId && allUsers[j].userId != currUser.userId){
                         tempUsers.push(allUsers[j]);
                         break;
                     }
